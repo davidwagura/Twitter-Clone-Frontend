@@ -2,13 +2,15 @@
 
     <div>
 
-        <div class="border">
+        <div class="fixed top-0 left-0 w-64 border h-screen">
 
             <div>
-                Icon
+
+                <!-- <img  alt="Icon" src="../assets.icon.jpg"> -->
+
             </div>
 
-            <div class="hover: m-6">
+            <div class="hover:bg-gray-300 hover:font-medium rounded-3xl w-32 p-3 m-3">
 
                 <button class="flex items-center">
 
@@ -26,7 +28,7 @@
                 
             </div>
 
-            <div class="hover: m-6">
+            <div class="hover:bg-gray-300 hover:font-medium rounded-3xl w-32 p-3 m-3">
 
                 <button class="flex items-center">
 
@@ -42,7 +44,7 @@
                 
             </div>
 
-            <div class="hover: m-6">
+            <div class="hover:bg-gray-300 hover:font-medium rounded-3xl w-40 p-3 m-3">
 
                 <button class="flex items-center">
 
@@ -58,7 +60,7 @@
              
             </div>
 
-            <div class="hover: m-6">
+            <div class="hover:bg-gray-300 rounded-3xl w-40 p-3 m-3 hover:font-medium">
 
                 <button  class="flex items-center">
 
@@ -74,7 +76,7 @@
 
             </div>
 
-            <div class="hover: m-6">
+            <div class="hover:bg-gray-300 hover:font-medium rounded-3xl w-32 p-3 m-3">
 
                 <button class="flex items-center">
 
@@ -90,7 +92,7 @@
                 
             </div>
 
-            <div class="hover: m-6">
+            <div class="hover:bg-gray-300 hover:font-medium rounded-3xl w-40 p-3 m-3">
 
                 <button class="flex items-center">
 
@@ -106,7 +108,7 @@
                
             </div>
 
-            <div class="hover: m-6">
+            <div class="hover:bg-gray-300 hover:font-medium rounded-3xl w-32 p-3 m-3">
 
                 <button class="flex items-center">
 
@@ -122,7 +124,7 @@
                 
             </div>
 
-            <div class="hover: m-6">
+            <div class="hover:bg-gray-300 hover:font-medium rounded-3xl w-32 p-3 m-3">
 
                 <button class="flex items-center">
 
@@ -138,7 +140,7 @@
                 
             </div>
 
-            <button>
+            <button class="bg-blue-500 text-white rounded-3xl w-36 ml-4 h-10">
                 Post
             </button>
 

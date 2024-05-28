@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import NavPageVue from "./components/NavPage.vue";
+import NavPageVue from "./components/Navigation Page/NavPage.vue";
 
 export default {
 

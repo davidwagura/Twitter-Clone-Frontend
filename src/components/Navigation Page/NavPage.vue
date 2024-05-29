@@ -196,7 +196,7 @@
 
         box-shadow: 0 0 5px 2px rgba(100, 100, 100, 0.6);
 
-        background-color: rgba(2, 1, 1, 0.6);
+        background-color: rgb(62, 61, 61);
 
         color: white;
 
@@ -218,7 +218,7 @@
         transform: translateY(0);
 
         transition-duration: 300ms;
-        
+
     }
 
 </style>

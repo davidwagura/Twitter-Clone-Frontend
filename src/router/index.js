@@ -6,11 +6,15 @@ import FollowingPage from '../components/Pages/ChildHome/FollowingPage.vue'
 
 import ForYouPage from '../components/Pages/ChildHome/ForYouPage.vue'
 
+import RegisterPage from '../components/Auth/RegisterPage.vue'
+
+import LoginPage from '../components/Auth/LoginPage.vue'
+
 const routes = 
 [
 
     {
-        path:'/',   
+        path:'/home',   
         
         component:HomePage,
 
@@ -23,6 +27,10 @@ const routes =
         ],
 
     },
+
+    {path: '/', component: RegisterPage},
+
+    {path: '/login', component: LoginPage},
 
 ];
 

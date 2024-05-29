@@ -10,13 +10,21 @@
 
         </div>
   
-        <div class="border h-28 p-2">
+        <div class="border h-36 p-2">
 
-            <input type="text" placeholder="What is happening?!" class="w-full mb-2 p-1 border rounded">
+            <input type="text" placeholder="What is happening?!" class="w-full border-none mb-2 h-20 p-1 border rounded">
 
             <hr>
 
-            <button class="bg-blue-500 text-white px-4 py-2 rounded">Post</button>
+            <div class="flex justify-end">
+
+                <button class="bg-blue-300 mt-1 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-3xl">
+
+                    post
+
+                </button>
+
+            </div>
 
         </div>
   

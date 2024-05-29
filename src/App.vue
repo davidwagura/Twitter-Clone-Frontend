@@ -2,7 +2,7 @@
 
   <div id="app">
 
-    <nav-page/>
+    <!-- <nav-page/> -->
 
     <router-view />
 
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import NavPageVue from "./components/Navigation Page/NavPage.vue";
+// import NavPageVue from "./components/Navigation Page/NavPage.vue";
 
 export default {
 
@@ -19,7 +19,7 @@ export default {
 
   components: {
 
-  NavPage: NavPageVue
+  // NavPage: NavPageVue
 
   }
 

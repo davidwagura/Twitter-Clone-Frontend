@@ -24,13 +24,15 @@ const routes =
 
             {path:'for-you',   component: ForYouPage},
         
-        ],
+        ],   
+        
+        meta: { requiresAuth: true }
 
     },
 
-    {path: '/', component: RegisterPage},
+    { path: '/', component: RegisterPage, meta: { requiresAuth: false } },
 
-    {path: '/login', component: LoginPage},
+    { path: '/login', component: LoginPage, meta: { requiresAuth: false } },
 
 ];
 
@@ -39,6 +41,22 @@ const router = createRouter({
     history: createWebHistory(),
 
     routes,
+
+});
+
+router.beforeEach((to, from, next) => {
+
+    const isAuthenticated = !!localStorage.getItem('token');
+
+    if(to.meta.requiresAuth && !isAuthenticated) {
+
+        next('/login');
+        
+    }else {
+
+        next();
+
+    }
 
 });
 

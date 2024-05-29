@@ -29,7 +29,7 @@
 
             <div class="font-medium mb-4">
 
-                <p>Don't have an account? <a href="/register" class="text-blue-500">Register</a></p>
+                <p>Don't have an account? <a href="/" class="text-blue-500">Register</a></p>
 
             </div>
 

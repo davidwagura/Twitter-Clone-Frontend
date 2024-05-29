@@ -9,13 +9,22 @@ import ForYouPage from '../components/Pages/ChildHome/ForYouPage.vue'
 const routes = 
 [
 
-    {path:'/',   component:HomePage},
+    {
+        path:'/',   
+        
+        component:HomePage,
 
-    {path:'/following',   component:FollowingPage},
+        children: [
 
-    {path:'/for you',   component:ForYouPage},
+            {path:'following',   component: FollowingPage},
 
-]
+            {path:'for-you',   component: ForYouPage},
+        
+        ],
+
+    },
+
+];
 
 const router = createRouter({
 

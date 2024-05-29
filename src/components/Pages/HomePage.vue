@@ -1,4 +1,6 @@
 <template>
+    
+    <nav-page />
 
     <div class="fixed ml-48 top-0 w-6/12 border h-screen">
 
@@ -39,10 +41,18 @@
 </template>
   
 <script>
+import NavPage from '../Navigation Page/NavPage.vue';
 
     export default {
 
         name: 'HomePage',
+
+        components: {
+
+            NavPage: NavPage
+
+        },
+
 
         methods: {
 
@@ -57,4 +67,3 @@
     };
 
 </script>
-  

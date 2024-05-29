@@ -89,7 +89,9 @@ export default {
 
             .then(response => {
 
-                console.log(response)
+                console.log(response);
+
+                localStorage.setItem('token', response.data.token);
 
                 this.successMessage = 'You have been successfully logged in!.';
 

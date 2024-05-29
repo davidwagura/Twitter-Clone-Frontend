@@ -6,13 +6,25 @@
 
       <div class="mb-4">
 
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="first_name">
 
-          Username
+          First Name          
 
         </label>
 
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" v-model="data.username" type="text" placeholder="Username">
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" v-model="data.first_name" type="text" placeholder="First Name">
+
+      </div>
+
+      <div class="mb-4">
+
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="last_name">
+
+          Last Name
+
+        </label>
+
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" v-model="data.last_name" type="text" placeholder="Last Name">
 
       </div>
 
@@ -27,6 +39,19 @@
         <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" v-model="data.email" placeholder="Email">
 
       </div>
+
+      <div class="mb-4">
+
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+
+          Username
+
+        </label>
+
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" v-model="data.username" type="text" placeholder="Username">
+
+      </div>
+
 
       <div class="mb-6">
 
@@ -82,9 +107,13 @@ export default {
 
       data: {
 
-        username: '',
+        first_name: '',
+
+        last_name: '',
 
         email: '',
+
+        username: '',
 
         password: '',
 
@@ -100,7 +129,7 @@ export default {
 
     submitForm() {
 
-      axios.post('http://127.0.0.1:8000/api/register', this.data)
+      axios.post('http://127.0.0.1:8000/api/user', this.data)
 
         .then(response => {
 

@@ -20,9 +20,9 @@ const routes =
 
         children: [
 
-            {path:'following',   component: FollowingPage},
+            {path:'/following',   component: FollowingPage},
 
-            {path:'for-you',   component: ForYouPage},
+            {path:'/for-you',   component: ForYouPage},
         
         ],   
         

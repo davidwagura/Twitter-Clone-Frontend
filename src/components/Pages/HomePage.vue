@@ -14,13 +14,13 @@
   
         <div class="border h-36 p-2">
 
-            <input type="text" placeholder="What is happening?!" class="w-full border-none mb-2 h-20 p-1 border rounded">
+            <input type="text" placeholder="What is happening?!" v-model="data.body" class="w-full border-none mb-2 h-20 p-1 border rounded">
 
             <hr>
 
             <div class="flex justify-end">
 
-                <button class="bg-blue-300 mt-1 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-3xl">
+                <button @click="createTweet()"  class="bg-blue-300 mt-1 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-3xl">
 
                     post
 
@@ -43,6 +43,8 @@
 <script>
 import NavPage from '../Navigation Page/NavPage.vue';
 
+import axios from 'axios';
+
     export default {
 
         name: 'HomePage',
@@ -53,8 +55,54 @@ import NavPage from '../Navigation Page/NavPage.vue';
 
         },
 
+        data() {
+
+            return {
+
+                data: {
+
+                    body: '',
+
+                    user_id: localStorage.getItem('userId')
+
+                },
+
+                successMessage: '',
+
+            };
+
+        },
+
 
         methods: {
+
+            createTweet() {
+
+                axios.post('http://127.0.0.1:8000/api/tweet', this.data)
+
+                .then(response => {
+
+                    console.log(response);
+
+                    this.successMessage = 'Tweet created successfully!';
+
+                    setTimeout(() => {
+
+                        this.successMessage = '';
+
+                    }, 3000);
+
+                })
+
+                .catch(error => {
+
+                    console.error('Error creating tweet:', error);
+
+                    this.successMessage = 'Failed to create tweet.Try again';
+
+                });
+
+            },
 
             navigateTo(child) {
 

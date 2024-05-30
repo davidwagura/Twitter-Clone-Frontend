@@ -93,7 +93,9 @@ export default {
 
                 localStorage.setItem('token', response.data.token);
 
-                this.successMessage = 'You have been successfully logged in!.';
+                localStorage.setItem('userId', response.data.user.id);
+
+                this.successMessage = 'You have been successfully logged in!';
 
                 setTimeout(() => {
 

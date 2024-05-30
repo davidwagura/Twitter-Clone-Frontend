@@ -29,7 +29,7 @@ axiosInstance.interceptors.request.use(
 
     },
 
-     error => {
+    error => {
 
         // Handle the error
 
@@ -40,3 +40,4 @@ axiosInstance.interceptors.request.use(
 );
 
 export default axiosInstance;
+

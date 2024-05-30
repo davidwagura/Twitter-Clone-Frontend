@@ -1,47 +1,67 @@
 <template>
-  <div>
-    <h2>For You</h2>
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="error">{{ error }}</div>
-    <ul v-else>
-      <li v-for="tweet in tweets" :key="tweet.id">{{ tweet.content }}</li>
-    </ul>
+
+  <div class="p-4">
+
+    <h2 class="text-2xl font-bold mb-4">For You</h2>
+
+    <!-- <li v-for="user in users" :key="user.id" class="mb-4 p-2 border rounded">
+
+      <div class="font-bold">{{ user.first_name }} {{ user.last_name }}</div> -->
+
+      <ul>
+
+        <li v-for="tweet in tweets" :key="tweet.id" class="mb-2 p-2 border rounded">
+
+          {{ tweet.body }}
+
+        </li>
+
+      </ul>
+
+    <!-- </li> -->
+
   </div>
+
 </template>
 
+
 <script>
-import axios from 'axios';
+
+import axiosInstance from '@/axiosInstance';
 
 export default {
-  data() {
-    return {
-      tweets: [],
-      loading: true,
-      error: null,
-    };
-  },
-  created() {
-    this.fetchTweets();
-  },
-  methods: {
-    async fetchTweets() {
-      try {
-        const response = await axios.get('/api/for-you', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Assuming the token is stored in localStorage
-          }
-        });
-        this.tweets = response.data.tweets;
-      } catch (err) {
-        this.error = 'Failed to load tweets';
-      } finally {
-        this.loading = false;
-      }
-    },
-  },
-};
-</script>
 
-<style scoped>
-/* Add any additional styling if needed */
-</style>
+  data() {
+
+    return {
+
+      tweets: [],
+
+    };
+
+  },
+
+  created() {
+
+    this.fetchTweets();
+
+  },
+
+  methods: {
+
+    async fetchTweets() {
+
+      
+      const response = await axiosInstance.get(`/for-you`);
+
+      console.log(response); 
+
+      this.tweets = response.data.tweets;
+
+    },
+
+  },
+
+};
+
+</script>

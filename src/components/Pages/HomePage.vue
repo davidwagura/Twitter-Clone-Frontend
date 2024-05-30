@@ -2,7 +2,7 @@
     
     <nav-page />
 
-    <div class="fixed ml-48 top-0 w-6/12 border h-screen">
+    <div class="ml-48 top-0 w-6/12 border h-fit">
 
         <div class="h-12 flex justify-between items-center relative px-4">
 
@@ -16,11 +16,12 @@
 
             <input type="text" placeholder="What is happening?!" v-model="data.body" class="w-full border-none mb-2 h-20 p-1 border rounded">
 
+
             <hr>
 
             <div class="flex justify-end">
 
-                <button @click="createTweet()"  class="bg-blue-300 mt-1 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-3xl">
+                <button @click="createTweet()"  class="bg-blue-400 mt-1  text-white font-bold py-2 px-4 rounded-3xl">
 
                     post
 

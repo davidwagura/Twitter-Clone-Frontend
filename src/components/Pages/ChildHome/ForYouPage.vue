@@ -50,7 +50,6 @@ export default {
   methods: {
 
     async fetchTweets() {
-
       
       const response = await axiosInstance.get(`/for-you`);
 

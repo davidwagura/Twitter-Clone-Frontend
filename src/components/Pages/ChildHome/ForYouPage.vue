@@ -4,7 +4,7 @@
 
     <!-- <h2 class="text-2xl font-bold mb-4">For You</h2> -->
 
-    <div class="tweet-container">
+    <div class="w-full">
 
       <ul v-if="tweets.length">
 
@@ -42,11 +42,12 @@
 
           <div class="p-4">
 
-            <div>{{ tweet.body }}</div>
+            <div class="flex justify-start ml-12">{{ tweet.body }}</div>
 
             <div class="flex justify-between pt-4 -mb-6">
 
-              <button class="flex items-center">
+              <!--The comment icon svg -->
+              <button @click="addComment()" class="flex items-center">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 
@@ -56,7 +57,8 @@
                 
               </button>
 
-              <button class="flex items-center">
+              <!--The retweet icon svg-->
+              <button @click="retweet()" class="flex items-center">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 
@@ -66,8 +68,8 @@
 
               </button>
 
-
-              <button class="flex items-center">
+              <!--The like icon svg-->
+              <button @click="like()" class="flex items-center">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 
@@ -107,7 +109,7 @@ export default {
 
       tweets: [],
 
-    };
+    }
 
   },
 
@@ -127,6 +129,8 @@ export default {
 
       this.tweets = response.data.tweets;
 
+      this.fetchTweets();
+
     },
 
     formatDate(dateString) {
@@ -136,6 +140,12 @@ export default {
       return new Date(dateString).toLocaleDateString(undefined, options);
 
     },
+
+    //   getComments() {
+
+
+      
+    // }
 
   },
 

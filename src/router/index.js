@@ -6,6 +6,8 @@ import RegisterPage from '../components/Auth/RegisterPage.vue'
 
 import LoginPage from '../components/Auth/LoginPage.vue'
 
+import CommentsPage from '../components/Pages/Tweet/CommentsPage.vue'
+
 const routes = 
 [
     { path: '/', redirect: '/home'},
@@ -15,6 +17,8 @@ const routes =
     { path: '/register', component: RegisterPage, meta: { requiresAuth: false } },
 
     { path: '/login', component: LoginPage, meta: { requiresAuth: false } },
+
+    { path: '/comments', component: CommentsPage },
 ];
 
 const router = createRouter({

@@ -16,7 +16,7 @@
 
             <!-- <img src="src/assets/icon.jpg" alt="Avatar" class="w-12 h-12 rounded-full" /> -->
 
-            <input type="text" placeholder="What is happening?!" v-model="data.body" class="w-full border-none mb-2 h-20 p-1 border rounded">
+            <input type="text" placeholder="What is happening?!" v-model="data.body" class="w-full border-none mb-2 h-20 p-1">
 
             <hr>
 
@@ -32,7 +32,7 @@
 
         </div>
   
-        <div class="content">
+        <div class="component">
 
             <component :is = "currentSectionComponent"></component> 
 
@@ -114,6 +114,8 @@ import axios from 'axios';
                     console.log(response);
 
                     this.successMessage = 'Tweet created successfully!';
+
+                    this.data.body = '';
 
                     setTimeout(() => {
 

@@ -2,9 +2,9 @@
     
       <div class="w-full">
   
-        <ul v-if="tweets.length">
+        <ul v-if="comments.length">
   
-          <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:bg-gray-100">
+          <li v-for="comment in comments" :key="comment.id" class="p-4 border-t hover:bg-gray-100">
   
             <div class="flex items-center justify-between">
   
@@ -12,15 +12,15 @@
   
                 <img src="src/assets/icon.jpg" alt="Avatar" class="w-12 h-12 rounded-full" />
   
-                <div v-if="tweet.user">
+                <div v-if="comment.user">
   
-                  <div class="font-bold text-lg">{{ tweet.user.first_name }} {{ tweet.user.last_name }}
+                  <div class="font-bold text-lg">{{ comment.user.first_name }} {{ comment.user.last_name }}
                   
-                    <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span>
-  
+                    <span class="text-gray-400 text-sm mr-2">@{{ comment.user.username }}</span>
+
                     <span class="mr-2">.</span>
   
-                    <span class="text-gray-500 text-sm mt-2">{{ formatDate(tweet.created_at) }}</span>
+                    <span class="text-gray-500 text-sm mt-2">{{ formatDate(comment.created_at) }}</span>
                   
                   </div>
   
@@ -38,7 +38,7 @@
   
             <div class="p-4">
   
-              <div class="flex justify-start ml-12">{{ tweet.body }}</div>
+              <div class="flex justify-start ml-12">{{ comment.body }}</div>
   
               <div class="flex justify-between pt-4 -mb-6">
   
@@ -83,7 +83,7 @@
   
         </ul>
   
-        <div v-else class="text-gray-500">No tweets to display</div>
+        <div v-else class="text-gray-500">No comments to display</div>
   
     </div>
   
@@ -118,11 +118,11 @@
   
       async getComments() {
         
-        const response = await axiosInstance.get(`/for-you`);
+        const response = await axiosInstance.get(`/comments/tweet.id`);
   
         console.log(response); 
   
-        this.tweets = response.data.tweets;
+        this.comments = response.data.comment;
   
       },
   

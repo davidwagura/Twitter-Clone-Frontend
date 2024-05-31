@@ -135,14 +135,6 @@ import axios from 'axios';
 
             },
 
-            
-
-            navigateTo(child) {
-
-                this.$router.push(`/${child}`);
-
-            },
-
         },
 
     };

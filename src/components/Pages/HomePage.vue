@@ -12,7 +12,9 @@
 
         </div>
   
-        <div class="border h-36 p-2">
+        <div class="border-t h-36 p-2">
+
+            <!-- <img src="src/assets/icon.jpg" alt="Avatar" class="w-12 h-12 rounded-full" /> -->
 
             <input type="text" placeholder="What is happening?!" v-model="data.body" class="w-full border-none mb-2 h-20 p-1 border rounded">
 
@@ -30,7 +32,7 @@
 
         </div>
   
-        <div class="content p-4">
+        <div class="content">
 
             <component :is = "currentSectionComponent"></component> 
 

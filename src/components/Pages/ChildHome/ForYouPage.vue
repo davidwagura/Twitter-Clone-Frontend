@@ -2,13 +2,13 @@
 
   <div class="">
 
-    <h2 class="text-2xl font-bold mb-4">For You</h2>
+    <!-- <h2 class="text-2xl font-bold mb-4">For You</h2> -->
 
     <div class="tweet-container">
 
       <ul v-if="tweets.length">
 
-        <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border hover:bg-gray-100">
+        <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:bg-gray-100">
 
           <div class="flex items-center justify-between">
 

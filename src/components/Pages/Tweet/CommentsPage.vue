@@ -118,11 +118,11 @@
   
       async getComments() {
         
-        const response = await axiosInstance.get(`/comments/tweet.id`);
+        const response = await axiosInstance.get(`/comments/id`);
   
         console.log(response); 
   
-        this.comments = response.data.comment;
+        this.comments = response.data;
   
       },
   

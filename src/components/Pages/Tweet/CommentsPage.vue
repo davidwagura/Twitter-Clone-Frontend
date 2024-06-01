@@ -10,7 +10,7 @@
 
           <div class="flex items-center space-x-4">
 
-            <img src="src/assets/icon.jpg" alt="Avatar" class="w-12 h-12 rounded-full" />
+            <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
             <div v-if="comment.user">
 
@@ -92,6 +92,21 @@ export default {
 
     return {
 
+      images: [
+
+        require('../../../assets/images/1.jpeg'),
+        require('../../../assets/images/2.jpeg'),
+        require('../../../assets/images/3.jpeg'),
+        require('../../../assets/images/4.jpeg'),
+        require('../../../assets/images/5.jpeg'),
+        require('../../../assets/images/6.jpeg'),
+        require('../../../assets/images/7.jpeg'),
+        require('../../../assets/images/8.jpeg'),
+        require('../../../assets/images/9.jpeg'),
+        require('../../../assets/images/10.jpeg'),
+
+      ],
+
       comments: [],
 
     }
@@ -124,7 +139,15 @@ export default {
 
     },
 
+    getRandomImage() {
+
+      const randomIndex = Math.floor(Math.random() * this.images.length);
+
+      return this.images[randomIndex];
+
+    },
+
   },
-  
+
 };
 </script>

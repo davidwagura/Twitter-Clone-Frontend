@@ -87,11 +87,11 @@
 
       </ul>
 
-      <div v-else-if="selectedTweet">
+      <!-- <div v-else-if="selectedTweet">
 
         <comments-page :tweet-id="selectedTweet.id"></comments-page>
 
-      </div>
+      </div> -->
 
       <div v-else class="text-gray-500">No tweets to display</div>
 
@@ -162,8 +162,6 @@ export default {
       
       const response = await axiosInstance.get(`/for-you`);
 
-      // console.log(response); 
-
       this.tweets = response.data.tweets;
 
       // this.fetchTweets();
@@ -181,10 +179,12 @@ export default {
     async fetchTweet(id) {
       
       const response = await axiosInstance.get('/tweet/' + id);
+ 
+      // console.log(response.data.tweet[0].id);
 
-      console.log(response); 
+      localStorage.setItem('TweetId', response.data.tweet[0].id);
 
-      this.selectedTweet = response.data.tweets.comments
+      // this.selectedTweet = response.data.tweet[0].comments
 
       this.$router.push(`/comments/${id}`);
 

@@ -18,7 +18,7 @@ const routes =
 
     { path: '/login', component: LoginPage, meta: { requiresAuth: false } },
 
-    { path: '/comments', component: CommentsPage },
+    { path: '/comments/:id', component: CommentsPage },
 ];
 
 const router = createRouter({

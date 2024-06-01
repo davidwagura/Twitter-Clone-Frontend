@@ -36,6 +36,8 @@
 
             <component :is = "currentSectionComponent"></component> 
 
+            <comments-page></comments-page>
+
         </div>
 
     </div>
@@ -49,6 +51,8 @@ import ForYouPage from './ChildHome/ForYouPage.vue';
 
 import FollowingPage from './ChildHome/FollowingPage.vue';
 
+import CommentsPage from './Tweet/CommentsPage.vue';
+
 import axios from 'axios';
 
     export default {
@@ -57,7 +61,9 @@ import axios from 'axios';
 
         components: {
 
-            NavPage: NavPage
+            NavPage: NavPage,
+
+            CommentsPage: CommentsPage,
 
         },
 
@@ -88,6 +94,7 @@ import axios from 'axios';
             currentSectionComponent() {
 
                 return this.activeSection === 'for-you' ? ForYouPage : FollowingPage;
+                
             },
 
         },

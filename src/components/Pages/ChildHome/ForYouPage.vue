@@ -4,17 +4,17 @@
 
     <!-- <h2 class="text-2xl font-bold mb-4">For You</h2> -->
 
-    <div class="w-full">
+    <div @click="''" class="w-full ">
 
-      <ul v-if="tweets.length">
+      <ul v-if="!selectedTweet && tweets.length">
 
-        <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:bg-gray-100">
+        <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:bg-gray-100" @click="fetchTweet(tweet.id)">
 
           <div class="flex items-center justify-between">
 
             <div class="flex items-center space-x-4">
 
-              <img src="src/assets/icon.jpg" alt="Avatar" class="w-12 h-12 rounded-full" />
+              <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
               <div v-if="tweet.user">
 
@@ -87,12 +87,23 @@
 
       </ul>
 
+      <div v-else-if="selectedTweet">
+
+        <comments-page :tweet-id="selectedTweet.id"></comments-page>
+
+      </div>
+
       <div v-else class="text-gray-500">No tweets to display</div>
 
     </div>
 
   </div>
 
+  <div>
+
+    <comments-page></comments-page>
+
+  </div>
 
 </template>
 
@@ -101,15 +112,41 @@
 
 import axiosInstance from '@/axiosInstance';
 
+import CommentsPage from '../Tweet/CommentsPage.vue';
+
 export default {
+
+  components: {
+
+    CommentsPage: CommentsPage,
+
+  },
+
 
   data() {
 
     return {
 
+      images: [
+        
+        require('../../../assets/images/1.jpeg'),
+        require('../../../assets/images/2.jpeg'),
+        require('../../../assets/images/3.jpeg'),
+        require('../../../assets/images/4.jpeg'),
+        require('../../../assets/images/5.jpeg'),
+        require('../../../assets/images/6.jpeg'),
+        require('../../../assets/images/7.jpeg'),
+        require('../../../assets/images/8.jpeg'),
+        require('../../../assets/images/9.jpeg'),
+        require('../../../assets/images/10.jpeg'),
+
+      ],
+
       tweets: [],
 
-    }
+      selectedTweet: null,
+
+    };
 
   },
 
@@ -125,11 +162,11 @@ export default {
       
       const response = await axiosInstance.get(`/for-you`);
 
-      console.log(response); 
+      // console.log(response); 
 
       this.tweets = response.data.tweets;
 
-      this.fetchTweets();
+      // this.fetchTweets();
 
     },
 
@@ -141,14 +178,36 @@ export default {
 
     },
 
-    //   getComments() {
-
-
+    async fetchTweet(id) {
       
-    // }
+      const response = await axiosInstance.get('/tweet/' + id);
+
+      console.log(response); 
+
+      this.selectedTweet = response.data.tweets.comments
+
+      this.$router.push(`/comments/${id}`);
+
+      // this.fetchTweets();
+
+    },
+
+    getRandomImage() {
+
+      const randomIndex = Math.floor(Math.random() * this.images.length);
+
+      return this.images[randomIndex];
+
+    },
 
   },
 
 };
 
 </script>
+
+
+
+
+
+

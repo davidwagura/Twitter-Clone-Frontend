@@ -144,8 +144,6 @@ export default {
 
       tweets: [],
 
-      selectedTweet: null,
-
     };
 
   },
@@ -180,9 +178,10 @@ export default {
       
       const response = await axiosInstance.get('/tweet/' + id);
  
-      // console.log(response.data.tweet[0].id);
-
       localStorage.setItem('TweetId', response.data.tweet[0].id);
+
+      // localStorage.setItem('userCommentId', response.data.tweet[0].user_id);
+
 
       // this.selectedTweet = response.data.tweet[0].comments
 

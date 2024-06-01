@@ -8,7 +8,7 @@
 
       <ul v-if="tweets.length">
 
-        <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:bg-gray-100" @click="fetchTweet(tweet.id)">
+        <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100" @click="fetchTweet(tweet.id)">
 
           <div class="flex items-center justify-between">
 

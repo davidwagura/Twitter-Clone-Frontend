@@ -8,9 +8,9 @@
 
         <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" /> 
 
-        <div class="font-bold text-lg">{{ tweet.user.first_name }} {{ tweet.user.last_name }}
+        <!-- <div class="font-bold text-lg">{{ tweet.user.first_name }} {{ tweet.user.last_name }} -->
 
-          <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span> 
+          <!-- <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span>  -->
 
           <span class="mr-2">.</span>
 
@@ -67,18 +67,18 @@
 
     </div>
 
-  </div>
+  <!-- </div> -->
 
-  <div v-else>
+  <!-- <div v-else> -->
 
-    <span>Loading...</span>
+    <!-- <span>Loading...</span> -->
 
-  </div>
+  <!-- </div> -->
 
 
   <div class="border-t h-36 mb-40 p-2">
 
-    <p class="ml-20">Replying to <span class="text-blue-500">@{{ tweet.user.username }}</span></p>
+    <!-- <p class="ml-20">Replying to <span class="text-blue-500">@{{ tweet.user.username }}</span></p> -->
 
     <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" /> 
 

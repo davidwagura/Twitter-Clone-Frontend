@@ -176,9 +176,9 @@ export default {
 
     async fetchTweet(id) {
       
-      const response = await axiosInstance.get('/tweet/' + id);
+      // const response = await axiosInstance.get('/tweet/' + id);
  
-      localStorage.setItem('TweetId', response.data.tweet[0].id);
+      localStorage.setItem('TweetId', id);
 
       // localStorage.setItem('userCommentId', response.data.tweet[0].user_id);
 

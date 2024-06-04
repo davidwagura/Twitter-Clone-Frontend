@@ -109,7 +109,6 @@ import axios from 'axios';
 
             createTweet() {
 
-
                 let id = localStorage.getItem('userId')
 
                 let body = this.data.body

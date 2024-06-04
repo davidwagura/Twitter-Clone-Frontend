@@ -1,6 +1,6 @@
 <template>
 
-  <div tweet.body class="p-4 border-t">
+  <div class="p-4 border-t">
 
     <div class="flex items-center justify-between">
 
@@ -8,13 +8,13 @@
 
         <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" /> 
 
-        <div class="font-bold text-lg">{{ tweet.user.first_name }} {{ tweet.user.last_name }}
+        <!-- <div class="font-bold text-lg">{{ tweet.user.first_name }} {{ tweet.user.last_name }} -->
 
-          <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span> 
+          <!-- <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span>  -->
 
           <span class="mr-2">.</span>
 
-        </div> 
+        <!-- </div>  -->
 
       </div> 
 
@@ -71,7 +71,34 @@
 
   </div>
 
-  <div>
+  <div class="border-t h-36 mb-40 p-2">
+
+    <!-- <p class="ml-20">Replying to <span class="text-blue-500">@{{ tweet.user.username }}</span></p> -->
+
+    <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" /> 
+
+    <div class="m-12 mt-0 mr-0 shadow-lg">
+
+    <input type="text" placeholder="Post your reply" v-model="body" class="w-full border-none p-2 mb-2 h-20 ">
+
+    </div>
+
+    <hr>
+
+    <div class="flex justify-end">
+
+      <button @click="replyTweet()"  class="bg-blue-400 mt-1 -mb-4 text-white font-bold py-2 px-4 rounded-3xl">
+
+        Reply
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="border-t mt-20">
 
     <ul v-if="comments.length">
 
@@ -153,6 +180,7 @@
   </div>
 
 
+
 </template>
 
 <script>
@@ -185,6 +213,8 @@ export default {
 
       users: [],
 
+      body: '',
+
     }
 
   },
@@ -207,19 +237,6 @@ export default {
 
         this.comments = response.data.comment;
 
-        // console.log(response);
-
-        // for (const comment of comments) {
-
-        //   const userId = comment.user_id;
-
-        //   const user  = await axiosInstance.get('/user/' + userId);
-
-        //   // console.log(user.data.user);
-
-        //   // this.users = user.data.user;
-
-        // }
 
 
         //Fetch tweets
@@ -262,13 +279,25 @@ export default {
 
     },
 
-    // getUser() {
+    async replyTweet() {
 
-    //   const response = axiosInstance.get('/user' + user);
+      try {
 
-    //   console.log(response);
+        let id = localStorage.getItem('userId')
 
-    // }
+        let tweetId = localStorage.getItem('TweetId');
+
+        const response = await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": tweetId});
+
+        console.log(response);
+
+      } catch(error) {
+
+        console.error(error);
+
+      }
+
+    }    
 
   },
 

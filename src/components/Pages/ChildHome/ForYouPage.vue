@@ -2,8 +2,6 @@
 
   <div class="">
 
-    <!-- <h2 class="text-2xl font-bold mb-4">For You</h2> -->
-
     <div  class="w-full ">
 
       <ul v-if="tweets.length">
@@ -99,12 +97,6 @@
 
   </div>
 
-  <div>
-
-    <comments-page></comments-page>
-
-  </div>
-
 </template>
 
 
@@ -112,15 +104,8 @@
 
 import axiosInstance from '@/axiosInstance';
 
-import CommentsPage from '../Tweet/CommentsPage.vue';
-
 export default {
 
-  components: {
-
-    CommentsPage: CommentsPage,
-
-  },
 
 
   data() {
@@ -185,7 +170,7 @@ export default {
 
       // this.selectedTweet = response.data.tweet[0].comments
 
-      this.$router.push(`/comments/${id}`);
+      this.$router.push(`/status/${id}`);
 
       // this.fetchTweets();
 

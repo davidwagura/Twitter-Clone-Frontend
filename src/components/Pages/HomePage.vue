@@ -36,7 +36,7 @@
 
             <component :is = "currentSectionComponent"></component> 
 
-            <comments-page></comments-page>
+            <!-- <comments-page></comments-page> -->
 
         </div>
 
@@ -51,7 +51,7 @@ import ForYouPage from './ChildHome/ForYouPage.vue';
 
 import FollowingPage from './ChildHome/FollowingPage.vue';
 
-import CommentsPage from './Tweet/CommentsPage.vue';
+// import CommentsPage from './Tweet/CommentsPage.vue';
 
 import axios from 'axios';
 
@@ -63,7 +63,7 @@ import axios from 'axios';
 
             NavPage: NavPage,
 
-            CommentsPage: CommentsPage,
+            // CommentsPage: CommentsPage,
 
         },
 

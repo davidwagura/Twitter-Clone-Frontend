@@ -1,20 +1,20 @@
 <template>
 
-  <div class="p-4 border-t">
+  <div v-if="tweet" class="p-4 border-t">
 
-    <div class="flex items-center justify-between">
+    <div  class="flex items-center justify-between">
 
       <div class="flex items-center space-x-4">
 
         <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" /> 
 
-        <!-- <div class="font-bold text-lg">{{ tweet.user.first_name }} {{ tweet.user.last_name }} -->
+        <div class="font-bold text-lg">{{ tweet.user.first_name }} {{ tweet.user.last_name }}
 
-          <!-- <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span>  -->
+          <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span> 
 
           <span class="mr-2">.</span>
 
-        <!-- </div>  -->
+        </div> 
 
       </div> 
 
@@ -29,7 +29,6 @@
     </div>
 
     <hr>
-
 
     <div class="flex justify-between p-6 pt-4 -mb-6">
 
@@ -68,26 +67,32 @@
 
     </div>
 
+  </div>
+
+  <div v-else>
+
+    <span>Loading...</span>
 
   </div>
 
+
   <div class="border-t h-36 mb-40 p-2">
 
-    <!-- <p class="ml-20">Replying to <span class="text-blue-500">@{{ tweet.user.username }}</span></p> -->
+    <p class="ml-20">Replying to <span class="text-blue-500">@{{ tweet.user.username }}</span></p>
 
     <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" /> 
 
     <div class="m-12 mt-0 mr-0 shadow-lg">
 
-    <input type="text" placeholder="Post your reply" v-model="body" class="w-full border-none p-2 mb-2 h-20 ">
+      <input type="text" placeholder="Post your reply" v-model="body" class="w-full border-none p-2 mb-2 h-20 ">
 
     </div>
 
     <hr>
 
-    <div class="flex justify-end">
+    <div class="flex justify-end -mt-12">
 
-      <button @click="replyTweet()"  class="bg-blue-400 mt-1 -mb-4 text-white font-bold py-2 px-4 rounded-3xl">
+      <button @click="commentTweet()"  class="bg-blue-400 mt-1 -mb-4 text-white font-bold py-2 px-4 rounded-3xl">
 
         Reply
 
@@ -233,11 +238,11 @@ export default {
 
       try {
 
-        const response = await axiosInstance.get('/comments/' + id);
+        const response = await axiosInstance.get('/comments/' + parseInt(id));
 
         this.comments = response.data.comment;
 
-
+        console.log(response);
 
         //Fetch tweets
 
@@ -245,13 +250,13 @@ export default {
 
           const tweetId = comment.tweet_id;
 
+          // console.log(comment[0]);
+
           const tweetResponse = await axiosInstance.get('/tweet/' + tweetId);
 
           console.log(tweetResponse.data.tweet);
 
-          
           this.tweet = tweetResponse.data.tweet;
-
 
         }
 
@@ -262,6 +267,7 @@ export default {
       }
 
     },
+
 
     formatDate(dateString) {
 
@@ -279,7 +285,8 @@ export default {
 
     },
 
-    async replyTweet() {
+
+    async commentTweet() {
 
       try {
 
@@ -287,9 +294,11 @@ export default {
 
         let tweetId = localStorage.getItem('TweetId');
 
-        const response = await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": tweetId});
+        const response = await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId)});
 
         console.log(response);
+        
+        this.body = '';
 
       } catch(error) {
 
@@ -297,7 +306,7 @@ export default {
 
       }
 
-    }    
+    },    
 
   },
 

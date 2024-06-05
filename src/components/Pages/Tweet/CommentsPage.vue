@@ -115,17 +115,13 @@
 
             <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
-            <div v-for="user in comments" :key="user.id">
+            <div class="font-bold text-lg">{{ comment.user.first_name }} {{ comment.user.last_name }}
 
-              <div class="font-bold text-lg">{{ user.first_name }} {{ user.last_name }}
+              <span class="text-gray-400 text-sm mr-2">@{{ comment.user.username }}</span>
 
-                <span class="text-gray-400 text-sm mr-2">@{{ user.username }}</span>
+              <span class="mr-2">.</span>
 
-                <span class="mr-2">.</span>
-
-                <span class="text-gray-500 text-sm mt-2">{{ formatDate(comment.created_at) }}</span>
-
-              </div>
+              <span class="text-gray-500 text-sm mt-2">{{ formatDate(comment.created_at) }}</span>
 
             </div>
 
@@ -242,12 +238,11 @@ export default {
 
         this.tweet = tweetResponse.data.tweet;
 
-        this.comments = tweetResponse.data.tweet.comments;
-
         this.user = tweetResponse.data.tweet.user;
 
-        console.log(tweetResponse.data.tweet.user);
+        const comment = await axiosInstance.get('/comments/' + id)
 
+        this.comments = comment.data.comment;
 
       } catch (error) {
 

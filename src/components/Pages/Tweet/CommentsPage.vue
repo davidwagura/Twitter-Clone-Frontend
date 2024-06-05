@@ -1,18 +1,16 @@
 <template>
 
-  <div v-if="tweet" class="p-4 border-t">
+  <div v-if="user.username.length > 0" class="p-4 border-t">
 
-    <div  class="flex items-center justify-between">
+    <div class="flex items-center justify-between">
 
       <div class="flex items-center space-x-4">
 
         <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" /> 
 
-        <!-- <div class="font-bold text-lg">{{ tweet.user.first_name }} {{ tweet.user.last_name }} -->
+        <div class="font-bold text-lg">{{ user.first_name }} {{ user.last_name }}
 
-          <!-- <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span>  -->
-
-          <span class="mr-2">.</span>
+          <span class="text-gray-400 text-sm mr-2">@{{ user.username }}</span> 
 
         </div> 
 
@@ -67,18 +65,20 @@
 
     </div>
 
-  <!-- </div> -->
 
-  <!-- <div v-else> -->
 
-    <!-- <span>Loading...</span> -->
+  </div>
 
-  <!-- </div> -->
+  <div v-else>
 
+    <span>Loading...</span>
+
+  </div>
+  
 
   <div class="border-t h-36 mb-40 p-2">
 
-    <!-- <p class="ml-20">Replying to <span class="text-blue-500">@{{ tweet.user.username }}</span></p> -->
+    <p class="ml-20">Replying to <span class="text-blue-500">@{{ tweet.user.username }}</span></p>
 
     <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" /> 
 
@@ -115,7 +115,7 @@
 
             <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
-            <div v-for="user in users" :key="user.id">
+            <div v-for="user in comments" :key="user.id">
 
               <div class="font-bold text-lg">{{ user.first_name }} {{ user.last_name }}
 
@@ -216,7 +216,7 @@ export default {
 
       tweet: {},
 
-      users: [],
+      user: {},
 
       body: '',
 
@@ -227,8 +227,6 @@ export default {
   async created() {
 
     await this.getComments();
-
-    // await this.commentTweet();
 
   },
 
@@ -242,11 +240,14 @@ export default {
 
         const tweetResponse = await axiosInstance.get('/tweet/' + id)
 
-        console.log(tweetResponse.data.tweet);
-
         this.tweet = tweetResponse.data.tweet;
 
         this.comments = tweetResponse.data.tweet.comments;
+
+        this.user = tweetResponse.data.tweet.user;
+
+        console.log(tweetResponse.data.tweet.user);
+
 
       } catch (error) {
 
@@ -272,7 +273,6 @@ export default {
       return this.images[randomIndex];
 
     },
-
 
     async commentTweet() {
 

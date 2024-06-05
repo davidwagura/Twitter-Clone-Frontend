@@ -228,6 +228,8 @@ export default {
 
     await this.getComments();
 
+    // await this.commentTweet();
+
   },
 
   methods: {
@@ -238,27 +240,13 @@ export default {
 
       try {
 
-        const response = await axiosInstance.get('/comments/' + parseInt(id));
+        const tweetResponse = await axiosInstance.get('/tweet/' + id)
 
-        this.comments = response.data.comment;
+        console.log(tweetResponse.data.tweet);
 
-        console.log(response);
+        this.tweet = tweetResponse.data.tweet;
 
-        //Fetch tweets
-
-        for (const comment of this.comments) {
-
-          const tweetId = comment.tweet_id;
-
-          // console.log(comment[0]);
-
-          const tweetResponse = await axiosInstance.get('/tweet/' + tweetId);
-
-          console.log(tweetResponse.data.tweet);
-
-          this.tweet = tweetResponse.data.tweet;
-
-        }
+        this.comments = tweetResponse.data.tweet.comments;
 
       } catch (error) {
 

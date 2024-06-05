@@ -12,7 +12,7 @@
 
         </div>
   
-        <div class="border-t h-36 p-2">
+        <div class="border-t h-36 mb-12 p-2">
 
             <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 

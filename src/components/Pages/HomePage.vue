@@ -2,7 +2,7 @@
     
     <nav-page />
 
-    <div class="ml-48 top-0 w-6/12 border h-fit">
+    <div class="ml-48 top-0 w-6/12 border min-h-screen h-fit">
 
         <div class="h-12 flex justify-between items-center relative px-4">
 
@@ -30,13 +30,15 @@
 
             </div>
 
+            <div class="-mt-8 text-green-500">{{ successMessage }}</div>
+
         </div>
   
         <div class="component">
 
             <component :is = "currentSectionComponent"></component> 
 
-            <!-- <comments-page></comments-page> -->
+            <!-- <comments-page :tweet="tweet" :comments="comments" :user="user" /> -->
 
         </div>
 
@@ -100,6 +102,12 @@ import axios from 'axios';
 
                 successMessage: '',
 
+                tweet: {},
+
+                comments: [],
+
+                user: {},
+
             };
 
         },
@@ -146,12 +154,6 @@ import axios from 'axios';
 
                     this.data.body = '';
 
-                    setTimeout(() => {
-
-                        this.successMessage = '';
-
-                    }, 3000);
-
                 })
 
                 .catch(error => {
@@ -163,6 +165,7 @@ import axios from 'axios';
                 });
 
             },
+            
 
         },
 

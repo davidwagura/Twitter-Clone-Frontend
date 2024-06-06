@@ -161,16 +161,15 @@ export default {
 
     async fetchTweet(id) {
       
-      // const response = await axiosInstance.get('/tweet/' + id);
+      const response = await axiosInstance.get('/tweet/' + id);
  
       localStorage.setItem('TweetId', id);
 
-      // localStorage.setItem('userCommentId', response.data.tweet[0].user_id);
+      localStorage.setItem('username', response.data.tweet.user.username);
 
+      const user = response.data.tweet.user.username;
 
-      // this.selectedTweet = response.data.tweet[0].comments
-
-      this.$router.push(`/status/${id}`);
+      this.$router.push(`/${user}/status/${id}`);
 
       // this.fetchTweets();
 

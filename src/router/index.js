@@ -8,17 +8,54 @@ import LoginPage from '../components/Auth/LoginPage.vue'
 
 import CommentsPage from '../components/Pages/Tweet/CommentsPage.vue'
 
-const routes = 
-[
-    { path: '/', redirect: '/home'},
+import TweetPage from '../components/Pages/Tweet/TweetPage.vue'
 
-    { path:'/home',   component:HomePage, meta: { requiresAuth: true } },
+const routes = [
 
-    { path: '/register', component: RegisterPage, meta: { requiresAuth: false } },
+    { 
+        path: '/', 
+        redirect: '/home'
+    },
 
-    { path: '/login', component: LoginPage, meta: { requiresAuth: false } },
+    { 
+        path:'/home',   
+        
+        component:HomePage, 
+        
+        meta: { requiresAuth: true } 
+    },
 
-    { path: '/status/:id', component: CommentsPage },
+    { 
+        path: '/register',
+    
+        component: RegisterPage, 
+        
+        meta: { requiresAuth: false } 
+    },
+
+    { 
+        path: '/login',
+    
+        component: LoginPage,
+    
+        meta: { requiresAuth: false } 
+
+    },
+
+    { 
+        path: '/tweet/:id/comments', 
+        
+        component: CommentsPage 
+    
+    },
+
+    { 
+        path: '/:user/status/:id', 
+        
+        component: TweetPage 
+    
+    },
+    
 ];
 
 const router = createRouter({

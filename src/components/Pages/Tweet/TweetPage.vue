@@ -42,7 +42,7 @@
                 </button>
 
                 <!--The retweet icon svg-->
-                <button @click="retweet()" class="flex hover:bg-green-100 rounded-full p-2 items-center">
+                <button @click="userRetweet()" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" class="size-6">
 
@@ -53,7 +53,7 @@
                 </button>
 
                 <!--The like icon svg-->
-                <button @click="like()" class="flex hover:bg-red-100 rounded-full p-2 items-center">
+                <button @click="userLike()" class="flex hover:bg-red-100 rounded-full p-2 items-center">
 
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="size-6">
 
@@ -197,7 +197,7 @@ export default {
 
             try {
 
-                let id = localStorage.getItem('userId')
+                let id = localStorage.getItem('userId');
 
                 let tweetId = localStorage.getItem('TweetId');
 
@@ -215,7 +215,48 @@ export default {
 
             }
 
-        },    
+        },
+        
+        async userRetweet() {
+
+            try {
+
+                let userId = localStorage.getItem('userId');
+
+                let tweetId = localStorage.getItem('TweetId');
+
+                const response = await axiosInstance.post(`/retweet/${tweetId}/${userId}`);
+
+                console.log(response);
+
+            } catch(error) {
+
+                console.error(error);
+
+            }
+
+        },
+
+        async userLike() {
+
+            try {
+
+                let userId = localStorage.getItem('userId');
+
+                let tweetId = localStorage.getItem('TweetId');
+
+                const response = await axiosInstance.post(`/like/${tweetId}/${userId}`);
+
+                console.log(response);
+
+            } catch(error) {
+
+                console.error(error);
+
+            }
+
+        }
+
 
     }
 

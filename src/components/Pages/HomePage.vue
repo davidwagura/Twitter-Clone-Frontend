@@ -2,7 +2,7 @@
     
     <nav-page />
 
-    <div class="ml-48 top-0 w-6/12 border min-h-screen h-fit">
+    <div v-if="!showTweetPage" class="ml-48 top-0 w-6/12 border min-h-screen h-fit">
 
         <div class="h-12 flex justify-between items-center relative px-4">
 
@@ -38,11 +38,11 @@
 
             <component :is = "currentSectionComponent"></component> 
 
-            <!-- <comments-page :tweet="tweet" :comments="comments" :user="user" /> -->
-
         </div>
 
     </div>
+
+    <tweet-page v-else></tweet-page>
 
 </template>
   
@@ -53,7 +53,7 @@ import ForYouPage from './ChildHome/ForYouPage.vue';
 
 import FollowingPage from './ChildHome/FollowingPage.vue';
 
-// import CommentsPage from './Tweet/CommentsPage.vue';
+import TweetPage from './Tweet/TweetPage.vue';
 
 import axios from 'axios';
 
@@ -65,7 +65,7 @@ import axios from 'axios';
 
             NavPage: NavPage,
 
-            // CommentsPage: CommentsPage,
+            TweetPage: TweetPage,
 
         },
 

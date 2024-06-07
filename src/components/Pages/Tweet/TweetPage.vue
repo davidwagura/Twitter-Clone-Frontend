@@ -46,7 +46,7 @@
                 <!--The retweet icon svg-->
                 <button @click="userRetweet()" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" @click="changeColor()" stroke="gray" class="size-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" @click="changeColor()" :stroke="styleObject" class="size-6">
 
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
 
@@ -113,6 +113,7 @@
 import axiosInstance from '@/axiosInstance';
 
 import CommentsPage from './CommentsPage.vue';
+import { reactive } from 'vue';
 
 export default {
 
@@ -153,9 +154,16 @@ export default {
 
             toggle: false,
 
+            styleObject: {
+
+                color: 'gray'
+
+            },
+            
         }
 
     },
+    
 
     async created() {
 
@@ -248,20 +256,40 @@ export default {
 
         },
 
-        // changeColor() {
+        changeColor() {
 
-        //     localStorage.getItem('retweetsId')
+            const retweetsId = localStorage.getItem('retweetsId');
 
-        //     if(userId === parseInt(retweetsId)) {
+            console.log(retweetsId);
+
+            const userId = localStorage.getItem('userId');
+
+            console.log(userId);
+
+            if (parseInt(userId) === parseInt(retweetsId)) {
+
+                const styleObject = reactive({
+
+                    color: 'green'
+
+                })
+
+                console.log(styleObject)
 
 
+            } else {
 
-        //     } else {
+                const styleObject = reactive({
 
+                    color: 'gray',
 
-        //     }
+                })
 
-        // },
+                console.log(styleObject)
+
+            }
+
+        },
 
         async userLike() {
 

@@ -41,7 +41,7 @@
 
               </svg>
 
-              <!-- <span>{{ }}</span> -->
+              <span>{{ comment.id }}</span>
               
             </button>
 
@@ -82,8 +82,6 @@
     <div v-else class="text-gray-500">No comments to display</div>
 
   </div>
-
-
 
 </template>
 
@@ -143,9 +141,11 @@ export default {
 
         this.comments = comment.data.comment;
 
-        localStorage.setItem('commentId', comment.data.comment.id);
+        const commentIds = this.comments.map(comment => comment.id);
 
-        console.log(comment.data.comment);
+        // localStorage.setItem('commentId', JSON.stringify(commentIds));
+
+        console.log(commentIds);
 
       } catch (error) {
 
@@ -171,13 +171,6 @@ export default {
 
     },
 
-    likeComment() {
-
-      const id = localStorage.getItem('commentId');
-
-      console.log(id);
-
-    },
 
     //Tweet like and retweet functionality.
     async retweetComment() {
@@ -190,7 +183,7 @@ export default {
 
         const response = await axiosInstance.post(`/retweetComment/${commentId}/${userId}`);
 
-        // localStorage.setItem('retweetsId', response.data.comment.retweets_id);
+        localStorage.setItem('retweetsId', response.data.comment.retweets_id);
 
       } catch(error) {
 
@@ -201,7 +194,7 @@ export default {
     },
 
 
-    async retweetComment() {
+    async likeComment() {
 
       try {
 
@@ -211,7 +204,7 @@ export default {
 
         const response = await axiosInstance.post(`/likeComment/${commentId}/${userId}`);
 
-        // localStorage.setItem('retweetsId', response.data.comment.likes_id);
+        localStorage.setItem('retweetsId', response.data.comment.likes_id);
 
       } catch(error) {
 
@@ -222,7 +215,7 @@ export default {
     },
 
 
-    // async commentTweet() {
+    // async commentComment() {
 
     //   try {
 

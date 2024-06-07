@@ -46,7 +46,7 @@
                 <!--The retweet icon svg-->
                 <button @click="userRetweet()" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" @click="changeColor()" :stroke="styleObject" class="size-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"  :stroke="checkIfRetweeted()" class="size-6">
 
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
 
@@ -59,7 +59,7 @@
                 <!--The like icon svg-->
                 <button @click="userLike()" class="flex hover:bg-red-100 rounded-full p-2 items-center">
 
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" class="size-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="checkIfLiked()" class="size-6">
 
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
 
@@ -113,7 +113,6 @@
 import axiosInstance from '@/axiosInstance';
 
 import CommentsPage from './CommentsPage.vue';
-import { reactive } from 'vue';
 
 export default {
 
@@ -149,16 +148,6 @@ export default {
             body: '',
 
             comments: [],
-
-            stroke: 'gray',
-
-            toggle: false,
-
-            styleObject: {
-
-                color: 'gray'
-
-            },
             
         }
 
@@ -248,6 +237,7 @@ export default {
 
                 localStorage.setItem('retweetsId', response.data.tweet.retweets_id);
 
+
             } catch(error) {
 
                 console.error(error);
@@ -256,39 +246,13 @@ export default {
 
         },
 
-        changeColor() {
+        checkIfRetweeted() {
 
-            const retweetsId = localStorage.getItem('retweetsId');
+            const userId = parseInt(localStorage.getItem('userId'));
 
-            console.log(retweetsId);
+            const retweetsId = parseInt(localStorage.getItem('retweetsId'));
 
-            const userId = localStorage.getItem('userId');
-
-            console.log(userId);
-
-            if (parseInt(userId) === parseInt(retweetsId)) {
-
-                const styleObject = reactive({
-
-                    color: 'green'
-
-                })
-
-                console.log(styleObject)
-
-
-            } else {
-
-                const styleObject = reactive({
-
-                    color: 'gray',
-
-                })
-
-                console.log(styleObject)
-
-            }
-
+            return userId === retweetsId ? 'green' : 'gray';
         },
 
         async userLike() {
@@ -299,7 +263,9 @@ export default {
 
                 let tweetId = localStorage.getItem('TweetId');
 
-                await axiosInstance.post(`/like/${tweetId}/${userId}`);
+                const response = await axiosInstance.post(`/like/${tweetId}/${userId}`);
+
+                localStorage.setItem('likesId', response.data.tweet.likes_id);
 
             } catch(error) {
 
@@ -307,7 +273,17 @@ export default {
 
             }
 
-        }
+        },
+
+        checkIfLiked() {
+
+            const userId = parseInt(localStorage.getItem('userId'));
+
+            const likesId = parseInt(localStorage.getItem('likesId'));
+
+            return userId === likesId ? 'red' : 'gray'
+            
+        },
 
 
     }

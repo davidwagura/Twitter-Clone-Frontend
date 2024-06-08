@@ -41,7 +41,7 @@
 
               </svg>
 
-              <span>{{ comment.id }}</span>
+              <!-- <span>{{ comment.id }}</span> -->
               
             </button>
 

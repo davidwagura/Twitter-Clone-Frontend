@@ -178,18 +178,15 @@ export default {
 
         localStorage.setItem('commentId', id);
 
-        let userId = localStorage.getItem('userId');
+        const userId = localStorage.getItem('userId');
 
-        let commentId = localStorage.getItem('commentId');//comment
+        const commentId = localStorage.getItem('commentId');//comment
 
-        // const likesId = parseInt(localStorage.getItem('likesId'));
-
-        // console.log(likesId);
-        
+        // console.log(likesId);   
 
         if (this.isLiked) {
 
-          const response =  await axiosInstance.post(`/commentUnlike/${commentId}/${userId}`);
+          const response =  await axiosInstance.post(`/unlikeComment/${commentId}/${userId}`);
 
           console.log(response)
 
@@ -197,7 +194,7 @@ export default {
 
         } else {
 
-          const response = await axiosInstance.post(`/commentLike/${commentId}/${userId}`);
+          const response = await axiosInstance.post(`/likeComment/${commentId}/${userId}`);
 
           console.log(response)
 
@@ -219,15 +216,13 @@ export default {
             
       try {
 
-        let userId = localStorage.getItem('userId');
+        const userId = localStorage.getItem('userId');
 
-        let commentId = localStorage.getItem('commentId');//comment
-
-        // const likesId = parseInt(localStorage.getItem('likesId'));
+        const commentId = localStorage.getItem('commentId');//comment
 
         if (this.isretweeted) {
 
-          const response =  await axiosInstance.post(`/commentUnretweet/${commentId}/${userId}`);
+          const response =  await axiosInstance.post(`/unretweetComment/${commentId}/${userId}`);
 
           console.log(response)
 
@@ -235,7 +230,7 @@ export default {
 
         } else {
 
-          const response = await axiosInstance.post(`/commentRetweet/${commentId}/${userId}`);
+          const response = await axiosInstance.post(`/retweetComment/${commentId}/${userId}`);
 
           console.log(response)
 

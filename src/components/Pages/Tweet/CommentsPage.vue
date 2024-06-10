@@ -46,9 +46,9 @@
             </button>
 
             <!--The retweet icon svg-->
-            <button @click="retweetComment()" class="flex hover:bg-green-100 rounded-full p-2 items-center">
+            <button @click="toggleRetweet" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="green" class="size-6">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="isRetweeted ? 'green' : 'gray'" class="size-6">
 
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
 
@@ -59,9 +59,9 @@
             </button>
 
             <!--The like icon svg-->
-            <button @click="likeComment()" class="flex hover:bg-red-100 rounded-full p-2 items-center">
+            <button @click="toggleLike" class="flex hover:bg-red-100 rounded-full p-2 items-center">
 
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="size-6">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="isLiked ? 'red' : 'gray'" class="size-6">
 
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
 
@@ -117,6 +117,10 @@ export default {
 
       comments: [],
 
+      isLiked: false,
+
+      isRetweeted: false,
+
     };
 
   },
@@ -141,9 +145,9 @@ export default {
 
         this.comments = comment.data.comment;
 
-        const commentIds = this.comments.map(comment => comment.id);
+        const commentIds = this.comments.map(comment => comment.id);//comment set
 
-        // localStorage.setItem('commentId', JSON.stringify(commentIds));
+        localStorage.setItem('commentId', JSON.stringify(commentIds));
 
         console.log(commentIds);
 
@@ -183,7 +187,10 @@ export default {
 
         const response = await axiosInstance.post(`/retweetComment/${commentId}/${userId}`);
 
-        localStorage.setItem('retweetsId', response.data.comment.retweets_id);
+        // localStorage.setItem('retweetsId', response.data.comment.retweets_id);
+
+        console.log(response);
+
 
       } catch(error) {
 
@@ -204,7 +211,9 @@ export default {
 
         const response = await axiosInstance.post(`/likeComment/${commentId}/${userId}`);
 
-        localStorage.setItem('retweetsId', response.data.comment.likes_id);
+        // localStorage.setItem('retweetsId', response.data.comment.likes_id);
+
+        console.log(response);
 
       } catch(error) {
 
@@ -214,28 +223,84 @@ export default {
 
     },
 
+    async toggleLike() {
+            
+      try {
 
-    // async commentComment() {
+        let userId = localStorage.getItem('userId');
 
-    //   try {
+        let commentId = localStorage.getItem('commentId');//comment
 
-    //     let id = localStorage.getItem('userId');
+        const likesId = parseInt(localStorage.getItem('likesId'));
 
-    //     let tweetId = localStorage.getItem('TweetId');
+        console.log(likesId);
+        
 
-    //     await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId)});
-    
-    //     this.body = '';
+        if (this.isLiked) {
 
-    //     await this.getComments();
+          const response =  await axiosInstance.post(`/commentUnlike/${commentId}/${userId}`);
 
-    //   } catch(error) {
+          console.log(response)
 
-    //     console.error(error);
+          this.comment.likes--;
 
-    //   }
+        } else {
 
-    // },
+          const response = await axiosInstance.post(`/commentLike/${commentId}/${userId}`);
+
+          console.log(response)
+
+          this.comment.likes++;
+
+        }
+
+          this.isLiked = !this.isLiked;
+
+      } catch (error) {
+
+        console.error(error);
+
+      }
+
+    },
+
+    async toggleRetweet() {
+            
+      try {
+
+        let userId = localStorage.getItem('userId');
+
+        let commentId = localStorage.getItem('commentId');//comment
+
+        // const likesId = parseInt(localStorage.getItem('likesId'));
+
+        if (this.isretweeted) {
+
+          const response =  await axiosInstance.post(`/commentUnretweet/${commentId}/${userId}`);
+
+          console.log(response)
+
+          this.comment.retweets--;
+
+        } else {
+
+          const response = await axiosInstance.post(`/commentRetweet/${commentId}/${userId}`);
+
+          console.log(response)
+
+          this.comment.retweets++;
+
+        }
+
+          this.isretweeted = !this.isretweeted;
+
+      } catch (error) {
+
+          console.error(error);
+
+      }
+        
+    },
 
   },
 

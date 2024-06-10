@@ -201,6 +201,11 @@ export default {
 
         let tweetId = localStorage.getItem('TweetId');
 
+        const likesId = parseInt(localStorage.getItem('likesId'));
+
+        console.log(likesId);
+        
+
         if (this.isLiked) {
 
           const response =  await axiosInstance.post(`/unlike/${tweetId}/${userId}`);

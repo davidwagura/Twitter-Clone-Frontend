@@ -10,6 +10,8 @@ import CommentsPage from '../components/Pages/Tweet/CommentsPage.vue'
 
 import TweetPage from '../components/Pages/Tweet/TweetPage.vue'
 
+// import ReplyModal from '../components/Pages/modal/ReplyModal.vue'
+
 const routes = [
 
     { 
@@ -55,6 +57,14 @@ const routes = [
         component: TweetPage 
     
     },
+
+    // { 
+    //     path: '/modal', 
+        
+    //     component: ReplyModal 
+    
+    // },
+
     
 ];
 

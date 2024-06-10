@@ -32,7 +32,6 @@
 
               </div>
 
-
             </div>
 
             <div class="p-4">
@@ -48,7 +47,7 @@
             <div class="flex justify-between pt-4 -mb-4">
 
               <!--The comment icon svg -->
-              <button @click="addComment()" v-if="!showModal" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
+              <button @click="addComment(tweet.id)" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="size-6">
 
@@ -56,10 +55,26 @@
 
                 </svg>
 
-                <ReplyModal v-if="showModal"></ReplyModal>
+                <!-- <span class="ml-1">{{ tweet }}</span> -->
+
+                <ReplyModal v-if="isModalVisible"></ReplyModal>
 
               </button>
 
+                <!-- <div v-if="isModalVisible" class="fixed flex justify-center z-50">
+
+                  <div class="bg-white rounded-lg shadow-lg p-6 m-4">
+
+                    <h1 class="text-2xl font-bold text-center mb-4">This is a modal</h1>
+
+                    <hr class="mb-4">
+
+                    <h2 class="text-lg text-center">Here is its content</h2>
+
+                  </div>
+
+                </div> -->
+                
               <!--The retweet icon svg-->
               <button @click="toggleRetweet" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
@@ -89,16 +104,12 @@
             </div>
 
           </div>
+          
 
         </li>
 
       </ul>
 
-      <!-- <div v-else-if="selectedTweet">
-
-        <comments-page :tweet-id="selectedTweet.id"></comments-page>
-
-      </div> -->
 
       <div v-else class="text-gray-500">No tweets to display</div>
 
@@ -148,7 +159,7 @@ export default {
 
       isretweeted: false,
 
-      showModal: false,
+      isModalVisible: false,
 
     };
 
@@ -204,9 +215,11 @@ export default {
 
     },
 
-    openModal() {
+    addComment(id) {
 
-      this.showModal = true;
+      this.isModalVisible = !this.isModalVisible;
+
+      console.log(id);
 
     },
     
@@ -259,9 +272,7 @@ export default {
 
         let tweetId = localStorage.getItem('TweetId');
 
-        const likesId = parseInt(localStorage.getItem('likesId'));
-
-        if (this.isretweeted || userId === likesId) {
+        if (this.isretweeted) {
 
           const response =  await axiosInstance.post(`/unretweet/${tweetId}/${userId}`);
 

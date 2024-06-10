@@ -59,7 +59,7 @@
             </button>
 
             <!--The like icon svg-->
-            <button @click="toggleLike" class="flex hover:bg-red-100 rounded-full p-2 items-center">
+            <button @click="toggleLike(comment.id)" class="flex hover:bg-red-100 rounded-full p-2 items-center">
 
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="isLiked ? 'red' : 'gray'" class="size-6">
 
@@ -137,19 +137,13 @@ export default {
 
     async getComments() {
 
-      let id = localStorage.getItem('TweetId');
+      let tweetId = localStorage.getItem('TweetId');
 
       try {
 
-        const comment = await axiosInstance.get('/comments/' + id)
+        const comment = await axiosInstance.get('/comments/' + tweetId)
 
         this.comments = comment.data.comment;
-
-        const commentIds = this.comments.map(comment => comment.id);//comment set
-
-        localStorage.setItem('commentId', JSON.stringify(commentIds));
-
-        console.log(commentIds);
 
       } catch (error) {
 
@@ -177,63 +171,20 @@ export default {
 
 
     //Tweet like and retweet functionality.
-    async retweetComment() {
 
-      try {
-
-        let userId = localStorage.getItem('userId');
-
-        let commentId = localStorage.getItem('commentId');
-
-        const response = await axiosInstance.post(`/retweetComment/${commentId}/${userId}`);
-
-        // localStorage.setItem('retweetsId', response.data.comment.retweets_id);
-
-        console.log(response);
-
-
-      } catch(error) {
-
-        console.error(error);
-
-      }
-
-    },
-
-
-    async likeComment() {
-
-      try {
-
-        let userId = localStorage.getItem('userId');
-
-        let commentId = localStorage.getItem('commentId');
-
-        const response = await axiosInstance.post(`/likeComment/${commentId}/${userId}`);
-
-        // localStorage.setItem('retweetsId', response.data.comment.likes_id);
-
-        console.log(response);
-
-      } catch(error) {
-
-        console.error(error);
-
-      }
-
-    },
-
-    async toggleLike() {
+    async toggleLike(id) {
             
       try {
+
+        localStorage.setItem('commentId', id);
 
         let userId = localStorage.getItem('userId');
 
         let commentId = localStorage.getItem('commentId');//comment
 
-        const likesId = parseInt(localStorage.getItem('likesId'));
+        // const likesId = parseInt(localStorage.getItem('likesId'));
 
-        console.log(likesId);
+        // console.log(likesId);
         
 
         if (this.isLiked) {

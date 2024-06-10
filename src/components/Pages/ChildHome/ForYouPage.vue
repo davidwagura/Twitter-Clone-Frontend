@@ -6,46 +6,49 @@
 
       <ul v-if="tweets.length">
 
-        <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100" @click="fetchTweet(tweet.id)">
+        <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
 
-          <div class="flex items-center justify-between">
+          <div @click="fetchTweet(tweet.id)">
 
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center justify-between">
 
-              <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
+              <div class="flex items-center space-x-4">
 
-              <div v-if="tweet.user">
+                <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
-                <div class="font-bold text-lg">{{ tweet.user.first_name }} {{ tweet.user.last_name }}
-                
-                  <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span>
+                <div v-if="tweet.user">
 
-                  <span class="mr-2">.</span>
+                  <div class="font-bold text-lg">{{ tweet.user.first_name }} {{ tweet.user.last_name }}
+                  
+                    <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span>
 
-                  <span class="text-gray-500 text-sm mt-2">{{ formatDate(tweet.created_at) }}</span>
-                
+                    <span class="mr-2">.</span>
+
+                    <span class="text-gray-500 text-sm mt-2">{{ formatDate(tweet.created_at) }}</span>
+                  
+                  </div>
+
                 </div>
 
               </div>
 
+
             </div>
 
-            <!-- <button @click="followUser(tweet.user.id)" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full">
+            <div class="p-4">
 
-              Follow
+              <div class="flex justify-start ml-12">{{ tweet.body }}</div>
 
-            </button> -->
+            </div>
 
           </div>
+          
+          <div>
 
-          <div class="p-4">
-
-            <div class="flex justify-start ml-12">{{ tweet.body }}</div>
-
-            <div class="flex justify-between pt-4 -mb-6">
+            <div class="flex justify-between pt-4 -mb-4">
 
               <!--The comment icon svg -->
-              <button @click="addComment()" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
+              <button @click="addComment()" v-if="!showModal" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="size-6">
 
@@ -53,8 +56,8 @@
 
                 </svg>
 
-                <!-- <span class="ml-1">{{ tweet.comments.length }}</span> -->
-                
+                <ReplyModal v-if="showModal"></ReplyModal>
+
               </button>
 
               <!--The retweet icon svg-->
@@ -110,9 +113,15 @@
 
 import axiosInstance from '@/axiosInstance';
 
+import ReplyModal from '../modal/ReplyModal.vue'
+
 export default {
 
+  components: {
 
+    ReplyModal
+
+  },
 
   data() {
 
@@ -138,6 +147,8 @@ export default {
       isLiked: false,
 
       isretweeted: false,
+
+      showModal: false,
 
     };
 
@@ -190,6 +201,12 @@ export default {
       const randomIndex = Math.floor(Math.random() * this.images.length);
 
       return this.images[randomIndex];
+
+    },
+
+    openModal() {
+
+      this.showModal = true;
 
     },
     

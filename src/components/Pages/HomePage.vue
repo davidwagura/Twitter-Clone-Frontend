@@ -154,6 +154,12 @@ import axios from 'axios';
 
                     this.data.body = '';
 
+                    setTimeout(() =>{
+
+                        this.successMessage = "";
+
+                    }, 2000);    
+                                
                 })
 
                 .catch(error => {

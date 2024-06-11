@@ -150,6 +150,12 @@ export default {
 
         },
 
+        closeModal() {
+
+            this.$emit('close');
+
+        },
+
         //Generate date function and show random picture as profile function.
         formatDate(dateString) {
 

@@ -55,8 +55,7 @@
 
                 </svg>
 
-
-                <!-- <span>{{ tweet.id }}</span> -->
+                <!-- <span>{{ components.length }}</span> -->
 
               </button>
 

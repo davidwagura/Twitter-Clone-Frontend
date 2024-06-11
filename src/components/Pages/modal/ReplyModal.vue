@@ -1,69 +1,77 @@
 <template>
 
-    <div v-if="user.username" class="m-4 mt-0 border h-96 ml-6 bg-white fixed rounded-lg items-center shadow-lg">
+    <div v-if="user.username" class="fixed inset-0 bg-gray-100 bg-opacity-5 flex items-center justify-center z-50">
 
-        <div class="flex items-center justify-between">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4">
 
-            <div class="flex items-center space-x-4">
+            <div class="border-b px-4 py-2 flex justify-between items-center">
 
-                <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" /> 
+                <h2 class="text-xl font-semibold">Reply to Tweet</h2>
 
-                <div class="font-bold text-lg">{{ user.first_name }} {{ user.last_name }}
-
-                    <span class="text-gray-400 text-sm mr-2">@{{ user.username }}</span> 
-
-                </div> 
-
-            </div> 
-
-        </div>  
-
-        <div class="">
-
-            <div class="flex justify-start ml-12 mb-3">{{ tweet.body }}</div>
-
-                <span class="text-gray-500 text-sm mb-12 flex justify-start">{{ formatDate(tweet.created_at) }}</span>
+                <button @click="closeModal" class="text-gray-500 text-2xl">&times;</button>
 
             </div>
 
+            <div class="p-4">
 
-        </div>
+                <div class="flex items-start space-x-4">
 
-        <div v-else>
+                    <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
-            <span>Loading...</span>
+                    <div class="flex-1">
 
-        </div>
-  
-        <div class="h-36 mb-40 pb-8 mt-12 w-fit p-12 mr-8 fixed pt-32">
+                        <div class="font-bold text-lg">{{ user.first_name }} {{ user.last_name }}
 
-            <p class="ml-20">Replying to <span class="text-blue-500">@{{ tweet.user.username }}</span></p>
+                            <span class="text-gray-400 text-sm">@{{ user.username }}</span>
 
-            <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" /> 
+                        </div>
 
-            <div class=" mt-0 mr-0 shadow-lg">
+                        <div class="text-gray-800 mt-1">{{ tweet.body }}</div>
 
-                <input type="text" placeholder="Post your reply" v-model="body" class="border-none p-2 mb-2 h-20 ">
+                        <span class="text-gray-500 text-sm">{{ formatDate(tweet.created_at) }}</span>
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <hr>
+            <div class="px-4 py-2">
 
-            <div class="flex justify-end -mt-12">
+                <p class="text-sm text-gray-500 mb-2">Replying to <span class="text-blue-500">@{{ tweet.user.username }}</span></p>
 
-            <button @click="commentTweet()"  class="bg-blue-400 mt-1 -mb-4 text-white font-bold py-2 px-4 rounded-3xl">
+                <div class="flex items-start space-x-4">
 
-                Reply
+                    <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
-            </button>
+                    <input v-model="body" placeholder="Post your reply" class="border p-2 mb-2 w-full h-24 rounded-lg resize-none"/>
+
+                </div>
+
+                <div class="flex justify-end mt-4">
+
+                    <button @click="commentTweet()" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-full">
+
+                        Reply
+
+                    </button>
+
+                </div>
+
+            </div>
 
         </div>
 
     </div>
+  
+    <div v-else class="flex items-center justify-center h-screen">
 
+      <span>Loading...</span>
+
+    </div>
 
 </template>
-
+  
 <script>
 import axiosInstance from '@/axiosInstance';
 
@@ -120,6 +128,8 @@ export default {
 
                 this.tweet = tweetResponse.data.tweet;
 
+                console.log(this.tweet);
+
                 this.user = tweetResponse.data.tweet.user;
 
             } catch (error) {
@@ -152,15 +162,15 @@ export default {
 
             try {
 
-                let id = localStorage.getItem('userId');
+                const id = localStorage.getItem('userId');
 
-                let tweetId = localStorage.getItem('TweetId');
+                const tweetId = localStorage.getItem('TweetId');
 
-                await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId)});
+                const res = await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId)});
                 
                 this.body = '';
 
-                await this.getComments();
+                console.log(res)
 
             } catch(error) {
 

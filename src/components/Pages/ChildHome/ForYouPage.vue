@@ -57,23 +57,10 @@
 
                 <!-- <span class="ml-1">{{ tweet }}</span> -->
 
-                <ReplyModal v-if="isModalVisible"></ReplyModal>
+                <ReplyModal v-if="isModalVisible" @close="closeModal"></ReplyModal>
 
               </button>
 
-                <!-- <div v-if="isModalVisible" class="fixed flex justify-center z-50">
-
-                  <div class="bg-white rounded-lg shadow-lg p-6 m-4">
-
-                    <h1 class="text-2xl font-bold text-center mb-4">This is a modal</h1>
-
-                    <hr class="mb-4">
-
-                    <h2 class="text-lg text-center">Here is its content</h2>
-
-                  </div>
-
-                </div> -->
                 
               <!--The retweet icon svg-->
               <button @click="toggleRetweet" class="flex hover:bg-green-100 rounded-full p-2 items-center">
@@ -217,10 +204,13 @@ export default {
 
     addComment(id) {
 
-      this.isModalVisible = !this.isModalVisible;
+      this.isModalVisible = true;
 
       console.log(id);
 
+    },
+    closeModal() {
+      this.isModalVisible = false;
     },
     
     async toggleLike() {

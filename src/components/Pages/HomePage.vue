@@ -150,7 +150,7 @@ import axios from 'axios';
 
                     console.log(response);
 
-                    this.successMessage = 'Tweet created successfully!';
+                    this.successMessage = response.body ? 'Tweet created successfully!' : 'Error creating tweet';
 
                     this.data.body = '';
 

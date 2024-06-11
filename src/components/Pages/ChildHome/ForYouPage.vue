@@ -62,8 +62,6 @@
 
               <ReplyModal :Tweet="tweetToComment" v-if="isModalVisible" @close="closeModal"></ReplyModal>
 
-
-                
               <!--The retweet icon svg-->
               <button @click="toggleRetweet" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
@@ -98,9 +96,6 @@
         </li>
 
       </ul>
-
-
-
 
       <div v-else class="text-gray-500">No tweets to display</div>
 
@@ -151,10 +146,12 @@ export default {
       isretweeted: false,
 
       isModalVisible: false,
+
       tweetToComment: null
 
     };
-//parent
+    
+  //parent
   },
 
   created() {
@@ -209,13 +206,9 @@ export default {
 
     addComment(id) {
 
-      console.log(id)
-
       this.tweetToComment = id
 
       this.isModalVisible = true;
-
-      // localStorage.setItem('modalTweetId', id);
 
     },
 

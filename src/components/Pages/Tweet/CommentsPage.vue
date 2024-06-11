@@ -2,7 +2,7 @@
 
   <div class="border-t mt-20">
 
-    <ul v-if="comments">
+    <ul v-if="tweet.comments">
 
       <li v-for="comment in comments" :key="comment.id" class="p-4 border-t hover:bg-gray-100">
 
@@ -126,8 +126,6 @@ export default {
   },
 
   async created() {
-
-    console.log(this.$props)
 
     await this.getComments();
 

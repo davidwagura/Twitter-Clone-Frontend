@@ -223,12 +223,7 @@ export default {
 
         let userId = localStorage.getItem('userId');
 
-        let tweetId = localStorage.getItem('TweetId');
-
-        const likesId = parseInt(localStorage.getItem('likesId'));
-
-        console.log(likesId);
-        
+        let tweetId = localStorage.getItem('TweetId');        
 
         if (this.isLiked) {
 
@@ -236,7 +231,7 @@ export default {
 
           console.log(response)
 
-          this.tweet.likes--;
+          this.tweets.likes--;
 
         } else {
 
@@ -244,7 +239,7 @@ export default {
 
           console.log(response)
 
-          this.tweet.likes++;
+          this.tweets.likes++;
 
         }
 
@@ -272,7 +267,7 @@ export default {
 
           console.log(response)
 
-          this.tweet.retweets--;
+          this.tweets.retweets--;
 
         } else {
 
@@ -280,7 +275,7 @@ export default {
 
           console.log(response)
 
-          this.tweet.retweets++;
+          this.tweets.retweets++;
 
         }
 

@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="user.username" class="fixed inset-0 bg-gray-100 bg-opacity-5 flex items-center justify-center z-50">
+    <div v-if="tweet.user" class="fixed inset-0 bg-gray-100 bg-opacity-5 flex items-center justify-center z-50">
 
         <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4">
 
@@ -18,15 +18,15 @@
 
                     <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
-                    <div class="flex-1">
+                    <div class="">
 
-                        <div class="font-bold text-lg">{{ user.first_name }} {{ user.last_name }}
+                        <div class="font-bold text-lg mb-3">{{ user.first_name }} {{ user.last_name }}
 
                             <span class="text-gray-400 text-sm">@{{ user.username }}</span>
 
                         </div>
 
-                        <div class="text-gray-800 mt-1">{{ tweet.body }}</div>
+                        <div class="text-gray-800 mt-1 mb-3">{{ tweet.body }}</div>
 
                         <span class="text-gray-500 text-sm">{{ formatDate(tweet.created_at) }}</span>
 
@@ -38,7 +38,7 @@
 
             <div class="px-4 py-2">
 
-                <p class="text-sm text-gray-500 mb-2">Replying to <span class="text-blue-500">@{{ tweet.user.username }}</span></p>
+                <p class="text-sm text-gray-500 mb-2 flex justify-start ml-12">Replying to <span class="text-blue-500">@{{ tweet.user.username }}</span></p>
 
                 <div class="flex items-start space-x-4">
 
@@ -70,6 +70,8 @@
 
     </div>
 
+    <!-- {{ tweetId }} -->
+
 </template>
   
 <script>
@@ -78,6 +80,15 @@ import axiosInstance from '@/axiosInstance';
 
 export default {
 
+    props: {
+
+        Tweet: {
+
+            type: [Number], 
+
+        }
+
+    },
 
     data () {
 
@@ -111,6 +122,7 @@ export default {
 
     async created() {
 
+
         await this.getTweet();
 
     },
@@ -120,15 +132,13 @@ export default {
         //Get tweet by Id.
         async getTweet() {
 
-            let id = localStorage.getItem('TweetId');
+            let id = this.$props.Tweet;
 
             try {
 
                 const tweetResponse = await axiosInstance.get('/tweet/' + id);
 
                 this.tweet = tweetResponse.data.tweet;
-
-                console.log(this.tweet);
 
                 this.user = tweetResponse.data.tweet.user;
 
@@ -164,7 +174,9 @@ export default {
 
                 const id = localStorage.getItem('userId');
 
-                const tweetId = localStorage.getItem('TweetId');
+                let tweetId = this.$props.Tweet;
+
+                console.log(tweetId)
 
                 const res = await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId)});
                 

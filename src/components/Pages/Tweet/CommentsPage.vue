@@ -1,4 +1,9 @@
 <template>
+    <!-- <div v-if="loading" class="flex items-center justify-center h-screen">
+
+    <span>Loading...</span>
+
+  </div> -->
 
   <div class="border-t mt-20">
 
@@ -33,7 +38,7 @@
           <div class="flex justify-between pt-4 -mb-6">
 
             <!--The comment icon svg -->
-            <button @click="addComment()" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
+            <button @click="addComment(comment.id)" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
 
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="size-6">
 
@@ -44,6 +49,8 @@
               <!-- <span>{{ comment.id }}</span> -->
               
             </button>
+
+            <comment-reply-modal :Comment="commentId" v-if="isModalVisible" @close="closeModal"></comment-reply-modal>
 
             <!--The retweet icon svg-->
             <button @click="toggleRetweet" class="flex hover:bg-green-100 rounded-full p-2 items-center">
@@ -83,16 +90,25 @@
 
   </div>
 
+
 </template>
 
 <script>
 import axiosInstance from '@/axiosInstance';
 
+import CommentReplyModal from '../modal/CommentReplyModal.vue';
+
 export default {
 
   props: {
 
-    tweet: Array,
+    tweet: Object,
+
+  },
+
+  components: {
+
+    CommentReplyModal
 
   },
 
@@ -121,6 +137,10 @@ export default {
 
       isRetweeted: false,
 
+      isModalVisible: false,
+
+      commentId: null,
+
     };
 
   },
@@ -135,20 +155,26 @@ export default {
 
     async getComments() {
 
+      console.log(this.$props.tweet)
+
       let tweetId = localStorage.getItem('TweetId');
 
       try {
+
+        // this.loading = true; 
 
         const comment = await axiosInstance.get('/comments/' + tweetId)
 
         this.comments = comment.data.comment;
 
+        // this.loading = false;
+
+
       } catch (error) {
 
         console.error(error);
 
-      }
-
+      } 
     },
 
     formatDate(dateString) {
@@ -188,7 +214,7 @@ export default {
 
           console.log(response)
 
-          this.comment.likes--;
+          this.comments.likes--;
 
         } else {
 
@@ -196,7 +222,7 @@ export default {
 
           console.log(response)
 
-          this.comment.likes++;
+          this.comments.likes++;
 
         }
 
@@ -245,6 +271,23 @@ export default {
       }
         
     },
+
+    addComment(id) {
+
+      this.commentId = id
+
+      console.log(id);
+
+      this.isModalVisible = true;
+
+    },
+
+    closeModal() {
+
+      this.isModalVisible = false;
+
+    },
+
 
   },
 

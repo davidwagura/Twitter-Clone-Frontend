@@ -62,7 +62,7 @@
               <ReplyModal :Tweet="tweetToComment" v-if="isModalVisible" @close="closeModal"></ReplyModal>
 
               <!--The retweet icon svg-->
-              <button @click="toggleRetweet" class="flex hover:bg-green-100 rounded-full p-2 items-center">
+              <button @click="toggleRetweet(tweet.id)" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="isretweeted ? 'green' : 'gray'" class="size-6">
 
@@ -75,7 +75,7 @@
               </button>
 
               <!--The like icon svg-->
-              <button @click="toggleLike" class="flex hover:bg-red-100 rounded-full p-2 items-center">
+              <button @click="toggleLike(tweet.id)" class="flex hover:bg-red-100 rounded-full p-2 items-center">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="isLiked ? 'red' : 'gray'" class="size-6">
 
@@ -183,8 +183,6 @@ export default {
       
       const response = await axiosInstance.get('/tweet/' + id);
  
-      localStorage.setItem('TweetId', id);
-
       localStorage.setItem('username', response.data.tweet.user.username);
 
       const user = response.data.tweet.user.username;
@@ -217,17 +215,15 @@ export default {
 
     },
     
-    async toggleLike() {
+    async toggleLike(id) {
             
       try {
 
-        let userId = localStorage.getItem('userId');
-
-        let tweetId = localStorage.getItem('TweetId');        
+        const userId = localStorage.getItem('userId');
 
         if (this.isLiked) {
 
-          const response =  await axiosInstance.post(`/unlike/${tweetId}/${userId}`);
+          const response =  await axiosInstance.post(`/unlike/${id}/${userId}`);
 
           console.log(response)
 
@@ -235,7 +231,7 @@ export default {
 
         } else {
 
-          const response = await axiosInstance.post(`/like/${tweetId}/${userId}`);
+          const response = await axiosInstance.post(`/like/${id}/${userId}`);
 
           console.log(response)
 
@@ -253,17 +249,15 @@ export default {
 
     },
 
-    async toggleRetweet() {
+    async toggleRetweet(id) {
             
       try {
 
         let userId = localStorage.getItem('userId');
 
-        let tweetId = localStorage.getItem('TweetId');
-
         if (this.isretweeted) {
 
-          const response =  await axiosInstance.post(`/unretweet/${tweetId}/${userId}`);
+          const response =  await axiosInstance.post(`/unretweet/${id}/${userId}`);
 
           console.log(response)
 
@@ -271,7 +265,7 @@ export default {
 
         } else {
 
-          const response = await axiosInstance.post(`/retweet/${tweetId}/${userId}`);
+          const response = await axiosInstance.post(`/retweet/${id}/${userId}`);
 
           console.log(response)
 

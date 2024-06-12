@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="user.username" class="p-4 border-t">
+    <div v-if="tweet" class="p-4 border-t">
 
         <div class="flex items-center justify-between">
 
@@ -39,7 +39,7 @@
 
                     </svg>
 
-                    <span class="ml-1">{{ tweet.comments.length }}</span>
+                    <!-- <span class="ml-1">{{ tweet.comments.length }}</span> -->
                     
                 </button>
 
@@ -105,7 +105,7 @@
 
     </div>
 
-    <comments-page :tweet="tweet.comments"></comments-page>
+    <comments-page :tweet="tweet"></comments-page>
 
 </template>
 

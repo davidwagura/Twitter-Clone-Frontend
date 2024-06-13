@@ -141,6 +141,8 @@ export default {
 
       commentId: null,
 
+      comment: {},
+
     };
 
   },
@@ -155,7 +157,7 @@ export default {
 
     async getComments() {
 
-      console.log(this.$props.tweet)
+      // console.log(this.$props.tweet)
 
       let tweetId = localStorage.getItem('TweetId');
 
@@ -197,7 +199,15 @@ export default {
     //Tweet like and retweet functionality.
 
     async toggleLike(id) {
-            
+
+      console.log(id);
+
+      const comment = await axiosInstance.get(`/comment/${id}`);
+
+      console.log(comment.data)
+
+      this.comment = comment.data.Comment
+
       try {
 
         localStorage.setItem('commentId', id);
@@ -206,15 +216,14 @@ export default {
 
         const commentId = localStorage.getItem('commentId');//comment
 
-        // console.log(likesId);   
-
         if (this.isLiked) {
 
           const response =  await axiosInstance.post(`/unlikeComment/${commentId}/${userId}`);
 
           console.log(response)
 
-          this.comments.likes--;
+          this.comment.likes--;
+
 
         } else {
 
@@ -222,7 +231,7 @@ export default {
 
           console.log(response)
 
-          this.comments.likes++;
+          this.comment.likes++;
 
         }
 
@@ -244,13 +253,13 @@ export default {
 
         const commentId = localStorage.getItem('commentId');//comment
 
-        if (this.isretweeted) {
+        if (this.isRetweeted) {
 
           const response =  await axiosInstance.post(`/unretweetComment/${commentId}/${userId}`);
 
           console.log(response)
 
-          this.comment.retweets--;
+          this.comments.retweets--;
 
         } else {
 
@@ -258,11 +267,11 @@ export default {
 
           console.log(response)
 
-          this.comment.retweets++;
+          this.comments.retweets++;
 
         }
 
-          this.isretweeted = !this.isretweeted;
+          this.isRetweeted = !this.isRetweeted;
 
       } catch (error) {
 

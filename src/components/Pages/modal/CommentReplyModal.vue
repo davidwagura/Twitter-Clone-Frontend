@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="comment.user" class="fixed inset-0 bg-gray-100 bg-opacity-5 flex items-center justify-center z-50">
+    <div v-if="tweet.comments" class="fixed inset-0 bg-gray-100 bg-opacity-5 flex items-center justify-center z-50">
 
         <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4">
 
@@ -114,6 +114,8 @@ export default {
             user: {},
 
             body: '',
+
+            comments: {},
             
         }
 
@@ -139,8 +141,6 @@ export default {
                 const comment = await axiosInstance.get('/comment/' + commentId)
 
                 this.comments = comment.data.comment;
-
-                console.log(comment);
 
             } catch (error) {
 

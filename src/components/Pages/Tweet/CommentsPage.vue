@@ -53,9 +53,9 @@
             <comment-reply-modal :Comment="commentId" v-if="isModalVisible" @close="closeModal"></comment-reply-modal>
 
             <!--The retweet icon svg-->
-            <button @click="toggleRetweet" class="flex hover:bg-green-100 rounded-full p-2 items-center">
+            <button @click="toggleRetweet(comment)" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="isRetweeted ? 'green' : 'gray'" class="size-6">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="comment.isRetweeted ? 'green' : 'gray'" class="size-6">
 
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
 
@@ -66,9 +66,9 @@
             </button>
 
             <!--The like icon svg-->
-            <button @click="toggleLike(comment.id)" class="flex hover:bg-red-100 rounded-full p-2 items-center">
+            <button @click="toggleLike(comment)" class="flex hover:bg-red-100 rounded-full p-2 items-center">
 
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="isLiked ? 'red' : 'gray'" class="size-6">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="comment.isLiked ? 'red' : 'gray'" class="size-6">
 
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
 
@@ -198,44 +198,27 @@ export default {
 
     //Tweet like and retweet functionality.
 
-    async toggleLike(id) {
+    async toggleLike(comment) {
 
-      console.log(id);
-
-      const comment = await axiosInstance.get(`/comment/${id}`);
-
-      console.log(comment.data)
-
-      this.comment = comment.data.Comment
+      const userId = localStorage.getItem('userId');
 
       try {
 
-        localStorage.setItem('commentId', id);
+        if (comment.isLiked) {
 
-        const userId = localStorage.getItem('userId');
+          await axiosInstance.post(`/unlikeComment/${comment.id}/${userId}`);
 
-        const commentId = localStorage.getItem('commentId');//comment
-
-        if (this.isLiked) {
-
-          const response =  await axiosInstance.post(`/unlikeComment/${commentId}/${userId}`);
-
-          console.log(response)
-
-          this.comment.likes--;
-
+          comment.likes--;
 
         } else {
 
-          const response = await axiosInstance.post(`/likeComment/${commentId}/${userId}`);
+          await axiosInstance.post(`/likeComment/${comment.id}/${userId}`);
 
-          console.log(response)
-
-          this.comment.likes++;
+          comment.likes++;
 
         }
 
-          this.isLiked = !this.isLiked;
+        comment.isLiked = !comment.isLiked;
 
       } catch (error) {
 
@@ -245,42 +228,36 @@ export default {
 
     },
 
-    async toggleRetweet() {
-            
+    async toggleRetweet(comment) {
+
+      const userId = localStorage.getItem('userId');
+
       try {
 
-        const userId = localStorage.getItem('userId');
+        if (comment.isRetweeted) {
 
-        const commentId = localStorage.getItem('commentId');//comment
+          await axiosInstance.post(`/unretweetComment/${comment.id}/${userId}`);
 
-        if (this.isRetweeted) {
-
-          const response =  await axiosInstance.post(`/unretweetComment/${commentId}/${userId}`);
-
-          console.log(response)
-
-          this.comments.retweets--;
+          comment.retweets--;
 
         } else {
 
-          const response = await axiosInstance.post(`/retweetComment/${commentId}/${userId}`);
+          await axiosInstance.post(`/retweetComment/${comment.id}/${userId}`);
 
-          console.log(response)
-
-          this.comments.retweets++;
+          comment.retweets++;
 
         }
 
-          this.isRetweeted = !this.isRetweeted;
+        comment.isRetweeted = !comment.isRetweeted;
 
       } catch (error) {
 
-          console.error(error);
+        console.error(error);
 
       }
-        
-    },
 
+    },    
+    
     addComment(id) {
 
       this.commentId = id

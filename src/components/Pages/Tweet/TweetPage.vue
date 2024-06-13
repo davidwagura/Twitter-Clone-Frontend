@@ -41,7 +41,7 @@
 
                 </svg>
 
-                <!-- <span class="ml-1">{{ tweet.comments.length }}</span> -->
+                <span class="ml-1">{{ tweet.comments.length }}</span>
 
             </button>
 

@@ -133,8 +133,6 @@ export default {
 
       commentId: null,
 
-      // comment: {},
-
     };
 
   },
@@ -149,20 +147,13 @@ export default {
 
     async getComments() {
 
-      // console.log(this.$props.tweet)
-
       let tweetId = localStorage.getItem('TweetId');
 
       try {
 
-        // this.loading = true; 
-
         const comment = await axiosInstance.get('/comments/' + tweetId)
 
         this.comments = comment.data.comment;
-
-        // this.loading = false;
-
 
       } catch (error) {
 

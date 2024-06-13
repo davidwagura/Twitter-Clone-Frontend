@@ -118,6 +118,8 @@ import axiosInstance from '@/axiosInstance';
 
 import CommentsPage from './CommentsPage.vue';
 
+import { useAlertsStore } from '@/stores/pinia';
+
 export default {
 
     components: {
@@ -172,6 +174,9 @@ export default {
 
         //Get tweet by Id.
         async getTweet() {
+
+            console.log(useAlertsStore);
+
 
             let id = localStorage.getItem('TweetId');
 

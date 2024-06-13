@@ -140,7 +140,7 @@ export default {
 
         },
 
-        //Generate date function and show random picture as profile function.
+        //Generate date function and show random picture as profile functions.
         formatDate(dateString) {
 
             const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
@@ -163,13 +163,13 @@ export default {
 
             try {
 
-                const id = localStorage.getItem('userId');
+                const userId = localStorage.getItem('userId');
 
                 let commentId = this.Comment;
 
                 console.log(commentId)
 
-                const res = await axiosInstance.post('/commentComment/',{"body": this.body, "user_id": parseInt(id), "comment_id": parseInt(commentId)});
+                const res = await axiosInstance.post('/commentComment/',{"body": this.body, "user_id": parseInt(userId), "comment_id": parseInt(commentId)});
                 
                 this.body = '';
 
@@ -182,7 +182,6 @@ export default {
             }
 
         },
-
 
     }
 

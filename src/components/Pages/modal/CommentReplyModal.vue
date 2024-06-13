@@ -1,26 +1,28 @@
 <template>
 
-    <div v-if="tweet.comments" class="fixed inset-0 bg-gray-100 bg-opacity-5 flex items-center justify-center z-50">
+    <div v-if="isVisible" class="fixed inset-0 bg-gray-100 bg-opacity-5 flex items-center justify-center z-50">
 
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4">
+        <div  class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4">
 
             <div class="border-b px-4 py-2 flex justify-between items-center">
 
                 <h2 class="text-xl font-semibold">Reply to Tweet</h2>
 
-                <button @click="closeModal" class="text-gray-500 text-2xl">&times;</button>
+                <button button @click="closeModal" class="text-gray-500 text-2xl">&times;</button>
 
             </div>
 
-            <div class="p-4">
+            <div class="p-4" v-if="comment && comment.user">
 
                 <div class="flex items-start space-x-4">
 
                     <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
-                    <div class="">
+                    <div>
 
-                        <div class="font-bold text-lg mb-3">{{ comment.user.first_name }} {{ comment.user.last_name }}
+                        <div div class="font-bold text-lg mb-3">
+                            
+                            <span>{{ comment.user.first_name }} {{ comment.user.last_name }}</span>
 
                             <span class="text-gray-400 text-sm">@{{ comment.user.username }}</span>
 
@@ -38,7 +40,7 @@
 
             <div class="px-4 py-2">
 
-                <p class="text-sm text-gray-500 mb-2 flex justify-start ml-12">Replying to <span class="text-blue-500">@{{ comment.user.username }}</span></p>
+                <p class="text-sm text-gray-500 mb-2 flex justify-start ml-12">Replying to <span class="text-blue-500">@{{ comment?.user?.username }}</span></p>
 
                 <div class="flex items-start space-x-4">
 
@@ -50,11 +52,7 @@
 
                 <div class="flex justify-end mt-4">
 
-                    <button @click="commentTweet()" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-full">
-
-                        Reply
-
-                    </button>
+                    <button @click="commentComment" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-full">Reply</button>
 
                 </div>
 
@@ -63,17 +61,9 @@
         </div>
 
     </div>
-  
-    <div v-else class="flex items-center justify-center h-screen">
-
-      <span>Loading...</span>
-
-    </div>
-
-    <!-- {{ tweetId }} -->
 
 </template>
-  
+      
 <script>
 import axiosInstance from '@/axiosInstance';
 
@@ -82,11 +72,7 @@ export default {
 
     props: {
 
-        Comment: {
-
-            type: [Number], 
-
-        }
+        Comment: Number,
 
     },
 
@@ -109,15 +95,13 @@ export default {
 
             ],
 
-            tweet: {},
-
-            user: {},
+            comment: {},
 
             body: '',
 
-            comments: {},
+            isVisible: true,
             
-        }
+        };
 
     },
     
@@ -132,15 +116,13 @@ export default {
 
         async getComments() {
 
-                console.log(this.$props.Comment)
-
-                let commentId = this.$props.Comment;
+            let commentId = this.Comment;
 
             try {
 
                 const comment = await axiosInstance.get('/comment/' + commentId)
 
-                this.comments = comment.data.comment;
+                this.comment = comment.data.Comment;
 
             } catch (error) {
 
@@ -151,6 +133,8 @@ export default {
         },
 
         closeModal() {
+
+            this.isVisible = false;
 
             this.$emit('close');
 
@@ -181,7 +165,7 @@ export default {
 
                 const id = localStorage.getItem('userId');
 
-                let commentId = this.$props.Comment;
+                let commentId = this.Comment;
 
                 console.log(commentId)
 

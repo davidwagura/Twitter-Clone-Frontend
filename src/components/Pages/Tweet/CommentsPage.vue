@@ -1,13 +1,8 @@
 <template>
-    <!-- <div v-if="loading" class="flex items-center justify-center h-screen">
-
-    <span>Loading...</span>
-
-  </div> -->
 
   <div class="border-t mt-20">
 
-    <ul v-if="tweet.comments">
+    <ul v-if="comments.length">
 
       <li v-for="comment in comments" :key="comment.id" class="p-4 border-t hover:bg-gray-100">
 
@@ -37,7 +32,7 @@
 
           <div class="flex justify-between pt-4 -mb-6">
 
-            <!--The comment icon svg -->
+            <!-- The comment icon svg -->
             <button @click="addComment(comment.id)" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
 
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="blue" class="size-6">
@@ -46,13 +41,11 @@
 
               </svg>
 
-              <!-- <span>{{ comment.id }}</span> -->
-              
             </button>
 
             <comment-reply-modal :Comment="commentId" v-if="isModalVisible" @close="closeModal"></comment-reply-modal>
 
-            <!--The retweet icon svg-->
+            <!-- The retweet icon svg -->
             <button @click="toggleRetweet(comment)" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="comment.isRetweeted ? 'green' : 'gray'" class="size-6">
@@ -65,7 +58,7 @@
 
             </button>
 
-            <!--The like icon svg-->
+            <!-- The like icon svg -->
             <button @click="toggleLike(comment)" class="flex hover:bg-red-100 rounded-full p-2 items-center">
 
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="comment.isLiked ? 'red' : 'gray'" class="size-6">
@@ -79,7 +72,7 @@
             </button>
 
           </div>
-          
+
         </div>
 
       </li>
@@ -89,8 +82,7 @@
     <div v-else class="text-gray-500">No comments to display</div>
 
   </div>
-
-
+  
 </template>
 
 <script>
@@ -141,7 +133,7 @@ export default {
 
       commentId: null,
 
-      comment: {},
+      // comment: {},
 
     };
 

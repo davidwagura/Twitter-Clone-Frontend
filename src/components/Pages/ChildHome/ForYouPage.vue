@@ -55,16 +55,16 @@
 
                 </svg>
 
-                <!-- <span>{{ components.length }}</span> -->
+                <span>{{ tweet.comments.length }}</span>
 
               </button>
 
               <ReplyModal :Tweet="tweetToComment" v-if="isModalVisible" @close="closeModal"></ReplyModal>
 
               <!--The retweet icon svg-->
-              <button @click="toggleRetweet(tweet.id)" class="flex hover:bg-green-100 rounded-full p-2 items-center">
+              <button @click="toggleRetweet(tweet)" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="isretweeted ? 'green' : 'gray'" class="size-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="tweet.isRetweeted ? 'green' : 'gray'" class="size-6">
 
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
 
@@ -75,9 +75,9 @@
               </button>
 
               <!--The like icon svg-->
-              <button @click="toggleLike(tweet.id)" class="flex hover:bg-red-100 rounded-full p-2 items-center">
+              <button @click="toggleLike(tweet)" class="flex hover:bg-red-100 rounded-full p-2 items-center">
 
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="isLiked ? 'red' : 'gray'" class="size-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="tweet.isLiked ? 'red' : 'gray'" class="size-6">
 
                   <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
 
@@ -142,7 +142,7 @@ export default {
 
       isLiked: false,
 
-      isretweeted: false,
+      isRetweeted: false,
 
       isModalVisible: false,
 
@@ -215,7 +215,7 @@ export default {
 
     },
     
-    async toggleLike(id) {
+    async toggleLike(tweet) {
             
       try {
 
@@ -223,23 +223,23 @@ export default {
 
         if (this.isLiked) {
 
-          const response =  await axiosInstance.post(`/unlike/${id}/${userId}`);
+          const response =  await axiosInstance.post(`/unlike/${tweet.id}/${userId}`);
 
           console.log(response)
 
-          this.tweets.likes--;
+          tweet.likes--;
 
         } else {
 
-          const response = await axiosInstance.post(`/like/${id}/${userId}`);
+          const response = await axiosInstance.post(`/like/${tweet.id}/${userId}`);
 
           console.log(response)
 
-          this.tweets.likes++;
+          tweet.likes++;
 
         }
 
-          this.isLiked = !this.isLiked;
+          tweet.isLiked = !tweet.isLiked;
 
       } catch (error) {
 
@@ -249,31 +249,31 @@ export default {
 
     },
 
-    async toggleRetweet(id) {
+    async toggleRetweet(tweet) {
             
       try {
 
         let userId = localStorage.getItem('userId');
 
-        if (this.isretweeted) {
+        if (this.isRetweeted) {
 
-          const response =  await axiosInstance.post(`/unretweet/${id}/${userId}`);
+          const response =  await axiosInstance.post(`/unretweet/${tweet.id}/${userId}`);
 
           console.log(response)
 
-          this.tweets.retweets--;
+          tweet.retweets--;
 
         } else {
 
-          const response = await axiosInstance.post(`/retweet/${id}/${userId}`);
+          const response = await axiosInstance.post(`/retweet/${tweet.id}/${userId}`);
 
           console.log(response)
 
-          this.tweets.retweets++;
+          tweet.retweets++;
 
         }
 
-          this.isretweeted = !this.isretweeted;
+          tweet.isRetweeted = !tweet.isRetweeted;
 
       } catch (error) {
 

@@ -73,7 +73,7 @@
 
         </div>
 
-        <div class="border-t h-36 mb-40 p-2">
+        <div class="border-t h-36 mb-20 p-2">
 
             <p class="ml-20">Replying to <span class="text-blue-500">@{{ tweet.user.username }}</span></p>
 

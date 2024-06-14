@@ -118,6 +118,8 @@ import axiosInstance from '@/axiosInstance';
 
 import CommentsPage from './CommentsPage.vue';
 
+import axios from 'axios';
+
 import { useAlertsStore } from '@/stores/pinia';
 
 export default {
@@ -127,6 +129,18 @@ export default {
         CommentsPage,
 
     },
+
+    setup() {
+
+        const userStore = useAlertsStore();
+
+        return {
+
+            userStore,
+
+        };
+
+    },  
 
     data () {
 
@@ -175,8 +189,6 @@ export default {
         //Get tweet by Id.
         async getTweet() {
 
-            console.log(useAlertsStore);
-
 
             let id = localStorage.getItem('TweetId');
 
@@ -193,6 +205,21 @@ export default {
                 console.error(error);
 
             }   
+
+            //pinia comments
+            try {
+                
+                const comments = axios.get('http://127.0.0.1:8000/api/comment/23');
+
+                this.userStore.fetchComments(comments);
+
+                this.comments = comments;
+
+            } catch (error) {
+
+                console.error('Failed to fetch comments:', error);
+
+            }
 
         },
 

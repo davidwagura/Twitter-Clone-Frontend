@@ -2,30 +2,31 @@ import { defineStore } from 'pinia';
 
 export const useAlertsStore = defineStore('alerts', {
 
-//   state: () => ({
+  state: () => ({
 
-//     comments: [],
+    comment: {},
 
-//   }),
+    tweet: null, // Add tweet state here
 
-//   actions: {
+  }),
 
-//     async fetchComments() {
 
-//       try {
+  actions: {
 
-//         const comments = get('http://127.0.0.1:8000/api/comment/23');
+    async fetchComments(data) {
 
-//         this.comments = comments;
+      this.comments = data;
 
-//       } catch (error) {
+      console.log(data);
 
-//         console.error('Failed to fetch comments:', error);
+    },
 
-//       }
+    setTweet(tweet) { // Add an action to set the tweet
 
-//     },
+      this.tweet = tweet;
 
-//   },
+    },
+
+  },
 
 });

@@ -122,7 +122,6 @@ export default {
 
     async created() {
 
-
         await this.getTweet();
 
     },

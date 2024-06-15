@@ -113,6 +113,10 @@ import ReplyModal from '../modal/ReplyModal.vue'
 
 import { useUsernameStore } from '@/stores/username'
 
+import { useUserIdStore } from '@/stores/userId';
+
+import { useTweetIdStore } from '@/stores/tweetId';
+
 export default {
 
   components: {
@@ -161,6 +165,18 @@ export default {
 
   },
 
+  computed : {
+
+    userId () {
+
+      const userIdStore = useUserIdStore();
+
+      return userIdStore.userId;
+
+    }
+
+  },
+
   methods: {
 
     async fetchTweets() {
@@ -190,7 +206,12 @@ export default {
 
       const usernameStore = useUsernameStore();
 
-      usernameStore.setUsername(response.data.tweet.user.username)
+      usernameStore.setUsername(response.data.tweet.user.username);
+
+
+      const tweetIdStore = useTweetIdStore();
+
+      useTweetIdStore = setTweetId(id);
 
 
       const user = response.data.tweet.user.username;
@@ -227,7 +248,8 @@ export default {
             
       try {
 
-        const userId = localStorage.getItem('userId');
+        // const userId = localStorage.getItem('userId');
+        const userId = this.userId;
 
         if (this.isLiked) {
 
@@ -261,7 +283,8 @@ export default {
             
       try {
 
-        let userId = localStorage.getItem('userId');
+        // let userId = localStorage.getItem('userId');
+        const userId = this.userId;
 
         if (this.isRetweeted) {
 

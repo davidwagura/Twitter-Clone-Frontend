@@ -118,7 +118,9 @@ import axiosInstance from '@/axiosInstance';
 
 import CommentsPage from './CommentsPage.vue';
 
-import { useUserIdStore } from '@/stores/userId.js';
+import { useUserIdStore } from '@/stores/userId';
+
+import { useTweetIdStore, useTweetIdStore } from '@/stores/tweetId';
 
 export default {
 
@@ -171,7 +173,16 @@ export default {
 
         return userIdStore.userId;
 
-        }
+        },
+
+        tweetId() {
+
+            const tweetIdStore = useTweetIdStore();
+            
+            return tweetIdStore.tweetId;
+
+        },
+
 
     },
     
@@ -186,7 +197,8 @@ export default {
         //Get tweet by Id.
         async getTweet() {
 
-            let id = localStorage.getItem('TweetId');
+            // let id = localStorage.getItem('TweetId');
+            let id = this.tweetId;
 
             try {
 
@@ -232,7 +244,8 @@ export default {
 
                 console.log(this.userId);
 
-                let tweetId = localStorage.getItem('TweetId');
+                // let tweetId = localStorage.getItem('TweetId');
+                let tweetId = this.tweetId;
 
                 const res = await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId)});
                 
@@ -261,7 +274,9 @@ export default {
                 let userId = this.userId;
 
 
-                let tweetId = localStorage.getItem('TweetId');
+                // let tweetId = localStorage.getItem('TweetId');
+                let tweetId = this.tweetId;
+
 
                 const response = await axiosInstance.post(`/retweet/${tweetId}/${userId}`);
 
@@ -295,7 +310,9 @@ export default {
                     let userId = this.userId;
 
 
-                    let tweetId = localStorage.getItem('TweetId');
+                    // let tweetId = localStorage.getItem('TweetId');
+                    let tweetId = this.tweetId;
+
 
                 if (this.isLiked) {
 
@@ -329,11 +346,13 @@ export default {
             
             try {
 
-                    // let userId = localStorage.getItem('userId');
-                    let userId = this.userId;
+                // let userId = localStorage.getItem('userId');
+                let userId = this.userId;
 
 
-                    let tweetId = localStorage.getItem('TweetId');
+                // let tweetId = localStorage.getItem('TweetId');
+                let tweetId = this.tweetId;
+
 
                 if (this.isretweeted) {
 
@@ -362,8 +381,6 @@ export default {
             }
 
         },
-
-
 
     }
 

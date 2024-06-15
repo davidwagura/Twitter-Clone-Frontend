@@ -118,9 +118,7 @@ import axiosInstance from '@/axiosInstance';
 
 import CommentsPage from './CommentsPage.vue';
 
-import axios from 'axios';
-
-import { useAlertsStore } from '@/stores/pinia';
+import { useUserIdStore } from '@/stores/userId.js';
 
 export default {
 
@@ -129,18 +127,6 @@ export default {
         CommentsPage,
 
     },
-
-    setup() {
-
-        const userStore = useAlertsStore();
-
-        return {
-
-            userStore,
-
-        };
-
-    },  
 
     data () {
 
@@ -176,8 +162,19 @@ export default {
         }
 
     },
-    
 
+    computed: {
+
+        userId() {
+
+        const userIdStore = useUserIdStore();
+
+        return userIdStore.userId;
+
+        }
+
+    },
+    
     async created() {
 
         await this.getTweet();
@@ -188,7 +185,6 @@ export default {
 
         //Get tweet by Id.
         async getTweet() {
-
 
             let id = localStorage.getItem('TweetId');
 
@@ -205,21 +201,6 @@ export default {
                 console.error(error);
 
             }   
-
-            //pinia comments
-            try {
-                
-                const comments = axios.get('http://127.0.0.1:8000/api/comment/23');
-
-                this.userStore.fetchComments(comments);
-
-                this.comments = comments;
-
-            } catch (error) {
-
-                console.error('Failed to fetch comments:', error);
-
-            }
 
         },
 
@@ -245,13 +226,19 @@ export default {
 
             try {
 
-                let id = localStorage.getItem('userId');
+                // let id = localStorage.getItem('userId');
+
+                let id = this.userId;
+
+                console.log(this.userId);
 
                 let tweetId = localStorage.getItem('TweetId');
 
-                await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId)});
+                const res = await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId)});
                 
                 this.body = '';
+
+                console.log(res);
 
                 await this.getComments();
 

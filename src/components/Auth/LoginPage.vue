@@ -59,6 +59,10 @@
 <script>
 import axios from 'axios' 
 
+import { useUserIdStore } from '@/stores/userId';
+
+import { useTokenStore } from '@/stores/token';
+
 export default {
 
     name: 'LoginPage',
@@ -94,6 +98,17 @@ export default {
                 localStorage.setItem('token', response.data.token);
 
                 localStorage.setItem('userId', response.data.user.id);
+
+                 // Use Pinia stores
+                const userIdStore = useUserIdStore();
+
+                const tokenStore = useTokenStore();
+
+
+                userIdStore.setUserId(response.data.user.id);
+
+                tokenStore.setToken(response.data.token);
+
 
                 this.successMessage = 'You have been successfully logged in!';
 

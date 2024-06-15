@@ -111,6 +111,8 @@ import axiosInstance from '@/axiosInstance';
 
 import ReplyModal from '../modal/ReplyModal.vue'
 
+import { useUsernameStore } from '@/stores/username'
+
 export default {
 
   components: {
@@ -183,7 +185,13 @@ export default {
       
       const response = await axiosInstance.get('/tweet/' + id);
  
-      localStorage.setItem('username', response.data.tweet.user.username);
+      // localStorage.setItem('username', response.data.tweet.user.username);
+
+
+      const usernameStore = useUsernameStore();
+
+      usernameStore.setUsername(response.data.tweet.user.username)
+
 
       const user = response.data.tweet.user.username;
 

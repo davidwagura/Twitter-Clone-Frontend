@@ -228,7 +228,7 @@ export default {
 
                 // let id = localStorage.getItem('userId');
 
-                let id = this.userId;
+                let userId = this.userId;
 
                 console.log(this.userId);
 
@@ -256,7 +256,10 @@ export default {
 
             try {
 
-                let userId = localStorage.getItem('userId');
+                // let userId = localStorage.getItem('userId');
+
+                let userId = this.userId;
+
 
                 let tweetId = localStorage.getItem('TweetId');
 
@@ -275,7 +278,9 @@ export default {
 
         checkIfRetweeted() {
 
-            const userId = parseInt(localStorage.getItem('userId'));
+            // const userId = parseInt(localStorage.getItem('userId'));
+
+            let userId = parseInt(this.userId);
 
             const retweetsId = parseInt(localStorage.getItem('retweetsId'));
 
@@ -286,7 +291,9 @@ export default {
             
             try {
 
-                    let userId = localStorage.getItem('userId');
+                    // let userId = localStorage.getItem('userId');
+                    let userId = this.userId;
+
 
                     let tweetId = localStorage.getItem('TweetId');
 
@@ -322,7 +329,9 @@ export default {
             
             try {
 
-                    let userId = localStorage.getItem('userId');
+                    // let userId = localStorage.getItem('userId');
+                    let userId = this.userId;
+
 
                     let tweetId = localStorage.getItem('TweetId');
 

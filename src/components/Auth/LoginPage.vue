@@ -59,9 +59,9 @@
 <script>
 import axios from 'axios' 
 
-import { useUserIdStore } from '@/stores/userId';
+import { useUserIdStore } from '@/stores/userId.js';
 
-import { useTokenStore } from '@/stores/token';
+import { useTokenStore } from '@/stores/token.js';
 
 export default {
 
@@ -95,9 +95,9 @@ export default {
 
                 console.log(response);
 
-                localStorage.setItem('token', response.data.token);
+                // localStorage.setItem('token', response.data.token);
 
-                localStorage.setItem('userId', response.data.user.id);
+                // localStorage.setItem('userId', response.data.user.id);
 
                  // Use Pinia stores
                 const userIdStore = useUserIdStore();

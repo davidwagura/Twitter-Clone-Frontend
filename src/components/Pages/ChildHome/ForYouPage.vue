@@ -173,7 +173,23 @@ export default {
 
       return userIdStore.userId;
 
-    }
+    },
+
+    username() {
+
+      const usernameStore = useUsernameStore();
+
+      return usernameStore.username;
+
+    },
+
+    tweetId() {
+
+      const tweetIdStore = useTweetIdStore();
+
+      return tweetIdStore.tweetId;
+
+    },
 
   },
 
@@ -211,7 +227,7 @@ export default {
 
       const tweetIdStore = useTweetIdStore();
 
-      useTweetIdStore = setTweetId(id);
+      tweetIdStore.setTweetId(id);
 
 
       const user = response.data.tweet.user.username;

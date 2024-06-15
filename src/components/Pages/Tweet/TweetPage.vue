@@ -120,7 +120,7 @@ import CommentsPage from './CommentsPage.vue';
 
 import { useUserIdStore } from '@/stores/userId';
 
-import { useTweetIdStore, useTweetIdStore } from '@/stores/tweetId';
+import { useTweetIdStore } from '@/stores/tweetId';
 
 export default {
 
@@ -240,7 +240,7 @@ export default {
 
                 // let id = localStorage.getItem('userId');
 
-                let userId = this.userId;
+                let id = this.userId;
 
                 console.log(this.userId);
 

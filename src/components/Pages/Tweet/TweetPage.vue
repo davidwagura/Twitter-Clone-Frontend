@@ -197,7 +197,7 @@ export default {
         //Get tweet by Id.
         async getTweet() {
 
-            let id = localStorage.getItem('TweetId');
+            let id = localStorage.getItem('tweetId');
             // let id = this.tweetId;
 
             try {
@@ -244,7 +244,7 @@ export default {
 
                 // console.log(this.userId);
 
-                let tweetId = localStorage.getItem('TweetId');
+                let tweetId = localStorage.getItem('tweetId');
                 // let tweetId = this.tweetId;
 
                 const res = await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId)});
@@ -274,7 +274,7 @@ export default {
                 // let userId = this.userId;
 
 
-                let tweetId = localStorage.getItem('TweetId');
+                let tweetId = localStorage.getItem('tweetId');
                 // let tweetId = this.tweetId;
 
 
@@ -300,7 +300,7 @@ export default {
                     // let userId = this.userId;
 
 
-                    let tweetId = localStorage.getItem('TweetId');
+                    let tweetId = localStorage.getItem('tweetId');
                     // let tweetId = this.tweetId;
 
 
@@ -340,7 +340,7 @@ export default {
                 // let userId = this.userId;
 
 
-                let tweetId = localStorage.getItem('TweetId');
+                let tweetId = localStorage.getItem('tweetId');
                 // let tweetId = this.tweetId;
 
 

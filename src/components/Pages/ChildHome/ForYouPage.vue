@@ -1,14 +1,14 @@
 <template>
 
-  <div class="">
+  <div class="w-full">
 
-    <div  class="w-full ">
+    <div v-if="activeSection === 'for-you'">
 
       <ul v-if="tweets.length">
 
         <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
 
-          <div @click="fetchTweet(tweet.id)">
+          <div @click="fetchTweet(tweet.id), setActiveSection('tweet')" class="m-1">
 
             <div class="flex items-center justify-between">
 
@@ -100,6 +100,12 @@
 
     </div>
 
+    <div v-else-if="activeSection === 'tweet'">
+
+      <tweet-page @back-to-for-you="setActiveSection('for-you')"></tweet-page>
+
+    </div>
+
   </div>
 
 </template>
@@ -111,6 +117,8 @@ import axiosInstance from '@/axiosInstance';
 
 import ReplyModal from '../modal/ReplyModal.vue'
 
+import TweetPage from '../Tweet/TweetPage.vue';
+
 // import { useUsernameStore } from '@/stores/username'
 
 // import { useUserIdStore } from '@/stores/userId';
@@ -121,7 +129,9 @@ export default {
 
   components: {
 
-    ReplyModal
+    ReplyModal,
+
+    TweetPage,
 
   },
 
@@ -143,6 +153,8 @@ export default {
         require('../../../assets/images/10.jpeg'),
 
       ],
+
+      activeSection: 'for-you',
 
       tweets: [],
 
@@ -205,6 +217,12 @@ export default {
 
     },
 
+    setActiveSection(section) {
+
+      this.activeSection = section;
+
+    },
+
     formatDate(dateString) {
 
       const options = {minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
@@ -224,7 +242,7 @@ export default {
 
       // usernameStore.setUsername(response.data.tweet.user.username);
 
-
+      localStorage.setItem('tweetId', id);
       // const tweetIdStore = useTweetIdStore();
 
       // tweetIdStore.setTweetId(id);

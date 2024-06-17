@@ -48,7 +48,7 @@
             <!-- The retweet icon svg -->
             <button @click="toggleRetweet" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="isretweeted ? 'green' : 'gray'" class="size-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="isRetweeted ? 'green' : 'gray'" class="size-6">
 
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
 
@@ -118,9 +118,9 @@ import axiosInstance from '@/axiosInstance';
 
 import CommentsPage from './CommentsPage.vue';
 
-import { useUserIdStore } from '@/stores/userId';
+// import { useUserIdStore } from '@/stores/userId';
 
-import { useTweetIdStore } from '@/stores/tweetId';
+// import { useTweetIdStore } from '@/stores/tweetId';
 
 export default {
 
@@ -159,32 +159,32 @@ export default {
 
             isLiked: false,
 
-            isretweeted: false,
+            isRetweeted: false,
             
         }
 
     },
 
-    computed: {
+    // computed: {
 
-        userId() {
+    //     userId() {
 
-        const userIdStore = useUserIdStore();
+    //     const userIdStore = useUserIdStore();
 
-        return userIdStore.userId;
+    //     return userIdStore.userId;
 
-        },
+    //     },
 
-        tweetId() {
+    //     tweetId() {
 
-            const tweetIdStore = useTweetIdStore();
+    //         const tweetIdStore = useTweetIdStore();
             
-            return tweetIdStore.tweetId;
+    //         return tweetIdStore.tweetId;
 
-        },
+    //     },
 
 
-    },
+    // },
     
     async created() {
 
@@ -197,8 +197,8 @@ export default {
         //Get tweet by Id.
         async getTweet() {
 
-            // let id = localStorage.getItem('TweetId');
-            let id = this.tweetId;
+            let id = localStorage.getItem('TweetId');
+            // let id = this.tweetId;
 
             try {
 
@@ -238,14 +238,14 @@ export default {
 
             try {
 
-                // let id = localStorage.getItem('userId');
+                let id = localStorage.getItem('userId');
 
-                let id = this.userId;
+                // let id = this.userId;
 
-                console.log(this.userId);
+                // console.log(this.userId);
 
-                // let tweetId = localStorage.getItem('TweetId');
-                let tweetId = this.tweetId;
+                let tweetId = localStorage.getItem('TweetId');
+                // let tweetId = this.tweetId;
 
                 const res = await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId)});
                 
@@ -269,13 +269,13 @@ export default {
 
             try {
 
-                // let userId = localStorage.getItem('userId');
+                let userId = localStorage.getItem('userId');
 
-                let userId = this.userId;
+                // let userId = this.userId;
 
 
-                // let tweetId = localStorage.getItem('TweetId');
-                let tweetId = this.tweetId;
+                let tweetId = localStorage.getItem('TweetId');
+                // let tweetId = this.tweetId;
 
 
                 const response = await axiosInstance.post(`/retweet/${tweetId}/${userId}`);
@@ -291,27 +291,17 @@ export default {
 
         },
 
-        checkIfRetweeted() {
-
-            // const userId = parseInt(localStorage.getItem('userId'));
-
-            let userId = parseInt(this.userId);
-
-            const retweetsId = parseInt(localStorage.getItem('retweetsId'));
-
-            return userId === retweetsId ? 'green' : 'gray';
-        },
 
         async toggleLike() {
             
             try {
 
-                    // let userId = localStorage.getItem('userId');
-                    let userId = this.userId;
+                    let userId = localStorage.getItem('userId');
+                    // let userId = this.userId;
 
 
-                    // let tweetId = localStorage.getItem('TweetId');
-                    let tweetId = this.tweetId;
+                    let tweetId = localStorage.getItem('TweetId');
+                    // let tweetId = this.tweetId;
 
 
                 if (this.isLiked) {
@@ -346,15 +336,15 @@ export default {
             
             try {
 
-                // let userId = localStorage.getItem('userId');
-                let userId = this.userId;
+                let userId = localStorage.getItem('userId');
+                // let userId = this.userId;
 
 
-                // let tweetId = localStorage.getItem('TweetId');
-                let tweetId = this.tweetId;
+                let tweetId = localStorage.getItem('TweetId');
+                // let tweetId = this.tweetId;
 
 
-                if (this.isretweeted) {
+                if (this.isRetweeted) {
 
                    const response =  await axiosInstance.post(`/unretweet/${tweetId}/${userId}`);
 
@@ -372,7 +362,7 @@ export default {
 
                 }
 
-                this.isretweeted = !this.isretweeted;
+                this.isRetweeted = !this.isRetweeted;
 
             } catch (error) {
 

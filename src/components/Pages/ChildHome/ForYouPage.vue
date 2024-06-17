@@ -111,11 +111,11 @@ import axiosInstance from '@/axiosInstance';
 
 import ReplyModal from '../modal/ReplyModal.vue'
 
-import { useUsernameStore } from '@/stores/username'
+// import { useUsernameStore } from '@/stores/username'
 
-import { useUserIdStore } from '@/stores/userId';
+// import { useUserIdStore } from '@/stores/userId';
 
-import { useTweetIdStore } from '@/stores/tweetId';
+// import { useTweetIdStore } from '@/stores/tweetId';
 
 export default {
 
@@ -165,33 +165,33 @@ export default {
 
   },
 
-  computed : {
+  // computed : {
 
-    userId () {
+  //   userId () {
 
-      const userIdStore = useUserIdStore();
+  //     const userIdStore = useUserIdStore();
 
-      return userIdStore.userId;
+  //     return userIdStore.userId;
 
-    },
+  //   },
 
-    username() {
+  //   username() {
 
-      const usernameStore = useUsernameStore();
+  //     const usernameStore = useUsernameStore();
 
-      return usernameStore.username;
+  //     return usernameStore.username;
 
-    },
+  //   },
 
-    tweetId() {
+  //   tweetId() {
 
-      const tweetIdStore = useTweetIdStore();
+  //     const tweetIdStore = useTweetIdStore();
 
-      return tweetIdStore.tweetId;
+  //     return tweetIdStore.tweetId;
 
-    },
+  //   },
 
-  },
+  // },
 
   methods: {
 
@@ -217,17 +217,17 @@ export default {
       
       const response = await axiosInstance.get('/tweet/' + id);
  
-      // localStorage.setItem('username', response.data.tweet.user.username);
+      localStorage.setItem('username', response.data.tweet.user.username);
+
+      //pinia store
+      // const usernameStore = useUsernameStore();
+
+      // usernameStore.setUsername(response.data.tweet.user.username);
 
 
-      const usernameStore = useUsernameStore();
+      // const tweetIdStore = useTweetIdStore();
 
-      usernameStore.setUsername(response.data.tweet.user.username);
-
-
-      const tweetIdStore = useTweetIdStore();
-
-      tweetIdStore.setTweetId(id);
+      // tweetIdStore.setTweetId(id);
 
 
       const user = response.data.tweet.user.username;
@@ -264,8 +264,8 @@ export default {
             
       try {
 
-        // const userId = localStorage.getItem('userId');
-        const userId = this.userId;
+        const userId = localStorage.getItem('userId');
+        // const userId = this.userId;
 
         if (this.isLiked) {
 
@@ -299,8 +299,8 @@ export default {
             
       try {
 
-        // let userId = localStorage.getItem('userId');
-        const userId = this.userId;
+        let userId = localStorage.getItem('userId');
+        // const userId = this.userId;
 
         if (this.isRetweeted) {
 

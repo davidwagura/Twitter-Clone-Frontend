@@ -175,6 +175,75 @@
 
       },
 
+      async toggleLike(tweet) {
+              
+        try {
+
+          const userId = localStorage.getItem('userId');
+          // const userId = this.userId;
+
+          if (this.isLiked) {
+
+            const response =  await axiosInstance.post(`/unlike/${tweet.id}/${userId}`);
+
+            console.log(response)
+
+            tweet.likes--;
+
+          } else {
+
+            const response = await axiosInstance.post(`/like/${tweet.id}/${userId}`);
+
+            console.log(response)
+
+            tweet.likes++;
+
+          }
+
+            tweet.isLiked = !tweet.isLiked;
+
+        } catch (error) {
+
+          console.error(error);
+
+        }
+
+      },
+
+      async toggleRetweet(tweet) {
+              
+        try {
+
+          let userId = localStorage.getItem('userId');
+          // const userId = this.userId;
+
+          if (this.isRetweeted) {
+
+            const response =  await axiosInstance.post(`/unretweet/${tweet.id}/${userId}`);
+
+            console.log(response)
+
+            tweet.retweets--;
+
+          } else {
+
+            const response = await axiosInstance.post(`/retweet/${tweet.id}/${userId}`);
+
+            console.log(response)
+
+            tweet.retweets++;
+
+          }
+
+            tweet.isRetweeted = !tweet.isRetweeted;
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+          
+      },
 
 
     },

@@ -28,7 +28,7 @@
             </button>
 
             <button @click="setActiveSection('following')" 
-            
+
                 :class="[
 
                     'flex-1 text-center py-2.5 font-semibold',
@@ -185,7 +185,7 @@ import axios from 'axios';
 
                     console.log(response);
 
-                    this.successMessage = response.body ? 'Tweet created successfully!' : 'Error creating tweet';
+                    this.successMessage = response ? 'Tweet created successfully!' : 'Error creating tweet';
 
                     this.data.body = '';
 

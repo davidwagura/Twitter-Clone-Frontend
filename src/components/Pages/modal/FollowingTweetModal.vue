@@ -70,13 +70,10 @@
 
     </div>
 
-    <!-- {{ tweetId }} -->
-
 </template>
   
 <script>
 import axiosInstance from '@/axiosInstance';
-
 
 export default {
 
@@ -188,6 +185,10 @@ export default {
                 this.body = '';
 
                 console.log(res)
+
+                this.closeModal();
+
+                this.getTweet();
 
             } catch(error) {
 

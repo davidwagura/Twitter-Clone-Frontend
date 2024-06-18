@@ -52,7 +52,7 @@
 
             </button>
 
-            <!-- <ReplyModal :Tweet="tweet" v-if="isModalVisible" @close="closeModal"></ReplyModal> -->
+            <FollowingTweetModalVue :Tweet="tweetId" v-if="isModalVisible" @close="closeModal"></FollowingTweetModalVue>
 
             <button @click="toggleRetweet(tweet)" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
@@ -96,13 +96,13 @@
 
   import axiosInstance from '@/axiosInstance';
 
-  // import ReplyModal from '../modal/ReplyModal.vue';
+  import FollowingTweetModalVue from '../modal/FollowingTweetModal.vue';
 
   export default {
 
     components: {
 
-      // ReplyModal,
+    FollowingTweetModalVue,
 
     },
 
@@ -126,6 +126,10 @@
       ],
 
         tweets: [],
+
+        isModalVisible: false,
+
+        tweetId: null
 
       };
 
@@ -241,6 +245,20 @@
 
         }
           
+      },
+
+      addComment(id) {
+
+        this.tweetId = id
+
+        this.isModalVisible = true;
+
+      },
+
+      closeModal() {
+
+        this.isModalVisible = false;
+
       },
 
 

@@ -6,12 +6,49 @@
 
         <div class="h-12 flex justify-between items-center relative px-4">
 
-            <button @click="setActiveSection('for-you')" :class=" { 'hover:bg-gray-400 w-40 m-4': activeSection == 'for-you' }">For You</button>
+            <button
 
-            <button @click="setActiveSection('following')" :class="{ 'hover:bg-gray-400 w-40 m-4': activeSection == 'following' }">Following</button>
+                @click="setActiveSection('for-you')"
 
-        </div>
-  
+                :class="[
+
+                    'flex-1 text-center py-2.5 font-semibold',
+
+                    activeSection === 'for-you'
+
+                    ? 'border-b-4 border-blue-500 text-black'
+
+                    : 'text-gray-500 hover:bg-gray-100'
+
+                ]"
+
+            >
+                For You
+
+            </button>
+
+            <button @click="setActiveSection('following')" 
+            
+                :class="[
+
+                    'flex-1 text-center py-2.5 font-semibold',
+
+                    activeSection === 'following'
+
+                    ? 'border-b-4 border-blue-500 text-black'
+
+                    : 'text-gray-500 hover:bg-gray-100'
+                    
+                ]"
+
+                >
+
+                    Following
+
+            </button>
+
+        </div>  
+
         <div class="border-t h-36 mb-12 p-2">
 
             <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />

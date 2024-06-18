@@ -263,6 +263,21 @@
 
       },
 
+      async fetchTweet(id) {
+      
+      const response = await axiosInstance.get('/tweet/' + id);
+ 
+      localStorage.setItem('username', response.data.tweet.user.username);
+
+      const user = response.data.tweet.user.username;
+
+      this.$router.push(`/${user}/status/${id}`);
+
+      // this.fetchTweets();
+
+    },
+
+
 
     },
 

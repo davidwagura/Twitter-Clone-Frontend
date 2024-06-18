@@ -52,7 +52,7 @@
 
             </button>
 
-            <ReplyModal :Tweet="tweet" v-if="isModalVisible" @close="closeModal"></ReplyModal>
+            <!-- <ReplyModal :Tweet="tweet" v-if="isModalVisible" @close="closeModal"></ReplyModal> -->
 
             <button @click="toggleRetweet(tweet)" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
@@ -96,13 +96,13 @@
 
   import axiosInstance from '@/axiosInstance';
 
-  import ReplyModal from '../modal/ReplyModal.vue';
+  // import ReplyModal from '../modal/ReplyModal.vue';
 
   export default {
 
     components: {
 
-      ReplyModal,
+      // ReplyModal,
 
     },
 
@@ -149,8 +149,6 @@
 
           this.tweets = response.data.tweets;
 
-          console.log(this.tweets)
-
         } catch (error) {
 
           console.error('Error fetching tweets:', error);
@@ -182,7 +180,7 @@
           const userId = localStorage.getItem('userId');
           // const userId = this.userId;
 
-          if (this.isLiked) {
+          if (tweet.isLiked) {
 
             const response =  await axiosInstance.post(`/unlike/${tweet.id}/${userId}`);
 
@@ -217,7 +215,7 @@
           let userId = localStorage.getItem('userId');
           // const userId = this.userId;
 
-          if (this.isRetweeted) {
+          if (tweet.isRetweeted) {
 
             const response =  await axiosInstance.post(`/unretweet/${tweet.id}/${userId}`);
 

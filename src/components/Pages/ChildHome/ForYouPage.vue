@@ -158,10 +158,6 @@ export default {
 
       tweets: [],
 
-      isLiked: false,
-
-      isRetweeted: false,
-
       isModalVisible: false,
 
       tweetToComment: null
@@ -285,7 +281,7 @@ export default {
         const userId = localStorage.getItem('userId');
         // const userId = this.userId;
 
-        if (this.isLiked) {
+        if (tweet.isLiked) {
 
           const response =  await axiosInstance.post(`/unlike/${tweet.id}/${userId}`);
 
@@ -320,7 +316,7 @@ export default {
         let userId = localStorage.getItem('userId');
         // const userId = this.userId;
 
-        if (this.isRetweeted) {
+        if (tweet.isRetweeted) {
 
           const response =  await axiosInstance.post(`/unretweet/${tweet.id}/${userId}`);
 

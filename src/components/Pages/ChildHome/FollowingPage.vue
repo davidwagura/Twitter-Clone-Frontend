@@ -2,19 +2,19 @@
 
   <div class="w-full">
 
-    <div v-if="tweets && tweets.user">
+    <div v-if="tweets && tweets.length">
 
       <ul>
 
         <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
-          {{ tweet }}
+          
           <div @click="fetchTweet(tweet.id)" class="cursor-pointer">
 
             <div class="flex items-center justify-between">
 
               <div class="flex items-center space-x-4">
 
-                <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />4
+                <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
                 <div v-if="tweet.user" class="text-lg font-bold">
 
@@ -110,6 +110,21 @@
 
       return {
 
+      images: [
+
+        require('../../../assets/images/1.jpeg'),
+        require('../../../assets/images/2.jpeg'),
+        require('../../../assets/images/3.jpeg'),
+        require('../../../assets/images/4.jpeg'),
+        require('../../../assets/images/5.jpeg'),
+        require('../../../assets/images/6.jpeg'),
+        require('../../../assets/images/7.jpeg'),
+        require('../../../assets/images/8.jpeg'),
+        require('../../../assets/images/9.jpeg'),
+        require('../../../assets/images/10.jpeg'),
+
+      ],
+
         tweets: [],
 
       };
@@ -143,6 +158,24 @@
         }
 
       },
+
+      formatDate(dateString) {
+
+        const options = {minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
+
+        return new Date(dateString).toLocaleDateString(undefined, options);
+
+      },
+
+      getRandomImage() {
+
+        const randomIndex = Math.floor(Math.random() * this.images.length);
+
+        return this.images[randomIndex];
+
+      },
+
+
 
     },
 

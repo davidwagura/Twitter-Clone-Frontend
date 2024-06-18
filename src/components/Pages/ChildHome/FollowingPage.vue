@@ -18,9 +18,11 @@
 
                 <div v-if="tweet.user" class="text-lg font-bold">
 
-                  {{ tweet.user.first_name }} {{ tweet.user.last_name }}
+                  <span>{{ tweet.user.first_name }} {{ tweet.user.last_name }}</span>
 
-                  <span class="text-gray-400 text-sm">@{{ tweet.user.username }}</span>
+                  <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span>
+
+                  <span class="mr-2">.</span>
 
                   <span class="text-gray-500 text-sm">{{ formatDate(tweet.created_at) }}</span>
 
@@ -48,7 +50,7 @@
 
               </svg>
 
-              <span>{{ tweet.comments ? tweet.comments.length : 0 }}</span>
+              <span>{{ tweet.comments.length }}</span>
 
             </button>
 

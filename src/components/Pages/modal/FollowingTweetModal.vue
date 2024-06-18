@@ -133,9 +133,6 @@ export default {
 
             let id = this.$props.Tweet;
 
-            console.log(this.$props.Tweet);
-            
-
             try {
 
                 const tweetResponse = await axiosInstance.get('/tweet/' + id);

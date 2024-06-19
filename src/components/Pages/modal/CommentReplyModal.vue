@@ -46,7 +46,7 @@
 
                     <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
-                    <input v-model="body" placeholder="Post your reply" class="border p-2 mb-2 w-full h-24 rounded-lg resize-none"/>
+                    <input v-model="body" placeholder="Post your reply" class="p-2 mb-2 w-full h-24 rounded-lg resize-none"/>
 
                 </div>
 
@@ -153,6 +153,8 @@ export default {
         closeModal() {
 
             this.isVisible = false;
+
+            this.$emit('close');
 
         },
 

@@ -79,7 +79,7 @@
 
             <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
-            <div class="m-12 mt-0 mr-0 shadow-lg">
+            <div class="m-12 mt-0 mr-0">
 
                 <input type="text" placeholder="Post your reply" v-model="body" class="w-full border-none p-2 mb-2 h-20">
 

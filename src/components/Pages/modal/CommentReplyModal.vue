@@ -132,14 +132,6 @@ export default {
 
         },
 
-        closeModal() {
-
-            this.isVisible = false;
-
-            this.$emit('close');
-
-        },
-
         //Generate date function and show random picture as profile functions.
         formatDate(dateString) {
 
@@ -158,6 +150,12 @@ export default {
 
         },
 
+        closeModal() {
+
+            this.isVisible = false;
+
+        },
+
         //Creating a tweet comment.
         async commentComment() {
 
@@ -172,6 +170,8 @@ export default {
                 const res = await axiosInstance.post('/commentComment/',{"body": this.body, "user_id": parseInt(userId), "comment_id": parseInt(commentId)});
                 
                 this.body = '';
+
+                this.closeModal();
 
                 console.log(res)
 

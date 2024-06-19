@@ -265,19 +265,19 @@
 
       async fetchTweet(id) {
       
-      const response = await axiosInstance.get('/tweet/' + id);
- 
-      localStorage.setItem('username', response.data.tweet.user.username);
+        const response = await axiosInstance.get('/tweet/' + id);
 
-      const user = response.data.tweet.user.username;
+        localStorage.setItem('followingTweetId', id);
+  
+        localStorage.setItem('followingUsername', response.data.tweet.user.username);
 
-      this.$router.push(`/${user}/status/${id}`);
+        const username = response.data.tweet.user.username;
 
-      // this.fetchTweets();
+        this.$router.push(`/${username}/status/${id}`);
 
-    },
+        // this.fetchTweets();
 
-
+      },
 
     },
 

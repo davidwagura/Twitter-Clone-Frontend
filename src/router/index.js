@@ -10,6 +10,8 @@ import CommentsPage from '../components/Pages/Tweet/CommentsPage.vue'
 
 import TweetPage from '../components/Pages/Tweet/TweetPage.vue'
 
+import FollowingTweet from '@/components/Pages/following/FollowingTweet.vue'
+
 
 const routes = [
 
@@ -51,18 +53,18 @@ const routes = [
     },
 
     { 
-        path: '/:user/status/:id', 
+        // path: '/:user/status/:id', 
         
         component: TweetPage 
     
     },
 
-    // { 
-    //     path: '/modal', 
+    { 
+        path: '/:username/status/:id', 
         
-    //     component: ReplyModal 
+        component: FollowingTweet 
     
-    // },
+    },
 
     
 ];

@@ -41,7 +41,7 @@
 
                 </svg>
 
-                <span class="ml-1">{{ tweet.comments.length }}</span>
+                <span class="ml-1" v-if="tweet.comments.length > 0">{{ tweet.comments.length }}</span>
 
             </button>
 
@@ -54,7 +54,7 @@
 
                 </svg>
 
-                <span class="ml-1">{{ tweet.retweets }}</span>
+                <span class="ml-1" v-if="tweet.retweets > 0">{{ tweet.retweets }}</span>
 
             </button>
 
@@ -67,7 +67,7 @@
 
                 </svg>
 
-                <span class="ml-1">{{ tweet.likes }}</span>
+                <span class="ml-1" v-if="tweet.likes > 0">{{ tweet.likes }}</span>
 
             </button>
 
@@ -252,8 +252,6 @@ export default {
                 this.body = '';
 
                 console.log(res);
-
-                await this.getComments();
 
             } catch(error) {
 

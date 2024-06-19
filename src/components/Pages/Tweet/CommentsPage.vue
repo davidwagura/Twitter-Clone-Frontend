@@ -41,7 +41,7 @@
 
               </svg>
 
-              <span class="ml-1">{{ comment.comment_comment.length }}</span>
+              <span class="ml-1" v-if="comment.comment_comment.length > 0">{{ comment.comment_comment.length }}</span>
 
             </button>
 
@@ -56,7 +56,7 @@
 
               </svg>
 
-              <span class="ml-1">{{ comment.retweets }}</span>
+              <span class="ml-1" v-if="comment.retweets > 0">{{ comment.retweets }}</span>
 
             </button>
 
@@ -69,7 +69,7 @@
 
               </svg>
 
-              <span class="ml-1">{{ comment.likes }}</span>
+              <span class="ml-1" v-if="comment.likes > 0">{{ comment.likes }}</span>
 
             </button>
 

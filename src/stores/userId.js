@@ -8,14 +8,26 @@ export const useUserIdStore = defineStore('userId', {
 
   }),
 
+  getters: {
+
+    getUserId: (state) => state.userId,
+
+  },
+
   actions: {
 
     setUserId(userId) {
 
       this.userId = userId;
 
-    }
+    },
 
-  }
+    clearUserId() {
 
+      this.userId = null;
+
+    },
+
+  },
+  
 });

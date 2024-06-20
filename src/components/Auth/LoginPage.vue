@@ -56,80 +56,64 @@
 </template>
 
 
-<script>
-import axios from 'axios' 
+<script setup>
 
-import { useUserIdStore } from '@/stores/userId.js';
+    import axios from 'axios';
 
-import { useTokenStore } from '@/stores/token.js';
+    import { useUserIdStore } from '@/stores/userId.js';
 
-export default {
+    import { useTokenStore } from '@/stores/token.js';
 
-    name: 'LoginPage',
-
-    data() {
-
-        return {
-
-            data: {
-
-                email: '',
-
-                password: '',
-
-            },
-
-            successMessage: '',
-
-        };
-
-    },
-
-    methods: {
-
-        loginForm() {
-
-            axios.post('http://127.0.0.1:8000/api/login', this.data)
-
-            .then(response => {
-
-                console.log(response);
-
-                // localStorage.setItem('token', response.data.token);
-
-                // localStorage.setItem('userId', response.data.user.id);
-
-                 // Use Pinia stores
-                const userIdStore = useUserIdStore();
-
-                const tokenStore = useTokenStore();
+    import { useRouter } from 'vue-router';
 
 
-                userIdStore.setUserId(response.data.user.id);
+    const userIdStore = useUserIdStore();
 
-                tokenStore.setToken(response.data.token);
+    const tokenStore = useTokenStore();
 
+    const router = useRouter();
 
-                this.successMessage = 'You have been successfully logged in!';
+    const data = {
 
-                setTimeout(() => {
+        email: '',
 
-                this.successMessage = '';
+        password: ''
 
-                this.$router.push('/home');
+    };
 
-                }, 3000);                 
-            })
+    let successMessage = '';
 
-            .catch(error => {
+    const loginForm = () => {
+        
+        axios.post('http://127.0.0.1:8000/api/login', data)
 
-                console.error('Error logging in user:', error);
+        .then(response => {
 
-                this.successMessage = 'Failed to login.Try again.';
-                
-            });  
+            console.log(response);
 
-        }
-    }
-}
+            userIdStore.setUserId(response.data.user.id);
+
+            tokenStore.setToken(response.data.token);
+
+            successMessage = 'You have been successfully logged in!';
+
+            setTimeout(() => {
+
+                successMessage = '';
+
+                router.push('/home');
+
+            }, 3000);
+        })
+
+        .catch(error => {
+
+            console.error('Error logging in user:', error);
+
+            successMessage = 'Failed to login. Try again.';
+
+        });
+
+    };
+
 </script>

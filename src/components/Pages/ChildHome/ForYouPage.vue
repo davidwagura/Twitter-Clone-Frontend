@@ -111,255 +111,197 @@
 </template>
 
 
-<script>
+<script setup>
 
-import axiosInstance from '@/axiosInstance';
+  import axiosInstance from '@/axiosInstance';
 
-import ReplyModal from '../modal/ReplyModal.vue'
+  import { onMounted } from 'vue';
 
-import TweetPage from '../Tweet/TweetPage.vue';
+  import { useTweetIdStore } from '@/stores/tweetId';
 
-// import { useUsernameStore } from '@/stores/username'
+  import { useUserIdStore } from '@/stores/userId.js';
 
-// import { useUserIdStore } from '@/stores/userId';
+  import ReplyModal from '../modal/ReplyModal.vue';
 
-// import { useTweetIdStore } from '@/stores/tweetId';
+  import TweetPage from '../Tweet/TweetPage.vue';
 
-export default {
+  const userIdStore = useUserIdStore();
 
-  components: {
+  const tweetIdStore = useTweetIdStore();
 
-    ReplyModal,
+  const images = [
+    require('../../../assets/images/1.jpeg'),
+    require('../../../assets/images/2.jpeg'),
+    require('../../../assets/images/3.jpeg'),
+    require('../../../assets/images/4.jpeg'),
+    require('../../../assets/images/5.jpeg'),
+    require('../../../assets/images/6.jpeg'),
+    require('../../../assets/images/7.jpeg'),
+    require('../../../assets/images/8.jpeg'),
+    require('../../../assets/images/9.jpeg'),
+    require('../../../assets/images/10.jpeg'),
 
-    TweetPage,
+  ];
 
-  },
+  let activeSection = 'for-you';
 
-  data() {
+  let tweets = [];
 
-    return {
+  let isModalVisible = false;
 
-      images: [
+  let tweetToComment = null;
 
-        require('../../../assets/images/1.jpeg'),
-        require('../../../assets/images/2.jpeg'),
-        require('../../../assets/images/3.jpeg'),
-        require('../../../assets/images/4.jpeg'),
-        require('../../../assets/images/5.jpeg'),
-        require('../../../assets/images/6.jpeg'),
-        require('../../../assets/images/7.jpeg'),
-        require('../../../assets/images/8.jpeg'),
-        require('../../../assets/images/9.jpeg'),
-        require('../../../assets/images/10.jpeg'),
+  onMounted(async () => {
 
-      ],
+    await fetchTweets();
 
-      activeSection: 'for-you',
+  });
 
-      tweets: [],
+  const fetchTweets = async () => {
 
-      isModalVisible: false,
+    try {
 
-      tweetToComment: null
+      const response = await axiosInstance.get('/for-you');
 
-    };
-    
-  //parent
-  },
+      tweets = response.data.tweets;
 
-  created() {
+      console.log(tweets)
 
-    this.fetchTweets();
+    } catch (error) {
 
-  },
+      console.error('Error fetching tweets:', error);
 
-  // computed : {
+    }
 
-  //   userId () {
+  };
 
-  //     const userIdStore = useUserIdStore();
+  // Method to set active section
+  const setActiveSection = (section) => {
 
-  //     return userIdStore.userId;
+    activeSection = section;
 
-  //   },
+  };
 
-  //   username() {
+  const formatDate = (dateString) => {
 
-  //     const usernameStore = useUsernameStore();
+    const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
-  //     return usernameStore.username;
+    return new Date(dateString).toLocaleDateString(undefined, options);
 
-  //   },
+  };
 
-  //   tweetId() {
+  const fetchTweet = async (id) => {
 
-  //     const tweetIdStore = useTweetIdStore();
+    try {
 
-  //     return tweetIdStore.tweetId;
-
-  //   },
-
-  // },
-
-  methods: {
-
-    async fetchTweets() {
-      
-      const response = await axiosInstance.get(`/for-you`);
-
-      this.tweets = response.data.tweets;
-
-      // this.fetchTweets();
-
-    },
-
-    setActiveSection(section) {
-
-      this.activeSection = section;
-
-    },
-
-    formatDate(dateString) {
-
-      const now = new Date();
-
-      const date = new Date(dateString);
-
-      Math.floor((now - date));
-
-      // console.log(diff)
-
-      const options = {minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
-
-      return new Date(dateString).toLocaleDateString(undefined, options);
-
-    },
-
-    async fetchTweet(id) {
-      
       const response = await axiosInstance.get('/tweet/' + id);
- 
+
       localStorage.setItem('username', response.data.tweet.user.username);
 
-      //pinia store
-      // const usernameStore = useUsernameStore();
-
-      // usernameStore.setUsername(response.data.tweet.user.username);
-
       localStorage.setItem('tweetId', id);
-      // const tweetIdStore = useTweetIdStore();
 
-      // tweetIdStore.setTweetId(id);
-
+      tweetIdStore.setTweetId(id);
 
       const user = response.data.tweet.user.username;
 
       this.$router.push(`/${user}/status/${id}`);
 
-      // this.fetchTweets();
+    } catch (error) {
 
-    },
+      console.error('Error fetching tweet:', error);
 
-    getRandomImage() {
+    }
 
-      const randomIndex = Math.floor(Math.random() * this.images.length);
+  };
 
-      return this.images[randomIndex];
+  const getRandomImage = () => {
 
-    },
+    const randomIndex = Math.floor(Math.random() * images.length);
 
-    addComment(id) {
+    return images[randomIndex];
 
-      this.tweetToComment = id
+  };
 
-      this.isModalVisible = true;
+  const addComment = (id) => {
 
-    },
+    tweetToComment = id;
 
-    closeModal() {
+    isModalVisible = true;
 
-      this.isModalVisible = false;
+  };
 
-    },
-    
-    async toggleLike(tweet) {
-            
-      try {
+  const closeModal = () => {
 
-        const userId = localStorage.getItem('userId');
-        // const userId = this.userId;
+    isModalVisible = false;
 
-        if (tweet.isLiked) {
+  };
 
-          const response =  await axiosInstance.post(`/unlike/${tweet.id}/${userId}`);
+  const toggleLike = async (tweet) => {
 
-          console.log(response)
+    try {
 
-          tweet.likes--;
+      const userId = userIdStore.userId;
 
-        } else {
+      if (tweet.isLiked) {
 
-          const response = await axiosInstance.post(`/like/${tweet.id}/${userId}`);
+        const response = await axiosInstance.post(`/unlike/${tweet.id}/${userId}`);
 
-          console.log(response)
+        console.log(response);
 
-          tweet.likes++;
+        tweet.likes--;
 
-        }
+      } else {
 
-          tweet.isLiked = !tweet.isLiked;
+        const response = await axiosInstance.post(`/like/${tweet.id}/${userId}`);
 
-      } catch (error) {
+        console.log(response);
 
-        console.error(error);
+        tweet.likes++;
 
       }
 
-    },
+      tweet.isLiked = !tweet.isLiked;
 
-    async toggleRetweet(tweet) {
-            
-      try {
+    } catch (error) {
 
-        let userId = localStorage.getItem('userId');
-        // const userId = this.userId;
+      console.error('Error toggling like:', error);
 
-        if (tweet.isRetweeted) {
+    }
 
-          const response =  await axiosInstance.post(`/unretweet/${tweet.id}/${userId}`);
+  };
 
-          console.log(response)
+  const toggleRetweet = async (tweet) => {
 
-          tweet.retweets--;
+    try {
 
-        } else {
+      const userId = userIdStore.userId;
 
-          const response = await axiosInstance.post(`/retweet/${tweet.id}/${userId}`);
+      if (tweet.isRetweeted) {
 
-          console.log(response)
+        const response = await axiosInstance.post(`/unretweet/${tweet.id}/${userId}`);
 
-          tweet.retweets++;
+        console.log(response);
 
-        }
+        tweet.retweets--;
 
-          tweet.isRetweeted = !tweet.isRetweeted;
+      } else {
 
-      } catch (error) {
+        const response = await axiosInstance.post(`/retweet/${tweet.id}/${userId}`);
 
-          console.error(error);
+        console.log(response);
+
+        tweet.retweets++;
 
       }
-        
-    },
 
-  },
+      tweet.isRetweeted = !tweet.isRetweeted;
 
-};
+    } catch (error) {
+
+      console.error('Error toggling retweet:', error);
+
+    }
+
+  };
 
 </script>
-
-
-
-
-
-

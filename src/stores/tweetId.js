@@ -8,14 +8,26 @@ export const useTweetIdStore  = defineStore('tweetId', {
 
     }),
 
+    getters: {
+
+        getTweetId: (state) => state.tweetId,
+
+    },
+
     actions: {
 
         setTweetId(tweetId) {
 
             this.tweetId = tweetId;
 
-        }
+        },
 
+        clearTweetId() {
+
+            this.tweetId = null;
+      
+        },
+      
     }
 
 });

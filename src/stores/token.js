@@ -8,14 +8,26 @@ export const useTokenStore = defineStore('token', {
 
   }),
 
+  getters: {
+
+    getToken: (state) => state.token,
+
+  },
+
   actions: {
 
     setToken(token) {
 
       this.token = token;
 
-    }
+    },
 
-  }
+    clearToken() {
 
+      this.token = null;
+
+    },
+
+  },
+  
 });

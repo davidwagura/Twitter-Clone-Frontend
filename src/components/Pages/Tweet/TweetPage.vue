@@ -112,265 +112,176 @@
 </template>
 
 
-<script>
+<script setup>
+    import axiosInstance from '@/axiosInstance';
+    
+    import {  onMounted } from 'vue';
 
-import axiosInstance from '@/axiosInstance';
+    import { useUserIdStore } from '@/stores/userId.js';
 
-import CommentsPage from './CommentsPage.vue';
+    const userIdStore = useUserIdStore();
 
-// import { useUserIdStore } from '@/stores/userId';
+    const images = [
 
-// import { useTweetIdStore } from '@/stores/tweetId';
+    require('../../../assets/images/1.jpeg'),
+    require('../../../assets/images/2.jpeg'),
+    require('../../../assets/images/3.jpeg'),
+    require('../../../assets/images/4.jpeg'),
+    require('../../../assets/images/5.jpeg'),
+    require('../../../assets/images/6.jpeg'),
+    require('../../../assets/images/7.jpeg'),
+    require('../../../assets/images/8.jpeg'),
+    require('../../../assets/images/9.jpeg'),
+    require('../../../assets/images/10.jpeg'),
 
-export default {
+    ];
 
-    components: {
+    let tweet = {};
 
-        CommentsPage,
+    let user = {};
 
-    },
+    let body = '';
 
-    data () {
+    let isLiked = false;
 
-        return {
+    let isRetweeted = false;
 
-            images: [
+    const getTweet = async () => {
 
-                require('../../../assets/images/1.jpeg'),
-                require('../../../assets/images/2.jpeg'),
-                require('../../../assets/images/3.jpeg'),
-                require('../../../assets/images/4.jpeg'),
-                require('../../../assets/images/5.jpeg'),
-                require('../../../assets/images/6.jpeg'),
-                require('../../../assets/images/7.jpeg'),
-                require('../../../assets/images/8.jpeg'),
-                require('../../../assets/images/9.jpeg'),
-                require('../../../assets/images/10.jpeg'),
+        let id = localStorage.getItem('tweetId');
 
-            ],
+        try {
 
-            tweet: {},
+            const tweetResponse = await axiosInstance.get('/tweet/' + id);
 
-            user: {},
+            tweet = tweetResponse.data.tweet;
 
-            body: '',
+            user = tweetResponse.data.tweet.user;
 
-            comments: [],
+        } catch (error) {
 
-            isLiked: false,
+            console.error(error);
 
-            isRetweeted: false,
-            
         }
 
-    },
+    };
 
-    // computed: {
+    const formatDate = (dateString) => {
 
-    //     userId() {
+        const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
-    //     const userIdStore = useUserIdStore();
+        return new Date(dateString).toLocaleDateString(undefined, options);
 
-    //     return userIdStore.userId;
+    };
 
-    //     },
+    const getRandomImage = () => {
 
-    //     tweetId() {
-
-    //         const tweetIdStore = useTweetIdStore();
-            
-    //         return tweetIdStore.tweetId;
-
-    //     },
-
-
-    // },
-    
-    async created() {
-
-        await this.getTweet();
-
-    },
-
-    methods: {
-
-        //Get tweet by Id.
-        async getTweet() {
-
-            let id = localStorage.getItem('tweetId');
-            // let id = this.tweetId;
-
-            try {
-
-                const tweetResponse = await axiosInstance.get('/tweet/' + id);
-
-                this.tweet = tweetResponse.data.tweet;
-
-                this.user = tweetResponse.data.tweet.user;
-
-            } catch (error) {
-
-                console.error(error);
-
-            }   
-
-        },
-
-        //Generate date function and show random picture as profile function.
-        formatDate(dateString) {
-
-            const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
-
-            return new Date(dateString).toLocaleDateString(undefined, options);
-
-        },
-
-        getRandomImage() {
-
-            const randomIndex = Math.floor(Math.random() * this.images.length);
-
-            return this.images[randomIndex];
-
-        },
-
-        //Creating a tweet comment.
-        async commentTweet() {
-
-            try {
-
-                let id = localStorage.getItem('userId');
-
-                // let id = this.userId;
-
-                // console.log(this.userId);
-
-                let tweetId = localStorage.getItem('tweetId');
-                // let tweetId = this.tweetId;
-
-                const res = await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId)});
-                
-                this.body = '';
-
-                console.log(res);
-
-            } catch(error) {
-
-                console.error(error);
-
-            }
-
-        },
+        const randomIndex = Math.floor(Math.random() * images.length);
         
+        return images[randomIndex];
 
-        //Tweet like and retweet functionality.
-        async userRetweet() {
+    };
 
-            try {
+    const commentTweet = async () => {
 
-                let userId = localStorage.getItem('userId');
+        try {
 
-                // let userId = this.userId;
+            let id = localStorage.getItem('userId');
 
+            const tweetId = localStorage.getItem('tweetId');
 
-                let tweetId = localStorage.getItem('tweetId');
-                // let tweetId = this.tweetId;
+            const res = await axiosInstance.post('/tweet/comment/', { "body": body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId) });
 
+            body = '';
 
-                const response = await axiosInstance.post(`/retweet/${tweetId}/${userId}`);
+            console.log(res);
 
-                localStorage.setItem('retweetsId', response.data.tweet.retweets_id);
+        } catch(error) {
 
+            console.error(error);
 
-            } catch(error) {
+        }
 
-                console.error(error);
-
-            }
-
-        },
+    };
 
 
-        async toggleLike() {
-            
-            try {
+    const toggleLike = async () => {
 
-                    let userId = localStorage.getItem('userId');
-                    // let userId = this.userId;
+        try {
 
+            const userId = userIdStore.userId;
 
-                    let tweetId = localStorage.getItem('tweetId');
-                    // let tweetId = this.tweetId;
+            const tweetId = localStorage.getItem('tweetId');
 
+            if (isLiked) {
 
-                if (this.isLiked) {
+            const response = await axiosInstance.post(`/unlike/${tweetId}/${userId}`);
 
-                   const response =  await axiosInstance.post(`/unlike/${tweetId}/${userId}`);
+            console.log(response);
 
-                   console.log(response)
+            tweet.likes--;
 
-                    this.tweet.likes--;
+            } else {
 
-                } else {
+            const response = await axiosInstance.post(`/like/${tweetId}/${userId}`);
 
-                    const response = await axiosInstance.post(`/like/${tweetId}/${userId}`);
+            console.log(response);
 
-                    console.log(response)
-
-                    this.tweet.likes++;
-
-                }
-
-                this.isLiked = !this.isLiked;
-
-            } catch (error) {
-
-                console.error(error);
+            tweet.likes++;
 
             }
 
-        },
+            isLiked = !isLiked;
 
-        async toggleRetweet() {
-            
-            try {
+        } catch (error) {
 
-                let userId = localStorage.getItem('userId');
-                // let userId = this.userId;
+            console.error(error);
 
+        }
 
-                let tweetId = localStorage.getItem('tweetId');
-                // let tweetId = this.tweetId;
+    };
 
+    const toggleRetweet = async () => {
 
-                if (this.isRetweeted) {
+        try {
 
-                   const response =  await axiosInstance.post(`/unretweet/${tweetId}/${userId}`);
+            const userId = userIdStore.userId;
 
-                   console.log(response)
+            const tweetId = localStorage.getItem('tweetId');
 
-                    this.tweet.retweets--;
+            if (isRetweeted) {
 
-                } else {
+            const response = await axiosInstance.post(`/unretweet/${tweetId}/${userId}`);
 
-                    const response = await axiosInstance.post(`/retweet/${tweetId}/${userId}`);
+            console.log(response);
 
-                    console.log(response)
+            tweet.retweets--;
 
-                    this.tweet.retweets++;
+            } else {
 
-                }
+            const response = await axiosInstance.post(`/retweet/${tweetId}/${userId}`);
 
-                this.isRetweeted = !this.isRetweeted;
+            console.log(response);
 
-            } catch (error) {
-
-                console.error(error);
+            tweet.retweets++;
 
             }
 
-        },
+            isRetweeted = !isRetweeted;
 
-    }
+        } catch (error) {
 
-}
+            console.error(error);
+
+        }
+
+    };
+
+    // Fetch tweet on component creation
+    onMounted(async () => {
+
+        await getTweet();
+
+    });
+    
 </script>

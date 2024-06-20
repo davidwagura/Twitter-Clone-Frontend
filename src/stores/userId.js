@@ -22,12 +22,6 @@ export const useUserIdStore = defineStore('userId', {
 
     },
 
-    clearUserId() {
-
-      this.userId = null;
-
-    },
-
   },
   
 });

@@ -117,9 +117,13 @@
     
     import {  onMounted } from 'vue';
 
-    import { useUserIdStore } from '@/stores/userId.js';
+    import { useUserIdStore } from '@/stores/userId.js'; 
+
+    import { useTweetIdStore } from '@/stores/tweetId.js';
 
     const userIdStore = useUserIdStore();
+
+    const tweetIdStore = useTweetIdStore();
 
     const images = [
 
@@ -148,7 +152,7 @@
 
     const getTweet = async () => {
 
-        let id = localStorage.getItem('tweetId');
+        let id = tweetIdStore.tweetId;
 
         try {
 
@@ -186,9 +190,9 @@
 
         try {
 
-            let id = localStorage.getItem('userId');
+            let id = userIdStore.userId;
 
-            const tweetId = localStorage.getItem('tweetId');
+            const tweetId = tweetIdStore.tweetId;
 
             const res = await axiosInstance.post('/tweet/comment/', { "body": body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId) });
 
@@ -211,7 +215,7 @@
 
             const userId = userIdStore.userId;
 
-            const tweetId = localStorage.getItem('tweetId');
+            const tweetId = tweetIdStore.tweetId;
 
             if (isLiked) {
 
@@ -247,7 +251,7 @@
 
             const userId = userIdStore.userId;
 
-            const tweetId = localStorage.getItem('tweetId');
+            const tweetId = tweetIdStore.tweetId;
 
             if (isRetweeted) {
 
@@ -283,5 +287,5 @@
         await getTweet();
 
     });
-    
+
 </script>

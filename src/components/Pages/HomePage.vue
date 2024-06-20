@@ -81,135 +81,98 @@
 
 </template>
   
-<script>
-import NavPage from '../Navigation Page/NavPage.vue';
+<script setup>
+    import { ref, computed } from 'vue';
 
-import ForYouPage from './ChildHome/ForYouPage.vue';
+    import axios from 'axios';
 
-import FollowingPage from './ChildHome/FollowingPage.vue';
+    import NavPage from '../Navigation Page/NavPage.vue';
 
-import TweetPage from './Tweet/TweetPage.vue';
+    import ForYouPage from './ChildHome/ForYouPage.vue';
 
-import axios from 'axios';
+    import FollowingPage from './ChildHome/FollowingPage.vue';
 
-    export default {
+    import { useUserIdStore } from '@/stores/userId.js';
 
-        name: 'HomePage',
+    const userIdStore = useUserIdStore();
 
-        components: {
+    const images = [
 
-            NavPage: NavPage,
+        require('../../assets/images/1.jpeg'),
+        require('../../assets/images/2.jpeg'),
+        require('../../assets/images/3.jpeg'),
+        require('../../assets/images/4.jpeg'),
+        require('../../assets/images/5.jpeg'),
+        require('../../assets/images/6.jpeg'),
+        require('../../assets/images/7.jpeg'),
+        require('../../assets/images/8.jpeg'),
+        require('../../assets/images/9.jpeg'),
+        require('../../assets/images/10.jpeg'),
+    ];
 
-            TweetPage: TweetPage,
+    const activeSection = ref('for-you');
 
-        },
+    const userId = userIdStore.userId;
 
-        data() {
+    const data = ref({
 
-            let id = localStorage.getItem('userId')
+        body: '',
 
-            return {
+        user_id: parseInt(userId),
 
-                images: [
+    });
 
-                    require('../../assets/images/1.jpeg'),
-                    require('../../assets/images/2.jpeg'),
-                    require('../../assets/images/3.jpeg'),
-                    require('../../assets/images/4.jpeg'),
-                    require('../../assets/images/5.jpeg'),
-                    require('../../assets/images/6.jpeg'),
-                    require('../../assets/images/7.jpeg'),
-                    require('../../assets/images/8.jpeg'),
-                    require('../../assets/images/9.jpeg'),
-                    require('../../assets/images/10.jpeg'),
+    const successMessage = ref('');
 
-                ],
+    const currentSectionComponent = computed(() => {
 
-                activeSection: 'for-you',
+        return activeSection.value === 'for-you' ? ForYouPage : FollowingPage;
 
-                data: {
+    });
 
-                    body: '',
+    function setActiveSection(section) {
 
-                    user_id: parseInt(id)
+        activeSection.value = section;
 
-                },
+    }
 
-                successMessage: '',
+    function getRandomImage() {
 
-                tweet: {},
+        const randomIndex = Math.floor(Math.random() * images.length);
 
-                comments: [],
+        return images[randomIndex];
 
-                user: {},
+    }
 
-            };
+    async function createTweet() {  
 
-        },
+        try {
 
-        computed: {
+            const response = await axios.post('http://127.0.0.1:8000/api/tweet', {
 
-            currentSectionComponent() {
+                body: data.value.body,
 
-                return this.activeSection === 'for-you' ? ForYouPage : FollowingPage;
-                
-            },
+                user_id: data.value.user_id,
 
-        },
+            });
 
-        methods: {
+            successMessage.value = response ? 'Tweet created successfully!' : 'Error creating tweet';
 
-            setActiveSection(section) {
+            data.value.body = '';
 
-                this.activeSection = section;
+            setTimeout(() => {
 
-            },
+                successMessage.value = '';
 
-            getRandomImage() {
+            }, 2000);
 
-                const randomIndex = Math.floor(Math.random() * this.images.length);
+        } catch (error) {
 
-                return this.images[randomIndex];
+            console.error('Error creating tweet:', error);
 
-            },
+            successMessage.value = 'Failed to create tweet. Try again';
 
-            createTweet() {
+        }
 
-                let id = localStorage.getItem('userId')
-
-                let body = this.data.body
-
-                axios.post('http://127.0.0.1:8000/api/tweet', {"body": body, "user_id": parseInt(id)})
-
-                .then(response => {
-
-                    console.log(response);
-
-                    this.successMessage = response ? 'Tweet created successfully!' : 'Error creating tweet';
-
-                    this.data.body = '';
-
-                    setTimeout(() =>{
-
-                        this.successMessage = "";
-
-                    }, 2000);    
-                                
-                })
-
-                .catch(error => {
-
-                    console.error('Error creating tweet:', error);
-
-                    this.successMessage = 'Failed to create tweet.Try again';
-
-                });
-
-            },
-            
-
-        },
-
-    };
-
+    }
 </script>

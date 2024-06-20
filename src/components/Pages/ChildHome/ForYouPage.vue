@@ -102,7 +102,7 @@
 
     <div v-else-if="activeSection === 'tweet'">
 
-      <tweet-page @back-to-for-you="setActiveSection('for-you')"></tweet-page>
+      <tweet-page @back="setActiveSection('for-you')"></tweet-page>
 
     </div>
 
@@ -115,9 +115,9 @@
 
   import axiosInstance from '@/axiosInstance';
 
-  import { onMounted } from 'vue';
+  import { onMounted,ref } from 'vue';
 
-  import { useTweetIdStore } from '@/stores/tweetId';
+  import { useTweetIdStore } from '@/stores/tweetId.js';
 
   import { useUserIdStore } from '@/stores/userId.js';
 
@@ -145,7 +145,7 @@
 
   let activeSection = 'for-you';
 
-  let tweets = [];
+  let tweets = ref([]);
 
   let isModalVisible = false;
 
@@ -164,6 +164,11 @@
       const response = await axiosInstance.get('/for-you');
 
       tweets = response.data.tweets;
+
+      console.log(tweetIdStore.tweetId)
+
+      console.log(userIdStore.userId)
+
 
       console.log(tweets)
 
@@ -197,8 +202,6 @@
       const response = await axiosInstance.get('/tweet/' + id);
 
       localStorage.setItem('username', response.data.tweet.user.username);
-
-      localStorage.setItem('tweetId', id);
 
       tweetIdStore.setTweetId(id);
 

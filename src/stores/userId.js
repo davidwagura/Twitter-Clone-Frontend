@@ -24,4 +24,6 @@ export const useUserIdStore = defineStore('userId', {
 
   },
   
+  persist: true,  
+
 });

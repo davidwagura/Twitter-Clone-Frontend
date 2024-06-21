@@ -4,9 +4,9 @@
 
     <div v-if="activeSection === 'for-you'">
 
-      <ul v-if="tweets.length">
+      <ul v-if="true">
 
-        <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
+        <li v-for="tweet in tweetsStore.tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
 
           <div @click="fetchTweet(tweet.id), setActiveSection('tweet')" class="m-1">
 
@@ -115,21 +115,30 @@
 
   import axiosInstance from '@/axiosInstance';
 
-  import { onMounted,ref } from 'vue';
+  import { onMounted } from 'vue';
 
   import { useTweetIdStore } from '@/stores/tweetId.js';
 
   import { useUserIdStore } from '@/stores/userId.js';
 
+  import { useTweetsStore } from '@/stores/tweets';
+
   import ReplyModal from '../modal/ReplyModal.vue';
 
   import TweetPage from '../Tweet/TweetPage.vue';
+
+  import { useRouter } from 'vue-router';
 
   const userIdStore = useUserIdStore();
 
   const tweetIdStore = useTweetIdStore();
 
+  const tweetsStore = useTweetsStore();
+
+  const router = useRouter();  
+
   const images = [
+    
     require('../../../assets/images/1.jpeg'),
     require('../../../assets/images/2.jpeg'),
     require('../../../assets/images/3.jpeg'),
@@ -144,8 +153,6 @@
   ];
 
   let activeSection = 'for-you';
-
-  let tweets = ref([]);
 
   let isModalVisible = false;
 
@@ -163,14 +170,11 @@
 
       const response = await axiosInstance.get('/for-you');
 
-      tweets = response.data.tweets;
+      tweetsStore.setTweets(response.data.tweets);
 
       console.log(tweetIdStore.tweetId)
 
       console.log(userIdStore.userId)
-
-
-      console.log(tweets)
 
     } catch (error) {
 
@@ -207,7 +211,7 @@
 
       const user = response.data.tweet.user.username;
 
-      this.$router.push(`/${user}/status/${id}`);
+      router.push(`/${user}/status/${id}`);
 
     } catch (error) {
 

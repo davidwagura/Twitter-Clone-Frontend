@@ -28,6 +28,8 @@ export const useTweetIdStore  = defineStore('tweetId', {
       
         },
       
-    }
+    },
+
+    persist: true,  
 
 });

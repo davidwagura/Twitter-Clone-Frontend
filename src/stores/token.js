@@ -29,5 +29,7 @@ export const useTokenStore = defineStore('token', {
     },
 
   },
+
+  persist: true,  
   
 });

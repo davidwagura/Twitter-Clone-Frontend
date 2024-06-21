@@ -53,14 +53,14 @@ const routes = [
     },
 
     { 
-        // path: '/:user/status/:id', 
+        path: '/:user/status/:id', 
         
         component: TweetPage 
     
     },
 
     { 
-        path: '/:username/status/:id', 
+        // path: '/:username/status/:id', 
         
         component: FollowingTweet 
     

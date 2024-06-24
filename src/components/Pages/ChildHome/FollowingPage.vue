@@ -151,6 +151,8 @@
 
           const userId = localStorage.getItem('userId');
 
+          console.log(userId)
+
           const response = await axiosInstance.get(`/followingTweets/${userId}`);
 
           this.tweets = response.data.tweets;

@@ -1,7 +1,7 @@
 <template>
 
-    <div v-if="tweet && tweet.comments" class="p-4 border-t">
-
+    <div v-if="tweet.comments" class="p-4 border-t"> 
+        
         <div class="flex items-center justify-between">
 
             <div class="flex items-center space-x-4">
@@ -10,9 +10,9 @@
 
                 <div class="font-bold text-lg">
 
-                    <span>{{ user.first_name }} {{ user.last_name }}</span>
+                    <span>{{ tweet.user.first_name }} {{ tweet.user.last_name }}</span>
 
-                    <span class="text-gray-400 text-sm mr-2">@{{ user.username }}</span>
+                    <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span>
 
                 </div>
 
@@ -22,7 +22,7 @@
 
         <div>
 
-            <div class="flex justify-start ml-12 mb-3">{{ tweet.body }}</div>
+            <div class="flex justify-start ml-12 mb-3">{{ tweet.body  }}</div>
 
             <span class="text-gray-500 text-sm ml-12">{{ formatDate(tweet.created_at) }}</span>
 
@@ -75,7 +75,7 @@
 
         <div class="border-t h-36 mb-20 p-2">
 
-            <p class="ml-20">Replying to <span class="text-blue-500">@{{ tweet.user.username }}</span></p>
+            <p class="ml-20">Replying to <span class="text-blue-500">@{{ tweetStore.tweet.user.username }}</span></p>
 
             <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
@@ -103,6 +103,7 @@
 
     <div v-else class="flex items-center justify-center h-screen">
 
+        {{ tweetStore.tweet }}
         <span>Loading...</span>
 
     </div>
@@ -121,9 +122,15 @@
 
     import { useTweetIdStore } from '@/stores/tweetId.js';
 
+    import { useTweetsStore } from '@/stores/tweets';
+
     const userIdStore = useUserIdStore();
 
     const tweetIdStore = useTweetIdStore();
+
+    const tweetStore = useTweetsStore();
+
+    const userStore = useTweetsStore();
 
     const images = [
 
@@ -142,8 +149,6 @@
 
     let tweet = {};
 
-    let user = {};
-
     let body = '';
 
     let isLiked = false;
@@ -154,13 +159,15 @@
 
         let id = tweetIdStore.tweetId;
 
+        console.log(id)
+
         try {
 
             const tweetResponse = await axiosInstance.get('/tweet/' + id);
 
-            tweet = tweetResponse.data.tweet;
+            tweetStore.setTweet(tweetResponse.data.tweet);
 
-            user = tweetResponse.data.tweet.user;
+            tweet = userStore.tweet;
 
         } catch (error) {
 

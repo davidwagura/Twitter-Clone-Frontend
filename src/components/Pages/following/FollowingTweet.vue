@@ -172,7 +172,9 @@ export default {
         //Get tweet by Id.
         async getTweet() {
 
-            let id = localStorage.getItem('followingTweetId');
+            let id = parseInt(localStorage.getItem('followingTweetId'));
+
+            console.log(id)
 
             try {
 

@@ -6,11 +6,15 @@ export const useTweetsStore  = defineStore('tweets', {
 
         tweets: [],
 
+        tweet: {},
+
     }),
 
     getters: {
 
         getTweets: (state) => state.tweets,
+
+        getTweet: (state) => state.tweet,
 
     },
 
@@ -22,11 +26,12 @@ export const useTweetsStore  = defineStore('tweets', {
 
         },
 
-        clearTweets() {
+        setTweet(tweet) {
 
-            this.tweets = [];
-      
+            this.tweet = tweet;
+
         },
+        
       
     },
 

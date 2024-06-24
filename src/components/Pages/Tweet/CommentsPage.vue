@@ -87,180 +87,153 @@
   
 </template>
 
-<script>
-import axiosInstance from '@/axiosInstance';
+<script setup>
 
-import CommentReplyModal from '../modal/CommentReplyModal.vue';
+  import axiosInstance from '@/axiosInstance';
 
-export default {
+  import { ref, onMounted } from 'vue';
 
-  props: {
+  import CommentReplyModal from '../modal/CommentReplyModal.vue';
 
-    tweet: Object,
+  import { useTweetIdStore } from '@/stores/tweetId.js';
 
-  },
+  import { useUserIdStore } from '@/stores/userId.js';
 
-  components: {
+  const tweetIdStore = useTweetIdStore();
 
-    CommentReplyModal
+  const userIdStore = useUserIdStore();
 
-  },
+  const images = [
 
-  data() {
+    require('../../../assets/images/1.jpeg'),
+    require('../../../assets/images/2.jpeg'),
+    require('../../../assets/images/3.jpeg'),
+    require('../../../assets/images/4.jpeg'),
+    require('../../../assets/images/5.jpeg'),
+    require('../../../assets/images/6.jpeg'),
+    require('../../../assets/images/7.jpeg'),
+    require('../../../assets/images/8.jpeg'),
+    require('../../../assets/images/9.jpeg'),
+    require('../../../assets/images/10.jpeg'),
 
-    return {
+  ];
 
-      images: [
+  const comments = ref([]);
 
-        require('../../../assets/images/1.jpeg'),
-        require('../../../assets/images/2.jpeg'),
-        require('../../../assets/images/3.jpeg'),
-        require('../../../assets/images/4.jpeg'),
-        require('../../../assets/images/5.jpeg'),
-        require('../../../assets/images/6.jpeg'),
-        require('../../../assets/images/7.jpeg'),
-        require('../../../assets/images/8.jpeg'),
-        require('../../../assets/images/9.jpeg'),
-        require('../../../assets/images/10.jpeg'),
+  const isModalVisible = ref(false);
 
-      ],
+  let commentId = ref(null);
 
-      comments: [],
+  const getComments = async () => {
 
-      isLiked: false,
+    let tweetId = tweetIdStore.tweetId;
 
-      isRetweeted: false,
+    try {
 
-      isModalVisible: false,
+      const response = await axiosInstance.get('/comments/' + tweetId);
 
-      commentId: null,
+      comments.value = response.data.comment;
 
-    };
+    } catch (error) {
 
-  },
+      console.error(error);
 
-  async created() {
+    }
 
-    await this.getComments();
+  };
 
-  },
+  const formatDate = (dateString) => {
 
-  methods: {
+    const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
-    async getComments() {
+    return new Date(dateString).toLocaleDateString(undefined, options);
 
-      let tweetId = localStorage.getItem('TweetId');
+  };
 
-      try {
+  const getRandomImage = () => {
 
-        const comment = await axiosInstance.get('/comments/' + tweetId)
+    const randomIndex = Math.floor(Math.random() * images.length);
 
-        this.comments = comment.data.comment;
+    return images[randomIndex];
 
-      } catch (error) {
+  };
 
-        console.error(error);
+  const toggleLike = async (comment) => {
 
-      } 
-    },
+    const userId = userIdStore.userId;
 
-    formatDate(dateString) {
+    try {
 
-      const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
+      if (comment.isLiked) {
 
-      return new Date(dateString).toLocaleDateString(undefined, options);
+        await axiosInstance.post(`/unlikeComment/${comment.id}/${userId}`);
 
-    },
+        comment.likes--;
 
-    getRandomImage() {
+      } else {
 
-      const randomIndex = Math.floor(Math.random() * this.images.length);
+        await axiosInstance.post(`/likeComment/${comment.id}/${userId}`);
 
-      return this.images[randomIndex];
-
-    },
-
-
-    //Tweet like and retweet functionality.
-
-    async toggleLike(comment) {
-
-      const userId = localStorage.getItem('userId');
-
-      try {
-
-        if (comment.isLiked) {
-
-          await axiosInstance.post(`/unlikeComment/${comment.id}/${userId}`);
-
-          comment.likes--;
-
-        } else {
-
-          await axiosInstance.post(`/likeComment/${comment.id}/${userId}`);
-
-          comment.likes++;
-
-        }
-
-        comment.isLiked = !comment.isLiked;
-
-      } catch (error) {
-
-        console.error(error);
+        comment.likes++;
 
       }
 
-    },
+      comment.isLiked = !comment.isLiked;
 
-    async toggleRetweet(comment) {
+    } catch (error) {
 
-      const userId = localStorage.getItem('userId');
+      console.error(error);
 
-      try {
+    }
 
-        if (comment.isRetweeted) {
+  };
 
-          await axiosInstance.post(`/unretweetComment/${comment.id}/${userId}`);
+  const toggleRetweet = async (comment) => {
 
-          comment.retweets--;
+    const userId = userIdStore.userId;
 
-        } else {
+    try {
 
-          await axiosInstance.post(`/retweetComment/${comment.id}/${userId}`);
+      if (comment.isRetweeted) {
 
-          comment.retweets++;
+        await axiosInstance.post(`/unretweetComment/${comment.id}/${userId}`);
 
-        }
+        comment.retweets--;
 
-        comment.isRetweeted = !comment.isRetweeted;
+      } else {
 
-      } catch (error) {
+        await axiosInstance.post(`/retweetComment/${comment.id}/${userId}`);
 
-        console.error(error);
+        comment.retweets++;
 
       }
 
-    },    
+      comment.isRetweeted = !comment.isRetweeted;
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  };
+
+  const addComment = (id) => {
+
+    commentId.value = id;
+
+    console.log(id);
+
+    isModalVisible.value = true;
+
+  };
+
+  const closeModal = () => {
+
+    isModalVisible.value = false;
     
-    addComment(id) {
+  };
 
-      this.commentId = id
+  onMounted(getComments);
 
-      console.log(id);
-
-      this.isModalVisible = true;
-
-    },
-
-    closeModal() {
-
-      this.isModalVisible = false;
-
-    },
-
-
-  },
-
-};
 </script>

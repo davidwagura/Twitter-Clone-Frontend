@@ -116,6 +116,8 @@
 <script setup>
     import axiosInstance from '@/axiosInstance';
     
+    import CommentsPage from './CommentsPage.vue';
+
     import {  onMounted } from 'vue';
 
     import { useUserIdStore } from '@/stores/userId.js'; 

@@ -1,267 +1,247 @@
 <template>
 
-    <div class="border-t mt-20">
+  <div class="border-t mt-20">
   
-      <ul v-if="comments.length">
+    <ul v-if="comments.length">
   
-        <li v-for="comment in comments" :key="comment.id" class="p-4 border-t hover:bg-gray-100">
+      <li v-for="comment in comments" :key="comment.id" class="p-4 border-t hover:bg-gray-100">
   
-          <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between">
+            
+          <div class="flex items-center space-x-4">
   
-            <div class="flex items-center space-x-4">
+            <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
   
-              <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
+            <div class="font-bold text-lg">{{ comment.user.first_name }} {{ comment.user.last_name }}
   
-              <div class="font-bold text-lg">{{ comment.user.first_name }} {{ comment.user.last_name }}
+              <span class="text-gray-400 text-sm mr-2">@{{ comment.user.username }}</span>
   
-                <span class="text-gray-400 text-sm mr-2">@{{ comment.user.username }}</span>
+              <span class="mr-2">.</span>
   
-                <span class="mr-2">.</span>
-  
-                <span class="text-gray-500 text-sm mt-2">{{ formatDate(comment.created_at) }}</span>
-  
-              </div>
+              <span class="text-gray-500 text-sm mt-2">{{ formatDate(comment.created_at) }}</span>
   
             </div>
   
           </div>
   
-          <div class="p-4">
+        </div>
   
-            <div class="flex justify-start ml-12">{{ comment.body }}</div>
+        <div class="p-4">
   
-            <div class="flex justify-between pt-4 -mb-6">
+          <div class="flex justify-start ml-12">{{ comment.body }}</div>
   
-              <!-- The comment icon svg -->
-              <button @click="addComment(comment.id)" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
+          <div class="flex justify-between pt-4 -mb-6">
   
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" class="size-6">
+            <!-- The comment icon svg -->
+            <button @click="addComment(comment.id)" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
   
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" class="size-6">
   
-                </svg>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
   
-                <span class="ml-1" v-if="comment.comment_comment.length > 0">{{ comment.comment_comment.length }}</span>
+              </svg>
   
-              </button>
+              <span class="ml-1" v-if="comment.comment_comment.length > 0">{{ comment.comment_comment.length }}</span>
   
-              <comment-reply-modal :Comment="commentId" v-if="isModalVisible" @close="closeModal"></comment-reply-modal>
+            </button>
   
-              <!-- The retweet icon svg -->
-              <button @click="toggleRetweet(comment)" class="flex hover:bg-green-100 rounded-full p-2 items-center">
+            <comment-reply-modal :Comment="commentId" v-if="isModalVisible" @close="closeModal"></comment-reply-modal>
   
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="comment.isRetweeted ? 'green' : 'gray'" class="size-6">
+            <!-- The retweet icon svg -->
+            <button @click="toggleRetweet(comment)" class="flex hover:bg-green-100 rounded-full p-2 items-center">
   
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="comment.isRetweeted ? 'green' : 'gray'" class="size-6">
   
-                </svg>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
   
-                <span class="ml-1" v-if="comment.retweets > 0">{{ comment.retweets }}</span>
+              </svg>
   
-              </button>
+              <span class="ml-1" v-if="comment.retweets > 0">{{ comment.retweets }}</span>
   
-              <!-- The like icon svg -->
-              <button @click="toggleLike(comment)" class="flex hover:bg-red-100 rounded-full p-2 items-center">
+            </button>
   
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="comment.isLiked ? 'red' : 'gray'" class="size-6">
+            <!-- The like icon svg -->
+            <button @click="toggleLike(comment)" class="flex hover:bg-red-100 rounded-full p-2 items-center">
   
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="comment.isLiked ? 'red' : 'gray'" class="size-6">
   
-                </svg>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
   
-                <span class="ml-1" v-if="comment.likes > 0">{{ comment.likes }}</span>
+              </svg>
   
-              </button>
+              <span class="ml-1" v-if="comment.likes > 0">{{ comment.likes }}</span>
   
-            </div>
+            </button>
   
           </div>
   
-        </li>
+        </div>
   
-      </ul>
+      </li>
   
-      <div v-else class="text-gray-500">No comments to display</div>
+    </ul>
   
-    </div>
+    <div v-else class="text-gray-500">No comments to display</div>
+  
+  </div>
     
-  </template>
+</template>
   
-  <script>
+<script setup>
+
+  import { ref,defineProps,onMounted } from 'vue';
+
+  import { useTweetIdStore } from '@/stores/tweetId';
+
+  import { useUserIdStore } from '@/stores/userId';
+
   import axiosInstance from '@/axiosInstance';
-  
+
   import CommentReplyModal from '../modal/CommentReplyModal.vue';
   
-  export default {
-  
-    props: {
-  
-      tweet: Object,
-  
-    },
-  
-    components: {
-  
-      CommentReplyModal
-  
-    },
-  
-    data() {
-  
-      return {
-  
-        images: [
-  
-          require('../../../assets/images/1.jpeg'),
-          require('../../../assets/images/2.jpeg'),
-          require('../../../assets/images/3.jpeg'),
-          require('../../../assets/images/4.jpeg'),
-          require('../../../assets/images/5.jpeg'),
-          require('../../../assets/images/6.jpeg'),
-          require('../../../assets/images/7.jpeg'),
-          require('../../../assets/images/8.jpeg'),
-          require('../../../assets/images/9.jpeg'),
-          require('../../../assets/images/10.jpeg'),
-  
-        ],
-  
-        comments: [],
-  
-        isLiked: false,
-  
-        isRetweeted: false,
-  
-        isModalVisible: false,
-  
-        commentId: null,
-  
-      };
-  
-    },
-  
-    async created() {
-  
-      await this.getComments();
-  
-    },
-  
-    methods: {
-  
-      async getComments() {
-  
-        let tweetId = localStorage.getItem('followingTweetId');
-  
-        try {
-  
-          const comment = await axiosInstance.get('/comments/' + tweetId)
-  
-          this.comments = comment.data.comment;
-  
-        } catch (error) {
-  
-          console.error(error);
-  
-        } 
-      },
-  
-      formatDate(dateString) {
-  
-        const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
-  
-        return new Date(dateString).toLocaleDateString(undefined, options);
-  
-      },
-  
-      getRandomImage() {
-  
-        const randomIndex = Math.floor(Math.random() * this.images.length);
-  
-        return this.images[randomIndex];
-  
-      },
-  
-  
-      //Tweet like and retweet functionality.
-  
-      async toggleLike(comment) {
-  
-        const userId = localStorage.getItem('userId');
-  
-        try {
-  
-          if (comment.isLiked) {
-  
-            await axiosInstance.post(`/unlikeComment/${comment.id}/${userId}`);
-  
-            comment.likes--;
-  
-          } else {
-  
-            await axiosInstance.post(`/likeComment/${comment.id}/${userId}`);
-  
-            comment.likes++;
-  
-          }
-  
-          comment.isLiked = !comment.isLiked;
-  
-        } catch (error) {
-  
-          console.error(error);
-  
-        }
-  
-      },
-  
-      async toggleRetweet(comment) {
-  
-        const userId = localStorage.getItem('userId');
-  
-        try {
-  
-          if (comment.isRetweeted) {
-  
-            await axiosInstance.post(`/unretweetComment/${comment.id}/${userId}`);
-  
-            comment.retweets--;
-  
-          } else {
-  
-            await axiosInstance.post(`/retweetComment/${comment.id}/${userId}`);
-  
-            comment.retweets++;
-  
-          }
-  
-          comment.isRetweeted = !comment.isRetweeted;
-  
-        } catch (error) {
-  
-          console.error(error);
-  
-        }
-  
-      },    
-      
-      addComment(id) {
-  
-        this.commentId = id
-  
-        console.log(id);
-  
-        this.isModalVisible = true;
-  
-      },
-  
-      closeModal() {
-  
-        this.isModalVisible = false;
-  
-      },
-  
-  
-    },
-  
+  const tweetIdStore = useTweetIdStore();
+
+  const userIdStore = useUserIdStore();
+
+  defineProps({
+
+    tweet: Object
+
+  });
+  
+  const images = [
+
+    require('../../../assets/images/1.jpeg'),
+    require('../../../assets/images/2.jpeg'),
+    require('../../../assets/images/3.jpeg'),
+    require('../../../assets/images/4.jpeg'),
+    require('../../../assets/images/5.jpeg'),
+    require('../../../assets/images/6.jpeg'),
+    require('../../../assets/images/7.jpeg'),
+    require('../../../assets/images/8.jpeg'),
+    require('../../../assets/images/9.jpeg'),
+    require('../../../assets/images/10.jpeg')
+
+  ];
+
+  const comments = ref([]);
+
+  const isModalVisible = ref(false);
+
+  const commentId = ref(null);
+  
+  onMounted(async () => {
+
+    await getComments();
+
+  });
+  
+  const getComments = async () => {
+
+    let tweetId = tweetIdStore.followingTweetId;
+
+    try {
+
+      const comment = await axiosInstance.get('/comments/' + tweetId);
+
+      comments.value = comment.data.comment;
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
   };
-  </script>
   
+  const formatDate = (dateString) => {
+
+    const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
+
+    return new Date(dateString).toLocaleDateString(undefined, options);
+
+  };
+  
+  const getRandomImage = () => {
+
+    const randomIndex = Math.floor(Math.random() * images.length);
+
+    return images[randomIndex];
+
+  };
+  
+  const toggleLike = async (comment) => {
+
+    const userId = userIdStore.userId;
+
+    try {
+
+      if (comment.isLiked) {
+
+        await axiosInstance.post(`/unlikeComment/${comment.id}/${userId}`);
+
+        comment.likes--;
+
+      } else {
+
+        await axiosInstance.post(`/likeComment/${comment.id}/${userId}`);
+
+        comment.likes++;
+
+      }
+
+      comment.isLiked = !comment.isLiked;
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  };
+  
+  const toggleRetweet = async (comment) => {
+
+    const userId = userIdStore.userId;
+
+    try {
+
+      if (comment.isRetweeted) {
+
+        await axiosInstance.post(`/unretweetComment/${comment.id}/${userId}`);
+
+        comment.retweets--;
+
+      } else {
+
+        await axiosInstance.post(`/retweetComment/${comment.id}/${userId}`);
+
+        comment.retweets++;
+
+      }
+
+      comment.isRetweeted = !comment.isRetweeted;
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  };
+  
+  const addComment = (id) => {
+
+    commentId.value = id;
+
+    isModalVisible.value = true;
+
+  };
+  
+  const closeModal = () => {
+
+    isModalVisible.value = false;
+
+  };
+
+</script>

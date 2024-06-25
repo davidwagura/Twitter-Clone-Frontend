@@ -6,11 +6,19 @@ export const useTweetIdStore  = defineStore('tweetId', {
 
         tweetId: null,
 
+        followingTweetId: null,
+
+        followingUsername: null,
+
     }),
 
     getters: {
 
         getTweetId: (state) => state.tweetId,
+
+        getFollowingTweet: (state) => state.followingTweetId,
+
+        getFollowingUsername: (state) => state.followingUsername,
 
     },
 
@@ -27,6 +35,18 @@ export const useTweetIdStore  = defineStore('tweetId', {
             this.tweetId = null;
       
         },
+
+        setFollowingTweetId(followingTweetId) {
+
+            this.followingTweet = followingTweetId;
+
+        },
+
+        setFollowingUsername(followingUsername) {
+
+            this.followingUsername = followingUsername;
+
+        }
       
     },
 

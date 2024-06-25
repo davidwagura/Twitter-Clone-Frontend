@@ -72,139 +72,125 @@
 
 </template>
   
-<script>
-import axiosInstance from '@/axiosInstance';
+<script setup>
 
-export default {
+    import { ref, onMounted, defineProps, defineEmits } from 'vue';
 
-    props: {
+    import { useUserIdStore } from '@/stores/userId';
+
+    import axiosInstance from '@/axiosInstance';
+
+    const userIdStore = useUserIdStore();
+
+    const props = defineProps({
 
         Tweet: {
 
-            type: [Number], 
+            type: Number,
+
+            required: true,
+
+        },
+
+    });
+
+    const emit = defineEmits(['close']);
+
+    const tweet = ref({});
+
+    const user = ref({});
+
+    const body = ref('');
+
+    const isVisible = ref(true);
+
+    const images = [
+
+    require('../../../assets/images/1.jpeg'),
+    require('../../../assets/images/2.jpeg'),
+    require('../../../assets/images/3.jpeg'),
+    require('../../../assets/images/4.jpeg'),
+    require('../../../assets/images/5.jpeg'),
+    require('../../../assets/images/6.jpeg'),
+    require('../../../assets/images/7.jpeg'),
+    require('../../../assets/images/8.jpeg'),
+    require('../../../assets/images/9.jpeg'),
+    require('../../../assets/images/10.jpeg'),
+
+    ];
+
+    const getTweet = async () => {
+
+        const id = props.Tweet;
+
+        try {
+
+            const tweetResponse = await axiosInstance.get('/tweet/' + id);
+
+            tweet.value = tweetResponse.data.tweet;
+
+            user.value = tweetResponse.data.tweet.user;
+
+        } catch (error) {
+
+            console.error(error);
 
         }
 
-    },
+    };
 
-    data () {
+    const closeModal = () => {
 
-        return {
+        isVisible.value = false;
 
-            images: [
+        emit('close');
 
-                require('../../../assets/images/1.jpeg'),
-                require('../../../assets/images/2.jpeg'),
-                require('../../../assets/images/3.jpeg'),
-                require('../../../assets/images/4.jpeg'),
-                require('../../../assets/images/5.jpeg'),
-                require('../../../assets/images/6.jpeg'),
-                require('../../../assets/images/7.jpeg'),
-                require('../../../assets/images/8.jpeg'),
-                require('../../../assets/images/9.jpeg'),
-                require('../../../assets/images/10.jpeg'),
+    };
 
-            ],
+    const formatDate = (dateString) => {
 
-            tweet: {},
+        const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
-            user: {},
+        return new Date(dateString).toLocaleDateString(undefined, options);
 
-            body: '',
+    };
 
-            isVisible: true,
-            
+    const getRandomImage = () => {
+
+        const randomIndex = Math.floor(Math.random() * images.length);
+
+        return images[randomIndex];
+
+    };
+
+    const commentTweet = async () => {
+
+        try {
+
+            const id = userIdStore.userId;
+
+            const tweetId = props.Tweet;
+
+           await axiosInstance.post('/tweet/comment/', { body: body.value, user_id: parseInt(id), tweet_id: parseInt(tweetId) });
+
+            body.value = '';
+
+            closeModal();
+
+            getTweet();
+
+        } catch (error) {
+
+            console.error(error);
+
         }
 
-    },
-    
+    };
 
-    async created() {
+    onMounted(async () => {
 
-        await this.getTweet();
+        await getTweet();
 
-    },
-
-    methods: {
-
-        //Get tweet by Id.
-        async getTweet() {
-
-            let id = this.$props.Tweet;
-
-            try {
-
-                const tweetResponse = await axiosInstance.get('/tweet/' + id);
-
-                this.tweet = tweetResponse.data.tweet;
-
-                this.user = tweetResponse.data.tweet.user;
-
-            } catch (error) {
-
-                console.error(error);
-
-            }   
-
-        },
-
-        closeModal() {
-
-            this.isVisible = false,
-
-            this.$emit('close');
-
-        },
-
-        //Generate date function and show random picture as profile function.
-        formatDate(dateString) {
-
-            const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
-
-            return new Date(dateString).toLocaleDateString(undefined, options);
-
-        },
-
-        getRandomImage() {
-
-            const randomIndex = Math.floor(Math.random() * this.images.length);
-
-            return this.images[randomIndex];
-
-        },
-
-        //Creating a tweet comment.
-        async commentTweet() {
-
-            try {
-
-                const id = localStorage.getItem('userId');
-
-                let tweetId = this.$props.Tweet;
-
-                console.log(tweetId)
-
-                const res = await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId)});
-                
-                this.body = '';
-
-                console.log(res)
-
-                this.closeModal();
-
-                this.getTweet();
-
-            } catch(error) {
-
-                console.error(error);
-
-            }
-
-        },
-
-    }
-
-}
+    });
 
 </script>
-

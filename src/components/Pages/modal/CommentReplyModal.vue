@@ -64,130 +64,121 @@
 
 </template>
       
-<script>
-import axiosInstance from '@/axiosInstance';
+<script setup>
 
+    import { ref, onMounted, defineProps, defineEmits } from 'vue';
 
-export default {
+    import { useUserIdStore } from '@/stores/userId';
 
-    props: {
+    import axiosInstance from '@/axiosInstance';
 
-        Comment: Number,
+    const userIdStore = useUserIdStore();
 
-    },
+    const props = defineProps({
 
-    data () {
+        Comment: {
 
-        return {
+            type: Number,
 
-            images: [
+            required: true,
 
-                require('../../../assets/images/1.jpeg'),
-                require('../../../assets/images/2.jpeg'),
-                require('../../../assets/images/3.jpeg'),
-                require('../../../assets/images/4.jpeg'),
-                require('../../../assets/images/5.jpeg'),
-                require('../../../assets/images/6.jpeg'),
-                require('../../../assets/images/7.jpeg'),
-                require('../../../assets/images/8.jpeg'),
-                require('../../../assets/images/9.jpeg'),
-                require('../../../assets/images/10.jpeg'),
+        },
+        
+    });
 
-            ],
+    const emit = defineEmits(['close']);
 
-            comment: {},
+    const comment = ref({});
 
-            body: '',
+    const body = ref('');
 
-            isVisible: true,
+    const isVisible = ref(true);
+
+    const images = [
+
+        require('../../../assets/images/1.jpeg'),
+        require('../../../assets/images/2.jpeg'),
+        require('../../../assets/images/3.jpeg'),
+        require('../../../assets/images/4.jpeg'),
+        require('../../../assets/images/5.jpeg'),
+        require('../../../assets/images/6.jpeg'),
+        require('../../../assets/images/7.jpeg'),
+        require('../../../assets/images/8.jpeg'),
+        require('../../../assets/images/9.jpeg'),
+        require('../../../assets/images/10.jpeg'),
+
+    ];
+
+    const getComments = async () => {
+
+        const commentId = props.Comment;
+
+        try {
+
+            const response = await axiosInstance.get('/comment/' + commentId);
+
+            comment.value = response.data.Comment;
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+        
+    };
+
+    const closeModal = () => {
+
+        isVisible.value = false;
+
+        emit('close');
+        
+    };
+
+    const formatDate = (dateString) => {
+
+        const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
+
+        return new Date(dateString).toLocaleDateString(undefined, options);
+
+    };
+
+    const getRandomImage = () => {
+
+        const randomIndex = Math.floor(Math.random() * images.length);
+
+        return images[randomIndex];
+
+    };
+
+    const commentComment = async () => {
+
+        try {
+
+            const userId = userIdStore.userId;
+
+            const commentId = props.Comment;
+
+            await axiosInstance.post('/commentComment/', { body: body.value, user_id: parseInt(userId), comment_id: parseInt(commentId) });
+
+            body.value = '';
+
+            closeModal();
+
+            getComments();
+
+        } catch (error) {
+
+            console.error(error);
             
-        };
+        }
 
-    },
-    
+    };
 
-    async created() {
+    onMounted(async () => {
 
-        await this.getComments();
+        await getComments();
 
-    },
-
-    methods: {
-
-        async getComments() {
-
-            let commentId = this.Comment;
-
-            try {
-
-                const comment = await axiosInstance.get('/comment/' + commentId)
-
-                this.comment = comment.data.Comment;
-
-            } catch (error) {
-
-                console.error(error);
-
-            } 
-
-        },
-
-        //Generate date function and show random picture as profile functions.
-        formatDate(dateString) {
-
-            const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
-
-            return new Date(dateString).toLocaleDateString(undefined, options);
-
-        },
-
-
-        getRandomImage() {
-
-            const randomIndex = Math.floor(Math.random() * this.images.length);
-
-            return this.images[randomIndex];
-
-        },
-
-        closeModal() {
-
-            this.isVisible = false;
-
-            this.$emit('close');
-
-        },
-
-        //Creating a tweet comment.
-        async commentComment() {
-
-            try {
-
-                const userId = localStorage.getItem('userId');
-
-                let commentId = this.Comment;
-
-                console.log(commentId)
-
-                const res = await axiosInstance.post('/commentComment/',{"body": this.body, "user_id": parseInt(userId), "comment_id": parseInt(commentId)});
-                
-                this.body = '';
-
-                this.closeModal();
-
-                console.log(res)
-
-            } catch(error) {
-
-                console.error(error);
-
-            }
-
-        },
-
-    }
-
-}
+    });
 
 </script>
-

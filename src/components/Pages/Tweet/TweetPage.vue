@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="tweet && tweet.body" class="p-4 border-t"> 
+    <div v-if="tweet && tweet.body" class="p-4 border-t">
         
         <div class="flex items-center justify-between">
 
@@ -102,7 +102,7 @@
     </div>
 
     <div v-else class="flex items-center justify-center h-screen">
-
+        {{ tweetStore.tweet }}
         <span>Loading...</span>
 
     </div>
@@ -117,7 +117,7 @@
     
     import CommentsPage from './CommentsPage.vue';
 
-    import {  onMounted } from 'vue';
+    import {  ref,onMounted } from 'vue';
 
     import { useUserIdStore } from '@/stores/userId.js'; 
 
@@ -148,7 +148,7 @@
 
     ];
 
-    let tweet = {};
+    let tweet = ref({});
 
     let body = '';
 
@@ -231,7 +231,7 @@
 
             console.log(response);
 
-            tweet.likes--;
+            tweet.value.likes--;
 
             } else {
 
@@ -239,7 +239,7 @@
 
             console.log(response);
 
-            tweet.likes++;
+            tweet.value.likes++;
 
             }
 
@@ -267,7 +267,7 @@
 
             console.log(response);
 
-            tweet.retweets--;
+            tweet.value.retweets--;
 
             } else {
 
@@ -275,7 +275,7 @@
 
             console.log(response);
 
-            tweet.retweets++;
+            tweet.value.retweets++;
 
             }
 

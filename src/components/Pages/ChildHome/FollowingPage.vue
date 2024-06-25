@@ -94,195 +94,169 @@
 
 </template>
 
-<script>
+<script setup>
+
+  import { ref, onMounted } from 'vue';
+
+  import { useUserIdStore } from '@/stores/userId';
+
+  import { useTweetIdStore } from '@/stores/tweetId';
+
+  import { useRouter } from 'vue-router';
 
   import axiosInstance from '@/axiosInstance';
 
   import FollowingTweetModalVue from '../modal/FollowingTweetModal.vue';
 
-  export default {
+  const userIdStore = useUserIdStore();
 
-    components: {
+  const tweetIdStore = useTweetIdStore();
 
-    FollowingTweetModalVue,
+  const router = useRouter();
 
-    },
+  const images = [
 
-    data() {
+    require('../../../assets/images/1.jpeg'),
+    require('../../../assets/images/2.jpeg'),
+    require('../../../assets/images/3.jpeg'),
+    require('../../../assets/images/4.jpeg'),
+    require('../../../assets/images/5.jpeg'),
+    require('../../../assets/images/6.jpeg'),
+    require('../../../assets/images/7.jpeg'),
+    require('../../../assets/images/8.jpeg'),
+    require('../../../assets/images/9.jpeg'),
+    require('../../../assets/images/10.jpeg')
 
-      return {
+  ];
 
-      images: [
+  const tweets = ref([]);
 
-        require('../../../assets/images/1.jpeg'),
-        require('../../../assets/images/2.jpeg'),
-        require('../../../assets/images/3.jpeg'),
-        require('../../../assets/images/4.jpeg'),
-        require('../../../assets/images/5.jpeg'),
-        require('../../../assets/images/6.jpeg'),
-        require('../../../assets/images/7.jpeg'),
-        require('../../../assets/images/8.jpeg'),
-        require('../../../assets/images/9.jpeg'),
-        require('../../../assets/images/10.jpeg'),
+  const isModalVisible = ref(false);
 
-      ],
+  const tweetId = ref(null);
 
-        tweets: [],
+  const fetchTweets = async () => {
 
-        isModalVisible: false,
+    try {
 
-        tweetId: null
+      const userId = userIdStore.userId;
 
-      };
+      const response = await axiosInstance.get(`/followingTweets/${userId}`);
 
-    },
+      tweets.value = response.data.tweets;
 
-    created() {
+    } catch (error) {
 
-      this.fetchTweets();
+      console.error('Error fetching tweets:', error);
 
-    },
-
-    methods: {
-
-      async fetchTweets() {
-
-        try {
-
-          const userId = localStorage.getItem('userId');
-
-          console.log(userId)
-
-          const response = await axiosInstance.get(`/followingTweets/${userId}`);
-
-          this.tweets = response.data.tweets;
-
-        } catch (error) {
-
-          console.error('Error fetching tweets:', error);
-
-        }
-
-      },
-
-      formatDate(dateString) {
-
-        const options = {minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
-
-        return new Date(dateString).toLocaleDateString(undefined, options);
-
-      },
-
-      getRandomImage() {
-
-        const randomIndex = Math.floor(Math.random() * this.images.length);
-
-        return this.images[randomIndex];
-
-      },
-
-      async toggleLike(tweet) {
-              
-        try {
-
-          const userId = localStorage.getItem('userId');
-          // const userId = this.userId;
-
-          if (tweet.isLiked) {
-
-            const response =  await axiosInstance.post(`/unlike/${tweet.id}/${userId}`);
-
-            console.log(response)
-
-            tweet.likes--;
-
-          } else {
-
-            const response = await axiosInstance.post(`/like/${tweet.id}/${userId}`);
-
-            console.log(response)
-
-            tweet.likes++;
-
-          }
-
-            tweet.isLiked = !tweet.isLiked;
-
-        } catch (error) {
-
-          console.error(error);
-
-        }
-
-      },
-
-      async toggleRetweet(tweet) {
-              
-        try {
-
-          let userId = localStorage.getItem('userId');
-          // const userId = this.userId;
-
-          if (tweet.isRetweeted) {
-
-            const response =  await axiosInstance.post(`/unretweet/${tweet.id}/${userId}`);
-
-            console.log(response)
-
-            tweet.retweets--;
-
-          } else {
-
-            const response = await axiosInstance.post(`/retweet/${tweet.id}/${userId}`);
-
-            console.log(response)
-
-            tweet.retweets++;
-
-          }
-
-            tweet.isRetweeted = !tweet.isRetweeted;
-
-        } catch (error) {
-
-            console.error(error);
-
-        }
-          
-      },
-
-      addComment(id) {
-
-        this.tweetId = id
-
-        this.isModalVisible = true;
-
-      },
-
-      closeModal() {
-
-        this.isModalVisible = false;
-
-      },
-
-      async fetchTweet(id) {
-      
-        const response = await axiosInstance.get('/tweet/' + id);
-
-        localStorage.setItem('followingTweetId', id);
-  
-        localStorage.setItem('followingUsername', response.data.tweet.user.username);
-
-        const username = response.data.tweet.user.username;
-
-        this.$router.push(`/${username}/status/${id}`);
-
-        // this.fetchTweets();
-
-      },
-
-    },
+    }
 
   };
+
+  const formatDate = (dateString) => {
+
+    const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
+
+    return new Date(dateString).toLocaleDateString(undefined, options);
+
+  };
+
+  const getRandomImage = () => {
+
+    const randomIndex = Math.floor(Math.random() * images.length);
+
+    return images[randomIndex];
+
+  };
+
+  const toggleLike = async (tweet) => {
+
+    try {
+
+      const userId = userIdStore.userId;
+
+      if (tweet.isLiked) {
+
+        await axiosInstance.post(`/unlike/${tweet.id}/${userId}`);
+
+        tweet.likes--;
+
+      } else {
+
+        await axiosInstance.post(`/like/${tweet.id}/${userId}`);
+
+        tweet.likes++;
+
+      }
+
+      tweet.isLiked = !tweet.isLiked;
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  };
+
+  const toggleRetweet = async (tweet) => {
+    
+    try {
+
+      const userId = userIdStore.userId;
+
+      if (tweet.isRetweeted) {
+
+        await axiosInstance.post(`/unretweet/${tweet.id}/${userId}`);
+
+        tweet.retweets--;
+
+      } else {
+
+        await axiosInstance.post(`/retweet/${tweet.id}/${userId}`);
+
+        tweet.retweets++;
+        
+      }
+
+      tweet.isRetweeted = !tweet.isRetweeted;
+      
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  };
+
+  const addComment = (id) => {
+
+    tweetId.value = id;
+
+    isModalVisible.value = true;
+
+  };
+
+  const closeModal = () => {
+
+    isModalVisible.value = false;
+
+  };
+
+  const fetchTweet = async (id) => {
+
+    const response = await axiosInstance.get('/tweet/' + id);
+
+    tweetIdStore.setFollowingTweetId(id);
+
+    tweetIdStore.setFollowingUsername(response.data.tweet.user.username)
+
+    const username = tweetIdStore.followingUsername;
+
+    router.push(`/${username}/status/${id}`);
+    
+  };
+
+  onMounted(fetchTweets);
 
 </script>

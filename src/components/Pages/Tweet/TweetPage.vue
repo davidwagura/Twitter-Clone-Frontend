@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="tweet.comments" class="p-4 border-t"> 
+    <div v-if="tweet && tweet.body" class="p-4 border-t"> 
         
         <div class="flex items-center justify-between">
 
@@ -103,7 +103,6 @@
 
     <div v-else class="flex items-center justify-center h-screen">
 
-        {{ tweetStore.tweet }}
         <span>Loading...</span>
 
     </div>

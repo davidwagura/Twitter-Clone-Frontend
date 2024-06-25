@@ -4,7 +4,7 @@
 
     <div v-if="activeSection === 'for-you'">
 
-      <ul v-if="true">
+      <ul v-if="tweetsStore.tweets.length > 0">
 
         <li v-for="tweet in tweetsStore.tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
 
@@ -18,14 +18,16 @@
 
                 <div v-if="tweet.user">
 
-                  <div class="font-bold text-lg">{{ tweet.user.first_name }} {{ tweet.user.last_name }}
-                  
+                  <div class="font-bold text-lg">
+
+                    {{ tweet.user.first_name }} {{ tweet.user.last_name }}
+
                     <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span>
 
                     <span class="mr-2">.</span>
 
                     <span class="text-gray-500 text-sm mt-2">{{ formatDate(tweet.created_at) }}</span>
-                  
+
                   </div>
 
                 </div>
@@ -41,13 +43,13 @@
             </div>
 
           </div>
-          
+
           <div>
 
             <div class="flex justify-between pt-4 -mb-4">
 
-              <!--The comment icon svg -->
-              <button @click="addComment(tweet.id)" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
+              <!-- Comment icon button -->
+              <button @click="addComment(tweet)" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" class="size-6">
 
@@ -59,9 +61,10 @@
 
               </button>
 
+              <!-- ReplyModal component -->
               <ReplyModal :Tweet="tweetToComment" v-if="isModalVisible" @close="closeModal"></ReplyModal>
 
-              <!--The retweet icon svg-->
+              <!-- Retweet icon button -->
               <button @click="toggleRetweet(tweet)" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="tweet.isRetweeted ? 'green' : 'gray' " class="size-6">
@@ -74,7 +77,7 @@
 
               </button>
 
-              <!--The like icon svg-->
+              <!-- Like icon button -->
               <button @click="toggleLike(tweet)" class="flex hover:bg-red-100 rounded-full p-2 items-center">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="tweet.isLiked ? 'red' : 'gray'" class="size-6">
@@ -90,7 +93,6 @@
             </div>
 
           </div>
-          
 
         </li>
 
@@ -102,7 +104,7 @@
 
     <div v-else-if="activeSection === 'tweet'">
 
-      <tweet-page @back="setActiveSection('for-you')"></tweet-page>
+      <TweetPage @back="setActiveSection('for-you')"></TweetPage>
 
     </div>
 
@@ -110,12 +112,11 @@
 
 </template>
 
-
 <script setup>
 
   import axiosInstance from '@/axiosInstance';
 
-  import { onMounted } from 'vue';
+  import { onMounted, ref } from 'vue';
 
   import { useTweetIdStore } from '@/stores/tweetId.js';
 
@@ -135,10 +136,10 @@
 
   const tweetsStore = useTweetsStore();
 
-  const router = useRouter();  
+  const router = useRouter();
 
   const images = [
-    
+
     require('../../../assets/images/1.jpeg'),
     require('../../../assets/images/2.jpeg'),
     require('../../../assets/images/3.jpeg'),
@@ -149,14 +150,13 @@
     require('../../../assets/images/8.jpeg'),
     require('../../../assets/images/9.jpeg'),
     require('../../../assets/images/10.jpeg'),
-
   ];
 
   let activeSection = 'for-you';
 
-  let isModalVisible = false;
+  let isModalVisible = ref(false);
 
-  let tweetToComment = null;
+  let tweetToComment = ref(null);
 
   onMounted(async () => {
 
@@ -172,10 +172,6 @@
 
       tweetsStore.setTweets(response.data.tweets);
 
-      console.log(tweetIdStore.tweetId)
-
-      console.log(userIdStore.userId)
-
     } catch (error) {
 
       console.error('Error fetching tweets:', error);
@@ -184,7 +180,6 @@
 
   };
 
-  // Method to set active section
   const setActiveSection = (section) => {
 
     activeSection = section;
@@ -229,17 +224,17 @@
 
   };
 
-  const addComment = (id) => {
+  const addComment = (tweet) => {
 
-    tweetToComment = id;
+    tweetToComment.value = tweet;
 
-    isModalVisible = true;
+    isModalVisible.value = true;
 
   };
 
   const closeModal = () => {
 
-    isModalVisible = false;
+    isModalVisible.value = false;
 
   };
 
@@ -251,17 +246,13 @@
 
       if (tweet.isLiked) {
 
-        const response = await axiosInstance.post(`/unlike/${tweet.id}/${userId}`);
-
-        console.log(response);
+        await axiosInstance.post(`/unlike/${tweet.id}/${userId}`);
 
         tweet.likes--;
 
       } else {
 
-        const response = await axiosInstance.post(`/like/${tweet.id}/${userId}`);
-
-        console.log(response);
+        await axiosInstance.post(`/like/${tweet.id}/${userId}`);
 
         tweet.likes++;
 
@@ -285,17 +276,13 @@
 
       if (tweet.isRetweeted) {
 
-        const response = await axiosInstance.post(`/unretweet/${tweet.id}/${userId}`);
-
-        console.log(response);
+        await axiosInstance.post(`/unretweet/${tweet.id}/${userId}`);
 
         tweet.retweets--;
 
       } else {
 
-        const response = await axiosInstance.post(`/retweet/${tweet.id}/${userId}`);
-
-        console.log(response);
+        await axiosInstance.post(`/retweet/${tweet.id}/${userId}`);
 
         tweet.retweets++;
 
@@ -308,7 +295,7 @@
       console.error('Error toggling retweet:', error);
 
     }
-
+    
   };
 
 </script>

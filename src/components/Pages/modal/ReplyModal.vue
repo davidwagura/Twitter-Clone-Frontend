@@ -18,7 +18,7 @@
 
                     <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
-                    <div class="">
+                    <div>
 
                         <div class="font-bold text-lg mb-3">{{ user.first_name }} {{ user.last_name }}
 
@@ -50,7 +50,7 @@
 
                 <div class="flex justify-end mt-4">
 
-                    <button @click="commentTweet()" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-full">
+                    <button @click="commentTweet" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-full">
 
                         Reply
 
@@ -63,143 +63,120 @@
         </div>
 
     </div>
-  
+
     <div v-else class="flex items-center justify-center h-screen">
 
       <span>Loading...</span>
 
     </div>
 
-    <!-- {{ tweetId }} -->
-
 </template>
   
-<script>
-import axiosInstance from '@/axiosInstance';
+<script setup>
 
+    import axiosInstance from '@/axiosInstance';
 
-export default {
+    import { ref, onMounted, defineProps, defineEmits } from 'vue';
 
-    props: {
+    import { useUserIdStore } from '@/stores/userId.js';
 
-        Tweet: {
+    const props = defineProps({
 
-            type: [Number], 
+        Tweet: Object, 
 
-        }
-
-    },
-
-    data () {
-
-        return {
-
-            images: [
-
-                require('../../../assets/images/1.jpeg'),
-                require('../../../assets/images/2.jpeg'),
-                require('../../../assets/images/3.jpeg'),
-                require('../../../assets/images/4.jpeg'),
-                require('../../../assets/images/5.jpeg'),
-                require('../../../assets/images/6.jpeg'),
-                require('../../../assets/images/7.jpeg'),
-                require('../../../assets/images/8.jpeg'),
-                require('../../../assets/images/9.jpeg'),
-                require('../../../assets/images/10.jpeg'),
-
-            ],
-
-            tweet: {},
-
-            user: {},
-
-            body: '',
-            
-        }
-
-    },
+    });
     
+    const emit = defineEmits(['close']);
+    
+    const userIdStore = useUserIdStore();
+    
+    const tweet = ref({});
 
-    async created() {
+    const user = ref({});
 
-        await this.getTweet();
+    const body = ref('');
+    
+    const images = [
 
-    },
+        require('../../../assets/images/1.jpeg'),
+        require('../../../assets/images/2.jpeg'),
+        require('../../../assets/images/3.jpeg'),
+        require('../../../assets/images/4.jpeg'),
+        require('../../../assets/images/5.jpeg'),
+        require('../../../assets/images/6.jpeg'),
+        require('../../../assets/images/7.jpeg'),
+        require('../../../assets/images/8.jpeg'),
+        require('../../../assets/images/9.jpeg'),
+        require('../../../assets/images/10.jpeg'),
+    ];
+    
+    onMounted(async () => {
 
-    methods: {
+        await fetchTweet();
 
-        //Get tweet by Id.
-        async getTweet() {
+    });
+    
+    const fetchTweet = async () => {
 
-            let id = this.$props.Tweet;
+        try {
 
-            try {
+        const response = await axiosInstance.get('/tweet/' + props.Tweet.id);
 
-                const tweetResponse = await axiosInstance.get('/tweet/' + id);
+        tweet.value = response.data.tweet;
 
-                this.tweet = tweetResponse.data.tweet;
+        user.value = response.data.tweet.user;
 
-                this.user = tweetResponse.data.tweet.user;
+        } catch (error) {
 
-            } catch (error) {
+            console.error('Error fetching tweet:', error);
 
-                console.error(error);
+        }
 
-            }   
+    };
+    
+    const closeModal = () => {
 
-        },
+        emit('close');
 
-        closeModal() {
+    };
+    
+    const formatDate = (dateString) => {
 
-            this.$emit('close');
+        const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
-        },
+        return new Date(dateString).toLocaleDateString(undefined, options);
 
-        //Generate date function and show random picture as profile function.
-        formatDate(dateString) {
+    };
+    
+    const getRandomImage = () => {
 
-            const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
+        const randomIndex = Math.floor(Math.random() * images.length);
 
-            return new Date(dateString).toLocaleDateString(undefined, options);
+        return images[randomIndex];
 
-        },
+    };
+    
+    const commentTweet = async () => {
 
-        getRandomImage() {
+        try {
 
-            const randomIndex = Math.floor(Math.random() * this.images.length);
+        const userId = userIdStore.userId;
 
-            return this.images[randomIndex];
+        const tweetId = props.Tweet.id;
 
-        },
+        const response = await axiosInstance.post('/tweet/comment/', { body: body.value, user_id: userId, tweet_id: tweetId });
 
-        //Creating a tweet comment.
-        async commentTweet() {
+        body.value = '';
 
-            try {
+        console.log(response);
 
-                const id = localStorage.getItem('userId');
+        } catch (error) {
 
-                let tweetId = this.$props.Tweet;
+            console.error('Error commenting on tweet:', error);
 
-                console.log(tweetId)
+        }
 
-                const res = await axiosInstance.post('/tweet/comment/',{"body": this.body, "user_id": parseInt(id), "tweet_id": parseInt(tweetId)});
-                
-                this.body = '';
-
-                console.log(res)
-
-            } catch(error) {
-
-                console.error(error);
-
-            }
-
-        },
-
-    }
-
-}
+    };
 
 </script>
-
+  

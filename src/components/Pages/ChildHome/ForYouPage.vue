@@ -134,6 +134,8 @@
 
   const tweetsStore = useTweetsStore();
 
+  const username = useTweetIdStore();
+
   const router = useRouter();
 
   const images = [
@@ -198,11 +200,11 @@
 
       const response = await axiosInstance.get('/tweet/' + id);
 
-      localStorage.setItem('username', response.data.tweet.user.username);
+      username.setUsername(response.data.tweet.user.username);
 
       tweetIdStore.setTweetId(id);
 
-      const user = response.data.tweet.user.username;
+      const user = username.username;
 
       router.push(`/${user}/status/${id}`);
 

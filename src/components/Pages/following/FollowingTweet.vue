@@ -117,15 +117,13 @@
 
     import { useTweetIdStore } from '@/stores/tweetId';
 
-    import { useUserIdStore } from '@/stores/userId';
-
     import axiosInstance from '@/axiosInstance';
 
     import FollowingTweetComments from '@/components/Pages/following/FollwingTweetComments.vue';
 
     const tweetIdStore = useTweetIdStore();
 
-    const userIdStore = useUserIdStore();
+    const userIdStore =  useTweetIdStore();
 
     const images = [
 

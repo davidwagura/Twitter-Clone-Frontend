@@ -78,7 +78,7 @@
 
     import { ref, onMounted, defineProps, defineEmits } from 'vue';
 
-    import { useUserIdStore } from '@/stores/userId.js';
+    import { useTweetIdStore } from '@/stores/tweetId';
 
     const props = defineProps({
 
@@ -88,7 +88,7 @@
     
     const emit = defineEmits(['close']);
     
-    const userIdStore = useUserIdStore();
+    const userIdStore =  useTweetIdStore();
     
     const tweet = ref({});
 

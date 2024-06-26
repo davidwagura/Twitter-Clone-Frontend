@@ -60,16 +60,14 @@
 
     import axios from 'axios';
 
-    import { useUserIdStore } from '@/stores/userId.js';
-
-    import { useTokenStore } from '@/stores/token.js';
+    import { useTweetIdStore } from '@/stores/tweetId.js';
 
     import { useRouter } from 'vue-router';
 
 
-    const userIdStore = useUserIdStore();
+    const userIdStore = useTweetIdStore();
 
-    const tokenStore = useTokenStore();
+    const tokenStore = useTweetIdStore();
 
     const router = useRouter();
 

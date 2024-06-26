@@ -98,8 +98,6 @@
 
   import { ref, onMounted } from 'vue';
 
-  import { useUserIdStore } from '@/stores/userId';
-
   import { useTweetIdStore } from '@/stores/tweetId';
 
   import { useRouter } from 'vue-router';
@@ -108,7 +106,7 @@
 
   import FollowingTweetModalVue from '../modal/FollowingTweetModal.vue';
 
-  const userIdStore = useUserIdStore();
+  const userIdStore =  useTweetIdStore();
 
   const tweetIdStore = useTweetIdStore();
 

@@ -92,9 +92,9 @@
 
     import FollowingPage from './ChildHome/FollowingPage.vue';
 
-    import { useUserIdStore } from '@/stores/userId.js';
-
-    const userIdStore = useUserIdStore();
+    import { useTweetIdStore } from '@/stores/tweetId';
+    
+    const userIdStore =  useTweetIdStore();
 
     const images = [
 

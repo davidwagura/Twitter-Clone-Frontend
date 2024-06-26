@@ -10,6 +10,10 @@ export const useTweetIdStore  = defineStore('tweetId', {
 
         followingUsername: null,
 
+        token: null,
+
+        userId: null,
+
     }),
 
     getters: {
@@ -19,6 +23,10 @@ export const useTweetIdStore  = defineStore('tweetId', {
         getFollowingTweet: (state) => state.followingTweetId,
 
         getFollowingUsername: (state) => state.followingUsername,
+
+        getToken: (state) => state.token,
+
+        getUserId: (state) => state.userId,
 
     },
 
@@ -46,7 +54,20 @@ export const useTweetIdStore  = defineStore('tweetId', {
 
             this.followingUsername = followingUsername;
 
-        }
+        },
+
+        setToken(token) {
+
+            this.token = token;
+      
+        },
+      
+        setUserId(userId) {
+
+            this.userId = userId;
+      
+        },
+      
       
     },
 

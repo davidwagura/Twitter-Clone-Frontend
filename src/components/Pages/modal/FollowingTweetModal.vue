@@ -76,11 +76,11 @@
 
     import { ref, onMounted, defineProps, defineEmits } from 'vue';
 
-    import { useUserIdStore } from '@/stores/userId';
+    import { useTweetIdStore } from '@/stores/tweetId';
 
     import axiosInstance from '@/axiosInstance';
 
-    const userIdStore = useUserIdStore();
+    const userIdStore =  useTweetIdStore();
 
     const props = defineProps({
 

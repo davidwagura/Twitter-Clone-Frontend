@@ -97,11 +97,9 @@
 
   import { useTweetIdStore } from '@/stores/tweetId.js';
 
-  import { useUserIdStore } from '@/stores/userId.js';
-
   const tweetIdStore = useTweetIdStore();
 
-  const userIdStore = useUserIdStore();
+  const userIdStore =  useTweetIdStore();
 
   const images = [
 

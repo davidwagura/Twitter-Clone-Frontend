@@ -93,15 +93,13 @@
 
   import { useTweetIdStore } from '@/stores/tweetId';
 
-  import { useUserIdStore } from '@/stores/userId';
-
   import axiosInstance from '@/axiosInstance';
 
   import CommentReplyModal from '../modal/CommentReplyModal.vue';
   
   const tweetIdStore = useTweetIdStore();
 
-  const userIdStore = useUserIdStore();
+  const userIdStore = useTweetIdStore();
 
   defineProps({
 

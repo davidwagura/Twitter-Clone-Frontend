@@ -120,8 +120,6 @@
 
   import { useTweetIdStore } from '@/stores/tweetId.js';
 
-  import { useUserIdStore } from '@/stores/userId.js';
-
   import { useTweetsStore } from '@/stores/tweets';
 
   import ReplyModal from '../modal/ReplyModal.vue';
@@ -130,7 +128,7 @@
 
   import { useRouter } from 'vue-router';
 
-  const userIdStore = useUserIdStore();
+  const userIdStore =  useTweetIdStore();
 
   const tweetIdStore = useTweetIdStore();
 

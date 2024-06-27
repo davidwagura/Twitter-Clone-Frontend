@@ -13,7 +13,7 @@
 
             <div class="hover:bg-gray-300  hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <button class="flex items-center">
+                <router-link to="/home" class="flex items-center">
 
                     <span data-tooltip="Home">
 
@@ -28,13 +28,13 @@
 
                     </span>
 
-                </button>
+                </router-link>
                     
             </div>
 
             <div class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <button class="flex items-center">
+                <router-link to="/explore" class="flex items-center">
 
                     <span data-tooltip="Explore">
 
@@ -46,7 +46,7 @@
 
                     </span>
 
-                </button>
+                </router-link>
                     
             </div>
 
@@ -71,7 +71,7 @@
 
             <div class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <button  class="flex items-center">
+                <router-link to="/messages"  class="flex items-center">
 
                     <span data-tooltip="Messages">
 
@@ -83,13 +83,13 @@
                         
                     </span>
 
-                </button>               
+                </router-link>               
 
             </div>
 
             <div class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <button class="flex items-center">
+                <router-link to="Grok" class="flex items-center">
 
                     <span data-tooltip="Grok">
 
@@ -101,13 +101,13 @@
 
                     </span>
 
-                </button>
+                </router-link>
                 
             </div>
 
             <div class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <button class="flex items-center">
+                <router-link to="/communities" class="flex items-center">
 
                     <span data-tooltip="Communities">
 
@@ -119,13 +119,13 @@
 
                     </span>
 
-                </button>
+                </router-link>
                
             </div>
 
             <div class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <button class="flex items-center">
+                <router-link to="/profile" class="flex items-center">
 
                     <span data-tooltip="Profile">
 
@@ -137,13 +137,13 @@
 
                     </span>
 
-                </button>
+                </router-link>
                 
             </div>
 
             <div class="hover:bg-gray-300 hover:font-medium mb-2 mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <button class="flex items-center">
+                <router-link to="/more" class="flex items-center">
 
                     <span data-tooltip="More">
 
@@ -155,7 +155,7 @@
 
                     </span>
 
-                </button>
+                </router-link>
                 
             </div>
 

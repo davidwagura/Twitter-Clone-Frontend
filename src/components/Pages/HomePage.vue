@@ -1,12 +1,12 @@
 <template>
 
-    <div>
+    <div class="flow-root">
 
         <nav-page />
 
         <div class="flex">
 
-            <div class="ml-48 w-8/12 border min-h-screen h-fit">
+            <div class="ml-48 w-7/12 border min-h-screen h-fit">
 
                 <div class="h-12 flex justify-between items-center relative px-4">
 
@@ -79,7 +79,7 @@
 
             </div>
   
-            <div class="w-6/12 ml-6">
+            <div class="float-right ml-6 border border-gray-200 w-5/12 m-6 rounded-xl h-screen overflow-auto">
 
                 <trends-page-vue></trends-page-vue>
 
@@ -92,6 +92,7 @@
 </template>  
 
 <script setup>
+
     import { ref, computed } from 'vue';
 
     import axios from 'axios';

@@ -10,6 +10,8 @@ export const useTweetsStore  = defineStore('tweets', {
 
         trends: [],
 
+        notifications: [],
+
     }),
 
     getters: {
@@ -19,6 +21,8 @@ export const useTweetsStore  = defineStore('tweets', {
         getTweet: (state) => state.tweet,
 
         getTrends: (state) => state.trends,
+
+        getNotifications: (state) => state.notifications,
 
     },
 
@@ -39,7 +43,13 @@ export const useTweetsStore  = defineStore('tweets', {
         setTrends(trends) {
 
             this.trends = trends;
-        }
+        },
+
+        setNotifications(notifications) {
+
+            this.notifications = notifications;
+
+        },
       
     },
 

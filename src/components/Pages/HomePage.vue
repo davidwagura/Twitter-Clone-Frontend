@@ -1,86 +1,96 @@
 <template>
+
+    <div>
+
+        <nav-page />
+
+        <div class="flex">
+
+            <div class="ml-48 w-8/12 border min-h-screen h-fit">
+
+                <div class="h-12 flex justify-between items-center relative px-4">
+
+                    <button
+
+                        @click="setActiveSection('for-you')"
+
+                        :class="[
+
+                            'flex-1 text-center py-2.5 font-semibold',
+
+                            activeSection === 'for-you' ? 'border-b-4 border-blue-500 text-black' : 'text-gray-500 hover:bg-gray-100'
+
+                        ]"
+
+                    >
+        
+                        For You
+
+                    </button>
+
+                    <button
+
+                        @click="setActiveSection('following')"
+
+                        :class="[
+
+                            'flex-1 text-center py-2.5 font-semibold',
+
+                            activeSection === 'following' ? 'border-b-4 border-blue-500 text-black' : 'text-gray-500 hover:bg-gray-100'
+
+                        ]"
+
+                    >
+
+                        Following
     
-    <nav-page />
+                    </button>
 
-    <div class="ml-48 top-0 w-6/12 border min-h-screen h-fit">
+                </div>
 
-        <div class="h-12 flex justify-between items-center relative px-4">
+  
+                <div class="border-t h-36 mb-12 p-2">
 
-            <button
+                    <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
-                @click="setActiveSection('for-you')"
+                    <input type="text" placeholder="What is happening?!" v-model="data.body" class="w-full border-none mb-2 h-20 p-1" />
 
-                :class="[
+                    <hr />
 
-                    'flex-1 text-center py-2.5 font-semibold',
+                    <div class="flex justify-end">
 
-                    activeSection === 'for-you'
+                        <button @click="createTweet()" class="bg-blue-400 mt-1 text-white font-bold py-2 px-4 rounded-3xl">
 
-                    ? 'border-b-4 border-blue-500 text-black'
+                            Post
 
-                    : 'text-gray-500 hover:bg-gray-100'
+                        </button>
 
-                ]"
+                    </div>
 
-            >
-                For You
+                    <div class="-mt-8 text-green-500">{{ successMessage }}</div>
 
-            </button>
+                </div>
+  
+                <div class="component">
 
-            <button @click="setActiveSection('following')" 
+                    <component :is="currentSectionComponent"></component>
 
-                :class="[
-
-                    'flex-1 text-center py-2.5 font-semibold',
-
-                    activeSection === 'following'
-
-                    ? 'border-b-4 border-blue-500 text-black'
-
-                    : 'text-gray-500 hover:bg-gray-100'
-                    
-                ]"
-
-                >
-
-                    Following
-
-            </button>
-
-        </div>  
-
-        <div class="border-t h-36 mb-12 p-2">
-
-            <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
-
-            <input type="text" placeholder="What is happening?!" v-model="data.body" class="w-full border-none mb-2 h-20 p-1">
-
-            <hr>
-
-            <div class="flex justify-end">
-
-                <button @click="createTweet()"  class="bg-blue-400 mt-1  text-white font-bold py-2 px-4 rounded-3xl">
-
-                    post
-
-                </button>
+                </div>
 
             </div>
+  
+            <div class="w-6/12 ml-6">
 
-            <div class="-mt-8 text-green-500">{{ successMessage }}</div>
+                <trends-page-vue></trends-page-vue>
 
-        </div>
-
-        <div class="component">
-
-            <component :is = "currentSectionComponent"></component> 
+            </div>
 
         </div>
 
     </div>
 
-</template>
-  
+</template>  
+
 <script setup>
     import { ref, computed } from 'vue';
 
@@ -91,6 +101,8 @@
     import ForYouPage from './ChildHome/ForYouPage.vue';
 
     import FollowingPage from './ChildHome/FollowingPage.vue';
+
+    import TrendsPageVue from '@/components/Pages/trends/TrendsPage.vue'
 
     import { useTweetIdStore } from '@/stores/tweetId';
     

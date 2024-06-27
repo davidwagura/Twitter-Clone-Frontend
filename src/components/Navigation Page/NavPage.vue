@@ -53,7 +53,7 @@
 
             <div class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <button class="flex items-center">
+                <router-link to="/notifications" class="flex items-center">
 
                     <span data-tooltip="Notifications">
 
@@ -65,7 +65,7 @@
 
                     </span>
 
-                </button>
+                </router-link>
              
             </div>
 

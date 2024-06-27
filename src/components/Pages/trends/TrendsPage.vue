@@ -88,7 +88,7 @@
 
     <div v-else class="text-gray-500">No tweets to display</div>
 
-    {{ newTweets }}
+    <!-- {{ newTweets }} -->
 
   </div>
  
@@ -111,6 +111,8 @@
   const tweets = ref([]);
 
   const newTweets  = trendsStore.trends;
+
+  console.log(newTweets);
 
   console.log(tweets);
 

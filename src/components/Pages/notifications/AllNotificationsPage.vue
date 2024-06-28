@@ -1,23 +1,29 @@
 <template>
 
-    <div class="overflow: -moz-scrollbars-none">
+    <div class="max-h-screen">
 
-        <div v-for="notification in notifications" :key="notification.id" class="border-t border-gray-200 p-4 justify-center">
+        <div v-for="notification in notifications" :key="notification.id" class="border-t border-gray-200 p-4 flex items-start space-x-4 hover:bg-gray-100 cursor-pointer">
 
-            <div class="ml-16">
+            <div class="flex-1">
 
-                <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" /> <br>
+                <div class="flex items-center space-x-2">
+
+                    <img :src="getIcon(notification.action_type)" alt="icon" class="w-8 h-8" />
+
+                    <img :src="getRandomImage()" alt="Avatar" class="w-8 h-8 rounded-full" />
+
+                </div>
+
+                <div class="mt-2 ml-10 text-gray-700">{{ notification.body }}</div>
 
             </div>
-
-            <div class="ml-12">{{ notification.body }}</div>
 
         </div>
 
     </div>
 
 </template>
-
+  
 <script setup>
 
     import axiosInstance from '@/axiosInstance';
@@ -76,5 +82,35 @@
 
     }
 
+    const getIcon = (action_type) => {
+
+        switch (action_type) {
+
+            case 'like':
+
+                return require('@/assets/icons/like.svg');
+
+            case 'notification':
+
+                return require('@/assets/icons/notification.svg');
+
+            case 'comment':
+
+                return require('@/assets/icons/star.svg');
+
+            case 'follower':
+
+                return require('@/assets/icons/profile.svg');
+
+            case 'retweet': 
+
+                return require('@/assets/icons/retweet.svg')
+
+            default:
+
+                return 'path/to/default-icon.svg';
+        }
+
+    }
 
 </script>

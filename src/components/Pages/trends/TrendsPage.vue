@@ -1,5 +1,12 @@
 <template>
 
+    <div>
+
+      <input class="w-full bg-gray-300 border rounded-xl" placeholder="Search" type="text">
+
+    </div>
+
+
   <div class="w-full">
 
     <div v-if="newTweets.length > 0">
@@ -68,7 +75,7 @@
 
               </svg>
 
-              <span v-if="tweet.retweets > 0">{{ retweets }}</span>
+              <span v-if="tweet.retweets > 0">{{ tweet.retweets }}</span>
 
             </button>
 
@@ -80,7 +87,7 @@
 
               </svg>
 
-              <span v-if="likes > 0">{{ likes }}</span>
+              <span v-if="tweet.likes > 0">{{ tweet.likes }}</span>
 
             </button>
 
@@ -176,6 +183,7 @@
 
       const userId = userIdStore.userId;
 
+
       if (tweet.isLiked) {
 
         await axiosInstance.post(`/unlike/${tweet.id}/${userId}`);
@@ -184,7 +192,7 @@
 
       } else {
 
-        await axiosInstance.post(`/like/${tweet.id}/${userId}`);
+      await axiosInstance.post(`/like/${tweet.id}/${userId}`);
 
         tweet.likes++;
 

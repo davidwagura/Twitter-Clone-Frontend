@@ -6,7 +6,7 @@
 
         <div class="flex bg-opacity-5">
 
-            <div class="ml-48 w-6/12 float-left border min-h-screen h-fit fixed">
+            <div class="ml-48 w-5/12 float-left border min-h-screen h-fit fixed">
 
                 <h1 class="p-3 mb-4 font-sans font-bold">Notifications</h1>
 
@@ -80,7 +80,7 @@
   
         </div>
         
-        <div class="w-4/12 border h-screen ml-24 float-right">
+        <div class="w-4.5/12 border min-h-screen mr-16 mt-10 mb-8 ml-4  rounded-xl float-right">
 
             <trends-page-vue></trends-page-vue>
 

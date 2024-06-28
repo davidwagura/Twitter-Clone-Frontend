@@ -79,7 +79,7 @@
 
             </div>
   
-            <div class="float-right ml-6 border border-gray-200 w-5/12 m-6 rounded-xl h-screen overflow-auto">
+            <div class="float-right ml-6 border border-gray-200 w-5/12 m-8 mt-12 rounded-xl h-screen overflow-auto">
 
                 <trends-page-vue></trends-page-vue>
 

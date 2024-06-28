@@ -80,7 +80,7 @@
   
         </div>
         
-        <div class="w-4.5/12 border min-h-screen mr-16 mt-10 mb-8 ml-4  rounded-xl float-right">
+        <div class="w-4.5/12 min-h-screen mr-16 mt-10 mb-8 ml-4 rounded-xl float-right">
 
             <trends-page-vue></trends-page-vue>
 

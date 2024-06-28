@@ -1,13 +1,12 @@
 <template>
 
-    <div>
+  <div class="mb-4 -mt-8">
 
-      <input class="w-full bg-gray-300 border rounded-xl" placeholder="Search" type="text">
+    <SearchBar></SearchBar>
 
-    </div>
+  </div>
 
-
-  <div class="w-full">
+  <div class="w-full border rounded-lg">
 
     <div v-if="newTweets.length > 0">
 
@@ -106,6 +105,8 @@
 </template>
 
 <script setup>
+
+import SearchBar from '@/components/Pages/trends/SearchBar.vue'
 
   import axiosInstance from '@/axiosInstance';
 

@@ -14,6 +14,8 @@ import FollowingTweet from '@/components/Pages/following/FollowingTweet.vue'
 
 import NotificationsPage from '@/components/Pages/notifications/NotificationsPage'
 
+import ProfilePage from '@/components/Pages/profile/ProfilePage.vue'
+
 
 const routes = [
 
@@ -74,7 +76,16 @@ const routes = [
 
         component: NotificationsPage
 
+    },
+
+    {
+
+        path: '/profile',
+
+        component: ProfilePage
+
     }
+
 
     
 ];

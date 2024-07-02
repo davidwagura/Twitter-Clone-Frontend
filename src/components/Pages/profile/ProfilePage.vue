@@ -12,7 +12,7 @@
                     
                     <div class="h-40 bg-gray-200">
 
-                        <img src="https://via.placeholder.com/1500x500" alt="Cover Photo" class="w-full h-full object-cover">
+                        <img src="../../../assets/images/2.jpeg" alt="Cover Photo" class="w-full h-full object-cover">
 
                     </div>
 
@@ -22,7 +22,7 @@
 
                     </div>
 
-                    <button class="absolute right-4 bottom-4 border rounded-3xl mt-12 m-4 p-2 font-semibold">Edit Profile</button>
+                    <button class="absolute right-4 bottom-4 border rounded-3xl -mb-20 m-4 p-2 font-semibold">Edit Profile</button>
 
                 </div>
         

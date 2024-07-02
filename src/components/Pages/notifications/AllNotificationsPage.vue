@@ -16,6 +16,8 @@
 
                 <div class="mt-2 ml-10 text-gray-700">{{ notification.body }}</div>
 
+                <div class="mt-2 ml-10 text-gray-700">{{ getRelatedItem(notification) }}</div>
+
             </div>
 
         </div>
@@ -39,8 +41,6 @@
     const notificationsStore = useTweetsStore();
 
     let notifications = notificationsStore.notifications;
-
-    console.log(notifications);
 
     const images = [
 
@@ -78,8 +78,6 @@
 
         notificationsStore.setNotifications(response.data.notifications);
 
-        console.log(response.data.notifications)
-
     }
 
     const getIcon = (action_type) => {
@@ -106,10 +104,37 @@
 
                 return require('@/assets/icons/retweet.svg')
 
-            default:
-
-                return 'path/to/default-icon.svg';
         }
+
+    }
+
+    const getRelatedItem = async (notification) => {
+
+        const id = notification.related_item_id; 
+        
+        let response;
+
+        // try {
+
+            if (notification.action_type) {
+
+                response = await axiosInstance.get(`/user/${id}`);
+
+
+            } else {
+
+                response = await axiosInstance.get(`/tweet/${id}`);
+            }
+
+            return response.data.tweet;
+
+        // } catch (error) {
+
+        //     console.error('Error fetching related item:', error);
+
+        //     return null;
+
+        // }
 
     }
 

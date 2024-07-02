@@ -4,7 +4,7 @@
 
         <nav-page />
 
-        <div class="flex bg-opacity-5">
+        <div class="flex bg-opacity-5 h-fit">
 
             <div class="ml-48 w-5/12 float-left border min-h-screen h-fit fixed">
 

@@ -122,8 +122,6 @@ import SearchBar from '@/components/Pages/trends/SearchBar.vue'
 
   const newTweets  = tweetsStore.trends;
 
-  console.log(newTweets);
-
   const images = [
 
     require('../../../assets/images/1.jpeg'),

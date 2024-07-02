@@ -39,8 +39,6 @@
 
     let notifications = notificationsStore.notifications;
 
-    console.log(notifications);
-
     const images = [
 
         require('../../../assets/images/1.jpeg'),

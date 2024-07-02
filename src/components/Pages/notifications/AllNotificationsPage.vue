@@ -16,7 +16,33 @@
 
                 <div class="mt-2 ml-10 text-gray-700">{{ notification.body }}</div>
 
-                <div class="mt-2 ml-10 text-gray-700">{{ getRelatedItem(notification) }}</div>
+                <div class="mt-2 ml-10 text-gray-700">
+
+                    <template v-if="getRelatedItem(notification)">
+
+                        <div v-if="notification.action_type === 'follower'">
+
+                            <span>{{ getRelatedItem(notification).first_name }} {{ getRelatedItem(notification).last_name }}</span>
+
+                            <span class="text-gray-500">followed you.</span>
+
+                        </div>
+
+                        <div v-else>
+
+                            <span>{{ getRelatedItem(notification).body }}</span>
+
+                        </div>
+
+                    </template>
+
+                    <template v-else>
+
+                        <span>Loading...</span>
+
+                    </template>
+
+                </div>
 
             </div>
 
@@ -30,18 +56,18 @@
 
     import axiosInstance from '@/axiosInstance';
 
-    import { useTweetIdStore } from '@/stores/tweetId'
+    import { useTweetIdStore } from '@/stores/tweetId';
 
     import { useTweetsStore } from '@/stores/tweets';
 
     import { onMounted } from 'vue';
-
+  
     const userIdStore = useTweetIdStore();
 
     const notificationsStore = useTweetsStore();
 
     let notifications = notificationsStore.notifications;
-
+  
     const images = [
 
         require('../../../assets/images/1.jpeg'),
@@ -54,21 +80,24 @@
         require('../../../assets/images/8.jpeg'),
         require('../../../assets/images/9.jpeg'),
         require('../../../assets/images/10.jpeg'),
+        
     ];
-    
+  
     onMounted(async () => {
 
         await getNotifications();
 
     });
+  
 
-    function getRandomImage() {
+    const getRandomImage = () => {
 
         const randomIndex = Math.floor(Math.random() * images.length);
 
         return images[randomIndex];
 
-    }
+    };
+  
 
     const getNotifications = async () => {
 
@@ -78,64 +107,70 @@
 
         notificationsStore.setNotifications(response.data.notifications);
 
-    }
+    };
+  
 
     const getIcon = (action_type) => {
 
         switch (action_type) {
 
             case 'like':
-
-                return require('@/assets/icons/like.svg');
+                
+            return require('@/assets/icons/like.svg');
 
             case 'notification':
 
-                return require('@/assets/icons/notification.svg');
+            return require('@/assets/icons/notification.svg');
 
             case 'comment':
 
-                return require('@/assets/icons/star.svg');
+            return require('@/assets/icons/star.svg');
 
             case 'follower':
 
-                return require('@/assets/icons/profile.svg');
+            return require('@/assets/icons/profile.svg');
 
-            case 'retweet': 
+            case 'retweet':
 
-                return require('@/assets/icons/retweet.svg')
+            return require('@/assets/icons/retweet.svg');
 
+            default:
+
+            return '';
+            
         }
 
-    }
-
+    };
+  
     const getRelatedItem = async (notification) => {
 
-        const id = notification.related_item_id; 
-        
-        let response;
+        const id = notification.related_item_id;
 
-        // try {
+        try {
 
-            if (notification.action_type) {
+            if (notification.action_type === 'follower') {
 
-                response = await axiosInstance.get(`/user/${id}`);
+            const response = await axiosInstance.get(`/user/${id}`);
 
+            return response.data.user;
 
             } else {
 
-                response = await axiosInstance.get(`/tweet/${id}`);
-            }
+            const response = await axiosInstance.get(`/tweet/${id}`);
 
             return response.data.tweet;
 
-        // } catch (error) {
+            }
 
-        //     console.error('Error fetching related item:', error);
+        } catch (error) {
 
-        //     return null;
+            console.error('Error fetching related item:', error);
 
-        // }
+            return null;
 
-    }
+        }
+
+    };
 
 </script>
+  

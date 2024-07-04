@@ -82,7 +82,7 @@
         
         <div class="w-4.5/12 min-h-screen mr-16 mt-10 mb-8 ml-4 rounded-xl float-right">
 
-            <trends-page-vue></trends-page-vue>
+            <!-- <trends-page-vue></trends-page-vue> -->
 
         </div>
 
@@ -101,7 +101,7 @@
 
     import VerifiedPage from './VerifiedPage.vue';
 
-    import TrendsPageVue from '@/components/Pages/trends/TrendsPage.vue';
+    // import TrendsPageVue from '@/components/Pages/trends/TrendsPage.vue';
 
     const activeSection = ref('notifications');
 

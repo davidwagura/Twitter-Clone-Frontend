@@ -3,7 +3,7 @@
   <div class="w-full">
 
     <div v-if="activeSection === 'for-you'">
-
+      
       <ul v-if="tweetsStore.tweets.length > 0">
 
         <li v-for="tweet in tweetsStore.tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
@@ -35,7 +35,7 @@
               </div>
 
             </div>
-
+            
             <div class="p-4">
 
               <div class="flex justify-start ml-12">{{ tweet.body }}</div>
@@ -126,9 +126,7 @@
 
   import TweetPage from '../Tweet/TweetPage.vue';
 
-  import { useRouter } from 'vue-router';
-
-  const userIdStore =  useTweetIdStore();
+  const userIdStore = useTweetIdStore();
 
   const tweetIdStore = useTweetIdStore();
 
@@ -136,10 +134,7 @@
 
   const username = useTweetIdStore();
 
-  const router = useRouter();
-
   const images = [
-
     require('../../../assets/images/1.jpeg'),
     require('../../../assets/images/2.jpeg'),
     require('../../../assets/images/3.jpeg'),
@@ -152,7 +147,7 @@
     require('../../../assets/images/10.jpeg'),
   ];
 
-  let activeSection = 'for-you';
+  let activeSection = ref('for-you');
 
   let isModalVisible = ref(false);
 
@@ -182,8 +177,8 @@
 
   const setActiveSection = (section) => {
 
-    activeSection = section;
-
+    activeSection.value = section;
+    
   };
 
   const formatDate = (dateString) => {
@@ -204,9 +199,8 @@
 
       tweetIdStore.setTweetId(id);
 
-      const user = username.username;
-
-      router.push(`/${user}/status/${id}`);
+      // const user = username.username;
+      // router.push(`/${user}/status/${id}`);
 
     } catch (error) {
 
@@ -293,9 +287,9 @@
     } catch (error) {
 
       console.error('Error toggling retweet:', error);
-
+      
     }
-    
-  };
 
+  };
+  
 </script>

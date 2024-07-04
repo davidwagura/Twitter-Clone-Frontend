@@ -1,55 +1,30 @@
 <template>
-
     <div class="max-h-screen">
-
         <div v-for="notification in notifications" :key="notification.id" class="border-t border-gray-200 p-4 flex items-start space-x-4 hover:bg-gray-100 cursor-pointer">
-
             <div class="flex-1">
-
                 <div class="flex items-center space-x-2">
-
                     <img :src="getIcon(notification.action_type)" alt="icon" class="w-8 h-8" />
-
                     <img :src="getRandomImage()" alt="Avatar" class="w-8 h-8 rounded-full" />
-
                 </div>
-
                 <div class="mt-2 ml-10 text-gray-700">{{ notification.body }}</div>
-
                 <div class="mt-2 ml-10 text-gray-700">
-
-                    <template v-if="getRelatedItem(notification)">
-
+                    <template v-if="notification.related_item">
                         <div v-if="notification.action_type === 'follower'">
-
-                            <span>{{ getRelatedItem(notification).first_name }} {{ getRelatedItem(notification).last_name }}</span>
-
-                            <span class="text-gray-500">followed you.</span>
-
+                            <span>{{ notification.related_item.first_name }} {{ notification.related_item.last_name }}</span>
+                            <span class="text-gray-500"> followed you.</span>
                         </div>
-
                         <div v-else>
-
-                            <span>{{ getRelatedItem(notification).body }}</span>
-
+                            {{ notification.action_type }}: 
+                            <span>{{ notification.related_item.body }}</span>
                         </div>
-
                     </template>
-
                     <template v-else>
-
                         <span>Loading...</span>
-
                     </template>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </template>
   
 <script setup>
@@ -61,7 +36,7 @@
     import { useTweetsStore } from '@/stores/tweets';
 
     import { onMounted } from 'vue';
-  
+
     const userIdStore = useTweetIdStore();
 
     const notificationsStore = useTweetsStore();
@@ -86,6 +61,8 @@
     onMounted(async () => {
 
         await getNotifications();
+
+        // await getRelatedItem();
 
     });
   
@@ -142,35 +119,5 @@
 
     };
   
-    const getRelatedItem = async (notification) => {
-
-        const id = notification.related_item_id;
-
-        try {
-
-            if (notification.action_type === 'follower') {
-
-            const response = await axiosInstance.get(`/user/${id}`);
-
-            return response.data.user;
-
-            } else {
-
-            const response = await axiosInstance.get(`/tweet/${id}`);
-
-            return response.data.tweet;
-
-            }
-
-        } catch (error) {
-
-            console.error('Error fetching related item:', error);
-
-            return null;
-
-        }
-
-    };
-
 </script>
   

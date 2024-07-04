@@ -6,7 +6,7 @@
 
         <div class="flex">
 
-            <div class="w-5/12 border min-h-screen h-fit fixed ml-64">
+            <div class="w-5/12 border min-h-screen h-fit overflow-y-scroll ml-64">
 
                 <div class="relative">
                     
@@ -72,7 +72,7 @@
 
                 </div>
         
-                <div class="component overflow-y-scroll h-screen mt-4">
+                <div class="component mt-4">
 
                     <component :is="currentSectionComponent"></component>
 

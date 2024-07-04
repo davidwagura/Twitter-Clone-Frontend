@@ -22,7 +22,7 @@ export const useTweetIdStore  = defineStore('tweetId', {
 
         getTweetId: (state) => state.tweetId,
 
-        getFollowingTweet: (state) => state.followingTweetId,
+        getFollowingTweetId: (state) => state.followingTweetId,
 
         getFollowingUsername: (state) => state.followingUsername,
 
@@ -50,7 +50,7 @@ export const useTweetIdStore  = defineStore('tweetId', {
 
         setFollowingTweetId(followingTweetId) {
 
-            this.followingTweet = followingTweetId;
+            this.followingTweetId = followingTweetId;
 
         },
 

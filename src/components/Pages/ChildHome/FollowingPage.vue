@@ -1,6 +1,6 @@
 <template>
 
-  <div class="w-full">
+  <div v-if="activeSection === 'following'" class="w-full">
 
     <div v-if="tweets && tweets.length">
 
@@ -8,7 +8,7 @@
 
         <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
           
-          <div @click="fetchTweet(tweet.id)" class="cursor-pointer">
+          <div @click="fetchTweet(tweet.id), setActiveSection('followingTweet')" class="cursor-pointer">
 
             <div class="flex items-center justify-between">
 
@@ -92,6 +92,12 @@
 
   </div>
 
+  <div v-else-if="activeSection === 'followingTweet'">
+
+    <followingTweet @back="setActiveSection('following')"></followingTweet>
+  
+  </div>
+
 </template>
 
 <script setup>
@@ -100,17 +106,18 @@
 
   import { useTweetIdStore } from '@/stores/tweetId';
 
-  import { useRouter } from 'vue-router';
-
   import axiosInstance from '@/axiosInstance';
 
   import FollowingTweetModalVue from '../modal/FollowingTweetModal.vue';
+
+  import FollowingTweet from '../following/FollowingTweet.vue';
 
   const userIdStore =  useTweetIdStore();
 
   const tweetIdStore = useTweetIdStore();
 
-  const router = useRouter();
+  let activeSection = ref('following');
+
 
   const images = [
 
@@ -166,6 +173,13 @@
     return images[randomIndex];
 
   };
+
+  const setActiveSection = (section) => {
+
+    activeSection.value = section;
+
+  };
+
 
   const toggleLike = async (tweet) => {
 
@@ -243,15 +257,15 @@
 
   const fetchTweet = async (id) => {
 
-    const response = await axiosInstance.get('/tweet/' + id);
-
     tweetIdStore.setFollowingTweetId(id);
+
+    const response = await axiosInstance.get('/tweet/' + id);
 
     tweetIdStore.setFollowingUsername(response.data.tweet.user.username)
 
-    const username = tweetIdStore.followingUsername;
+    // const username = tweetIdStore.followingUsername;
 
-    router.push(`/${username}/status/${id}`);
+    // router.push(`/${username}/status/${id}`);
     
   };
 

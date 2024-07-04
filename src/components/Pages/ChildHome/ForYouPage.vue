@@ -8,7 +8,7 @@
 
         <li v-for="tweet in tweetsStore.tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
 
-          <div @click="fetchTweet(tweet.id), setActiveSection('tweet')" class="m-1">
+          <div @click="fetchTweet(tweet.id), setActiveSection('tweet')" class="m-1 cursor-pointer">
 
             <div class="flex items-center justify-between">
 
@@ -291,5 +291,5 @@
     }
 
   };
-  
+
 </script>

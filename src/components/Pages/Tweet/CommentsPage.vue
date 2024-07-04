@@ -182,15 +182,14 @@
 
       console.error(error);
 
-    }
+    }    console.log(comment.id)
+
 
   };
 
   const toggleRetweet = async (comment) => {
 
     const userId = userIdStore.userId;
-
-    console.log(comment.id)
 
     try {
 

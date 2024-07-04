@@ -6,11 +6,11 @@ import RegisterPage from '../components/Auth/RegisterPage.vue'
 
 import LoginPage from '../components/Auth/LoginPage.vue'
 
-import CommentsPage from '../components/Pages/Tweet/CommentsPage.vue'
+// import CommentsPage from '../components/Pages/Tweet/CommentsPage.vue'
 
-import TweetPage from '../components/Pages/Tweet/TweetPage.vue'
+// import TweetPage from '../components/Pages/Tweet/TweetPage.vue'
 
-import FollowingTweet from '@/components/Pages/following/FollowingTweet.vue'
+// import FollowingTweet from '@/components/Pages/following/FollowingTweet.vue'
 
 import NotificationsPage from '@/components/Pages/notifications/NotificationsPage'
 
@@ -49,26 +49,26 @@ const routes = [
 
     },
 
-    { 
-        path: '/tweet/:id/comments', 
+    // { 
+    //     path: '/tweet/:id/comments', 
         
-        component: CommentsPage 
+    //     component: CommentsPage 
     
-    },
+    // },
 
-    { 
-        path: '/:user/status/:id', 
+    // { 
+    //     path: '/:user/status/:id', 
         
-        component: TweetPage 
+    //     component: TweetPage 
     
-    },
+    // },
 
-    { 
+    // { 
         // path: '/:username/status/:id', 
         
-        component: FollowingTweet 
+    //     component: FollowingTweet 
     
-    },
+    // },
 
     {
 

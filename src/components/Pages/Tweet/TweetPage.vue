@@ -119,8 +119,6 @@
   
         <div v-else class="flex items-center justify-center h-screen">
 
-            {{ tweetStore.tweet }}
-
             <span>Loading...</span>
 
         </div>

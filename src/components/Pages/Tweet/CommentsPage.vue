@@ -1,6 +1,6 @@
 <template>
 
-  <div class="border-t mt-20">
+  <div class="border-t mt-2 h-screen">
 
     <ul v-if="comments.length">
 
@@ -189,6 +189,8 @@
   const toggleRetweet = async (comment) => {
 
     const userId = userIdStore.userId;
+
+    console.log(comment.id)
 
     try {
 

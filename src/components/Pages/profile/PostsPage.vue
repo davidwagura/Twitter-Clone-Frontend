@@ -8,7 +8,7 @@
     
           <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
             
-            <div class="cursor-pointer">
+            <div class="cursor-pointer" @click="fetchTweet()">
      
               <div class="flex items-center justify-between">
   
@@ -120,6 +120,10 @@
   
     ];
   
+    const fetchTweet = () => {
+
+        
+    }
   
     const formatDate = (dateString) => {
   

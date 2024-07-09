@@ -2,13 +2,13 @@
 
   <div class="w-full">
 
-    <div v-if="activeSection === 'for-you'">
+    <div>
       
       <ul v-if="tweetsStore.tweets.length > 0">
 
         <li v-for="tweet in tweetsStore.tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
 
-          <div @click="fetchTweet(tweet.id), setActiveSection('tweet')" class="m-1 cursor-pointer">
+          <router-link v-if="tweet.user" @click="fetchTweet()" :to="`/${tweet.user.username}/status/${tweet.id}`" class="m-1 cursor-pointer">
 
             <div class="flex items-center justify-between">
 
@@ -16,7 +16,7 @@
 
                 <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
-                <div v-if="tweet.user">
+                <div >
 
                   <div class="font-bold text-lg">
 
@@ -42,7 +42,7 @@
 
             </div>
 
-          </div>
+          </router-link>
 
           <div>
 
@@ -102,12 +102,6 @@
 
     </div>
 
-    <div v-else-if="activeSection === 'tweet'">
-
-      <TweetPage @back="setActiveSection('for-you')"></TweetPage>
-
-    </div>
-
   </div>
 
 </template>
@@ -118,13 +112,14 @@
 
   import { onMounted, ref } from 'vue';
 
+  import { useRouter } from 'vue-router';
+
   import { useTweetIdStore } from '@/stores/tweetId.js';
 
   import { useTweetsStore } from '@/stores/tweets';
 
   import ReplyModal from '../modal/ReplyModal.vue';
 
-  import TweetPage from '../Tweet/TweetPage.vue';
 
   const userIdStore = useTweetIdStore();
 
@@ -133,6 +128,8 @@
   const tweetsStore = useTweetsStore();
 
   const username = useTweetIdStore();
+
+  const router = useRouter();
 
   const images = [
     require('../../../assets/images/1.jpeg'),
@@ -147,11 +144,11 @@
     require('../../../assets/images/10.jpeg'),
   ];
 
-  let activeSection = ref('for-you');
 
   let isModalVisible = ref(false);
 
   let tweetToComment = ref(null);
+
 
   onMounted(async () => {
 
@@ -175,12 +172,6 @@
 
   };
 
-  const setActiveSection = (section) => {
-
-    activeSection.value = section;
-    
-  };
-
   const formatDate = (dateString) => {
 
     const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
@@ -199,8 +190,9 @@
 
       tweetIdStore.setTweetId(id);
 
-      // const user = username.username;
-      // router.push(`/${user}/status/${id}`);
+      const user = username.username;
+
+      router.push(`/${user}/status/${id}`);
 
     } catch (error) {
 

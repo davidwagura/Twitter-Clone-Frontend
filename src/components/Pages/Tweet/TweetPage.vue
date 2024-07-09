@@ -210,9 +210,9 @@
 
         try {
 
-            let id = userIdStore.userId;
+            let id = parseInt(userIdStore.userId);
 
-            const tweetId = tweetIdStore.tweetId;
+            const tweetId = parseInt(tweetIdStore.tweetId);
 
             const res = await axiosInstance.post('/tweet/comment/', { body, user_id: parseInt(id), tweet_id: parseInt(tweetId) });
 
@@ -298,7 +298,7 @@
 
         }
 
-    };
+    }; 
     
     const goBack = () => {
 

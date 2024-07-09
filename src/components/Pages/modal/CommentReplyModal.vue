@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="isVisible" class="fixed inset-0 bg-gray-100 bg-opacity-10 flex items-center justify-center z-50">
+    <div v-if="isVisible" class="fixed inset-0 bg-gray-100 bg-opacity-15 flex items-center justify-center z-50">
 
         <div  class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4">
 

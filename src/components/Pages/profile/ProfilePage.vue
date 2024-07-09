@@ -6,7 +6,7 @@
 
         <div class="flex">
 
-            <div class="w-5/12 border min-h-screen h-fit overflow-y-scroll ml-64">
+            <div class="w-5/12 border min-h-screen h-fit overflow-y-hidden ml-64">
 
                 <div class="relative">
                     

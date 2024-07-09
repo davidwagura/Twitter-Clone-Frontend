@@ -6,7 +6,7 @@
 
   </div>
 
-  <div class="w-full border rounded-lg">
+  <div class="w-full border rounded-lg overflow-y-hidden">
 
     <div v-if="newTweets.length > 0">
 

@@ -8,7 +8,7 @@ import LoginPage from '../components/Auth/LoginPage.vue'
 
 // import CommentsPage from '../components/Pages/Tweet/CommentsPage.vue'
 
-// import TweetPage from '../components/Pages/Tweet/TweetPage.vue'
+import TweetPage from '../components/Pages/Tweet/TweetPage.vue'
 
 // import FollowingTweet from '@/components/Pages/following/FollowingTweet.vue'
 
@@ -56,12 +56,12 @@ const routes = [
     
     // },
 
-    // { 
-    //     path: '/:user/status/:id', 
+    { 
+        path: '/:username/status/:id', 
         
-    //     component: TweetPage 
+        component: TweetPage 
     
-    // },
+    },
 
     // { 
         // path: '/:username/status/:id', 

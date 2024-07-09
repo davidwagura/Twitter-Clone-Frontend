@@ -43,6 +43,12 @@
 
                 <div class="flex justify-start ml-12 mb-3">{{ tweet.body }}</div>
 
+                <div v-if="tweet.image_path" class="flex justify-start ml-12 mt-2">
+
+                    <img :src="`http://127.0.0.1:8000/storage/${tweet.image_path}`" alt="Tweet Image" class="rounded-lg max-w-full h-auto" />
+                  
+                </div>
+
                 <span class="text-gray-500 text-sm ml-12">{{ formatDate(tweet.created_at) }}</span>
 
             </div>

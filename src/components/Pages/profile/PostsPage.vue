@@ -35,6 +35,12 @@
               <div class="p-4">
   
                 <div class="ml-12">{{ tweet.body }}</div>
+
+                <div v-if="tweet.image_path" class="flex justify-start ml-12 mt-2">
+                  
+                  <img :src="`http://127.0.0.1:8000/storage/${tweet.image_path}`" alt="Tweet Image" class="rounded-lg max-w-full h-auto" />
+                
+                </div>
   
               </div>
   

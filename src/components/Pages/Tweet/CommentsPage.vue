@@ -30,6 +30,12 @@
 
           <div class="flex justify-start ml-12">{{ comment.body }}</div>
 
+            <div v-if="comment.image_path" class="flex justify-start ml-12 mt-2">
+
+              <img :src="`http://127.0.0.1:8000/storage/${tweet.image_path}`" alt="Tweet Image" class="rounded-lg max-w-full h-auto" />
+                  
+            </div>
+
           <div class="flex justify-between pt-4 -mb-6">
 
             <!-- The comment icon svg -->

@@ -43,7 +43,7 @@
               <div v-if="tweet.image_path" class="flex justify-start ml-12 mt-2">
 
                 <img :src="`http://127.0.0.1:8000/storage/${tweet.image_path}`" alt="Tweet Image" class="rounded-lg max-w-full h-auto" />
-                
+
               </div>
 
             </div>
@@ -52,7 +52,7 @@
 
           <div>
 
-            <div class="flex justify-between pt-4 -mb-4">
+            <div class="flex justify-between -mb-4">
 
               <!-- Comment icon button -->
               <button @click="addComment(tweet)" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
@@ -168,8 +168,6 @@
 
       const response = await axiosInstance.get('/for-you');
 
-      console.log(response)
-
       tweetsStore.setTweets(response.data.tweets);
 
     } catch (error) {
@@ -237,6 +235,8 @@
     try {
 
       const userId = userIdStore.userId;
+
+      console.log(userId)
 
       if (tweet.isLiked) {
 

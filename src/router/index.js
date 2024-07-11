@@ -16,6 +16,8 @@ import NotificationsPage from '@/components/Pages/notifications/NotificationsPag
 
 import ProfilePage from '@/components/Pages/profile/ProfilePage.vue'
 
+import ConversationsPage from '@/components/messages/ConversationsPage.vue'
+
 
 const routes = [
 
@@ -84,9 +86,14 @@ const routes = [
 
         component: ProfilePage
 
-    }
+    },
 
-
+    { 
+        path:'/messages',   
+        
+        component:ConversationsPage, 
+        
+    },
     
 ];
 

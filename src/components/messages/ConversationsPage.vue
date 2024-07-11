@@ -12,7 +12,7 @@
 
             <div class="p-4">
 
-            <h2 class="text-lg font-semibold mb-4">Messages</h2>
+                <h2 class="text-lg font-semibold mb-4">Messages</h2>
 
                 <div class="space-y-4">
 
@@ -27,11 +27,12 @@
                         class="cursor-pointer p-2 hover:bg-gray-100 rounded"
 
                     >
+{{ message }}
                         <div class="flex items-center">
 
                             <img
 
-                                :src="message.user.avatar"
+                                :src="getRandomImage()"
 
                                 alt="User Avatar"
 
@@ -41,9 +42,9 @@
 
                             <div>
 
-                                <h3 class="font-semibold">{{ message.user.name }}</h3>
+                                <h3 class="font-semibold">{{ message.username }}</h3>
 
-                                <p class="text-sm text-gray-500">{{ message.text }}</p>
+                                <!-- <p class="text-sm text-gray-500">{{ message.body }}</p> -->
 
                             </div>
 
@@ -66,7 +67,7 @@
 
                     <img
 
-                        :src="selectedMessage.user.avatar"
+                        :src="getRandomImage()"
 
                         alt="User Avatar"
 
@@ -74,7 +75,7 @@
 
                     />
 
-                    <h2 class="text-xl font-semibold">{{ selectedMessage.user.name }}</h2>
+                    <h2 class="text-xl font-semibold">{{ selectedMessage.username }}</h2>
                 
                 </div>
 
@@ -82,17 +83,16 @@
 
                     <div
 
-                        v-for="message in selectedMessage.conversation"
+                        v-for="message in selectedMessage.message"
 
                         :key="message.id"
 
                         class="flex items-start"
 
                     >
-
                         <img
 
-                            :src="message.user.avatar"
+                            :src="getRandomImage()"
 
                             alt="User Avatar"
 
@@ -102,9 +102,9 @@
 
                         <div>
 
-                            <p class="text-sm text-gray-800">{{ message.text }}</p>
+                            <p class="text-sm text-gray-800">{{ message.body }}</p>
 
-                            <p class="text-xs text-gray-500">{{ message.timestamp }}</p>
+                            <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
 
                         </div>
 
@@ -166,23 +166,47 @@
 
     import NavPage from '../Navigation Page/NavPage.vue';
 
+    import { useTweetIdStore } from '@/stores/tweetId';
+
     import { ref, onMounted } from 'vue';
 
     const messages = ref([]);
 
     let selectedMessage = ref(null);
 
+    console.log(selectedMessage)
+
     let newMessage = ref('');
+
+    const userIdStore = useTweetIdStore();
+
+
+    const images = [
+        require('../../assets/images/1.jpeg'),
+        require('../../assets/images/2.jpeg'),
+        require('../../assets/images/3.jpeg'),
+        require('../../assets/images/4.jpeg'),
+        require('../../assets/images/5.jpeg'),
+        require('../../assets/images/6.jpeg'),
+        require('../../assets/images/7.jpeg'),
+        require('../../assets/images/8.jpeg'),
+        require('../../assets/images/9.jpeg'),
+        require('../../assets/images/10.jpeg'),
+    ];
+
 
     const fetchMessages = async () => {
 
         try {
 
-            const userId = localStorage.getItem('userId');
+            const userId = userIdStore.userId;
 
             const response = await axios.get(`http://127.0.0.1:8000/api/user/${userId}`);
 
-            messages.value = response.data.messages;
+            messages.value = response.data.user;
+
+            console.log(response.data.user[0].message);
+
 
         } catch (error) {
 
@@ -192,47 +216,69 @@
 
     };
 
+    function getRandomImage() {
+
+        const randomIndex = Math.floor(Math.random() * images.length);
+
+        return images[randomIndex];
+
+    }
+
+
     const selectMessage = (message) => {
 
         selectedMessage.value = message;
 
+        console.log(message.message[0].receivers_id)
+
     };
+
+    const formatDate = (dateString) => {
+
+        const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
+
+        return new Date(dateString).toLocaleDateString(undefined, options);
+
+    };
+
+
+    // console.log(selectedMessage.message[0].receivers_id)
 
     const sendMessage = async () => {
 
         if (!newMessage.value) return;
 
-
         try {
 
-        const senderId = localStorage.getItem('userId');
-
-        const receiverId = selectedMessage.value.user.id;
-
-        const response = await axios.post(
-
-            `http://127.0.0.1:8000/api/messages/${senderId}/${receiverId}`,
-
-            {
-
-            body: newMessage.value,
-
-            sender_id: senderId,
-
-            receivers_id: receiverId,
-
-            }
-
-        );
-
-        selectedMessage.value.conversation.push(response.data);
+            const userId = userIdStore.userId;
 
 
-        newMessage.value = '';
+            const receiverId = selectedMessage.value.user.id;
+
+            const response = await axios.post(
+
+                `http://127.0.0.1:8000/api/messages/${userId}/${receiverId}`,
+
+                {
+
+                body: newMessage.value,
+
+                // user_id: userId,
+
+                receivers_id: receiverId,
+
+                }
+
+            );
+
+            selectedMessage.value.conversation.push(response.data);
+
+
+            newMessage.value = '';  
 
         } catch (error) {
 
-        console.error('Error sending message:', error);
+            console.error('Error sending message:', error);
 
         }
 

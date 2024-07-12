@@ -138,7 +138,7 @@
 
   const getComments = async () => {
 
-    let tweetId = route.params;
+    let tweetId = tweetIdStore.tweetId;
 
     try {
 
@@ -249,6 +249,9 @@
     
   };
 
-  onMounted(getComments);
+  onMounted(async () => {
 
+    await getComments();
+
+  });
 </script>

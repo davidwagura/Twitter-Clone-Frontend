@@ -22,13 +22,11 @@
 
                         :key="message.id"
 
-                        @click="selectMessage(message)"
+                        @click="selectMessage(message[0])"
 
                         class="cursor-pointer p-2 hover:bg-gray-100 rounded"
 
                     >
-
-                    {{ message }}
 
                         <div class="flex items-center">
 
@@ -42,19 +40,21 @@
 
                             />
 
+                            <!-- {{ message[0].body }} -->
+
                             <div>
 
                                 <h3 class="font-semibold">
 
-                                    <span>{{ message.first_name }}</span>
+                                    <span>{{ user[0].first_name }}</span>
 
-                                    <span class="text-gray-500 font-medium"> @{{ message.username }}</span>
+                                    <span class="text-gray-500 font-medium"> @{{ user[0].username }}</span>
 
-                                    <span>{{ formatDate(message.message[0].created_at) }}</span>
+                                    <span>{{ formatDate(message[0].created_at) }}</span>
 
                                 </h3>
 
-                                <p class="text-sm text-gray-500">{{ message.message[0].body }}</p>
+                                <p class="text-sm text-gray-500">{{ message[0].body }}</p>
 
                             </div>
 
@@ -168,6 +168,7 @@
 
     </div>
 
+
 </template>
   
 <script setup>
@@ -182,9 +183,13 @@
 
     const messages = ref([]);
 
+    const user = ref({});
+
+    // console.log(user)
+
     let selectedMessage = ref(null);
 
-    console.log(selectedMessage)
+    // console.log(messages)
 
     let newMessage = ref('');
 
@@ -211,11 +216,13 @@
 
             const userId = userIdStore.userId;
 
-            const response = await axios.get(`http://127.0.0.1:8000/api/user/${userId}`);
+            const receiverId = 2
 
-            messages.value = response.data.user;
+            const response = await axios.get(`http://127.0.0.1:8000/api/messages/${userId}/${receiverId}`);
 
-            console.log(response.data.user[0].message);
+            messages.value = response.data;
+
+            console.log(response.data);
 
 
         } catch (error) {
@@ -225,6 +232,24 @@
         }
 
     };
+
+    const getUser = async() => {
+
+        try {
+
+            const receiverId = 2;
+
+            const response = await axios.get(`http://127.0.0.1:8000/api/user/${receiverId}`)
+
+            user.value = response.data.user;
+
+        } catch (error) {
+
+            console.error('Error fetching messages:', error);
+
+        }
+        
+    }
 
     function getRandomImage() {
 
@@ -239,7 +264,7 @@
 
         selectedMessage.value = message;
 
-        console.log(message.message[0].receivers_id)
+        // console.log(message.message[0].receivers_id)
 
     };
 
@@ -260,7 +285,9 @@
 
             const userId = userIdStore.userId;
 
-            const receiverId = selectedMessage.value.user.id;
+            // const receiverId = selectedMessage.value.user.id;
+
+            const receiverId = 2
 
             const response = await axios.post(
 
@@ -294,6 +321,8 @@
     onMounted(() => {
 
         fetchMessages();
+
+        getUser();
 
     });
 

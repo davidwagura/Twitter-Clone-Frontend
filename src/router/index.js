@@ -118,6 +118,8 @@ router.beforeEach((to, from, next) => {
 
     if(to.meta.requiresAuth && !isAuthenticated) {
 
+        // console.log(isAuthenticated)
+
         next('/login');
         
     }else {

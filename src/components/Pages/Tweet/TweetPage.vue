@@ -19,7 +19,7 @@
 
         </div>
   
-        <div v-if="tweet && tweet.body" class="p-4 border-t">
+        <div v-if="tweet && tweet.user" class="p-4 border-t">
 
             <div class="flex items-center justify-between">
 
@@ -43,18 +43,11 @@
 
                 <div class="flex justify-start ml-12 mb-3">{{ tweet.body }}</div>
 
-                <div v-if="tweet.image_path" class="flex justify-start ml-12 mt-2">
+                    <div v-if="tweet.image_path" class="flex justify-start ml-12 mt-2">
 
-                    <img :src="`http://127.0.0.1:8000/storage/${tweet.image_path}`" alt="Tweet Image" class="rounded-lg max-w-full h-auto" />
-                  
-                </div>
-
-
-                <div v-if="tweet.image_path" class="flex justify-start ml-12 mt-2">
-
-                    <img :src="`http://127.0.0.1:8000/storage/${tweet.image_path}`" alt="Tweet Image" class="rounded-lg max-w-full h-auto" />
-
-                </div>
+                        <img :src="`http://127.0.0.1:8000/storage/${tweet.image_path}`" alt="Tweet Image" class="rounded-lg max-w-full h-auto" />
+                    
+                    </div>
 
                 <span class="text-gray-500 text-sm ml-12">{{ formatDate(tweet.created_at) }}</span>
 
@@ -164,6 +157,10 @@
 
     const userIdStore = useTweetIdStore();
     
+    import { useRoute } from 'vue-router';
+
+    const route = useRoute();
+
     const images = [
         require('../../../assets/images/1.jpeg'),
         require('../../../assets/images/2.jpeg'),
@@ -183,9 +180,7 @@
     
     const getTweet = async () => {
 
-        let id = tweetIdStore.tweetId;
-
-        console.log(id);
+        let id = route.params.id;
 
         try {
 
@@ -225,7 +220,11 @@
 
             let id = parseInt(userIdStore.userId);
 
-            const tweetId = parseInt(tweetIdStore.tweetId);
+            const tweetId = route.params.id;
+
+            tweetIdStore.setTweetId(tweetId)
+
+            console.log(tweetId)
 
             const res = await axiosInstance.post('/tweet/comment/', { body, user_id: parseInt(id), tweet_id: parseInt(tweetId) });
 
@@ -315,7 +314,7 @@
     
     const goBack = () => {
 
-        router.go('/home');
+        router.push('/home');
 
     };
     

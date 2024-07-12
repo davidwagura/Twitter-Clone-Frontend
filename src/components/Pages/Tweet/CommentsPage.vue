@@ -88,7 +88,7 @@
     </ul>
 
     <div v-else class="text-gray-500">No comments to display</div>
-
+{{ comments }}
   </div>
   
 </template>
@@ -103,9 +103,15 @@
 
   import { useTweetIdStore } from '@/stores/tweetId.js';
 
+  import { useRouter } from 'vue-router';
+
   const tweetIdStore = useTweetIdStore();
 
+  console.log(tweetIdStore.tweetId)
+
   const userIdStore =  useTweetIdStore();
+
+  const route = useRouter()
 
   const images = [
 
@@ -122,6 +128,8 @@
 
   ];
 
+  console.log(route.params)
+
   const comments = ref([]);
 
   const isModalVisible = ref(false);
@@ -130,11 +138,13 @@
 
   const getComments = async () => {
 
-    let tweetId = tweetIdStore.tweetId;
+    let tweetId = route.params;
 
     try {
 
       const response = await axiosInstance.get('/comments/' + tweetId);
+
+      console.log(response)
 
       comments.value = response.data.comment;
 

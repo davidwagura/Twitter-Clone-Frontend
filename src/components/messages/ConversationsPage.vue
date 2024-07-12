@@ -27,7 +27,9 @@
                         class="cursor-pointer p-2 hover:bg-gray-100 rounded"
 
                     >
-{{ message }}
+
+                    {{ message }}
+
                         <div class="flex items-center">
 
                             <img
@@ -42,9 +44,17 @@
 
                             <div>
 
-                                <h3 class="font-semibold">{{ message.username }}</h3>
+                                <h3 class="font-semibold">
 
-                                <!-- <p class="text-sm text-gray-500">{{ message.body }}</p> -->
+                                    <span>{{ message.first_name }}</span>
+
+                                    <span class="text-gray-500 font-medium"> @{{ message.username }}</span>
+
+                                    <span>{{ formatDate(message.message[0].created_at) }}</span>
+
+                                </h3>
+
+                                <p class="text-sm text-gray-500">{{ message.message[0].body }}</p>
 
                             </div>
 
@@ -242,8 +252,6 @@
     };
 
 
-    // console.log(selectedMessage.message[0].receivers_id)
-
     const sendMessage = async () => {
 
         if (!newMessage.value) return;
@@ -251,7 +259,6 @@
         try {
 
             const userId = userIdStore.userId;
-
 
             const receiverId = selectedMessage.value.user.id;
 

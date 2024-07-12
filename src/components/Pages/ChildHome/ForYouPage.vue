@@ -8,7 +8,7 @@
 
         <li v-for="tweet in tweetsStore.tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
 
-          <router-link v-if="tweet.user" @click="fetchTweet()" :to="`/${tweet.user.username}/status/${tweet.id}`" class="m-1 cursor-pointer">
+          <router-link v-if="tweet.user" :to="`/${tweet.user.username}/status/${tweet.id}`" class="m-1 cursor-pointer">
 
             <div class="flex items-center justify-between">
 
@@ -118,7 +118,7 @@
 
   import { onMounted, ref } from 'vue';
 
-  import { useRouter } from 'vue-router';
+  // import { useRouter } from 'vue-router';
 
   import { useTweetIdStore } from '@/stores/tweetId.js';
 
@@ -129,13 +129,13 @@
 
   const userIdStore = useTweetIdStore();
 
-  const tweetIdStore = useTweetIdStore();
+  // const tweetIdStore = useTweetIdStore();
 
   const tweetsStore = useTweetsStore();
 
-  const username = useTweetIdStore();
+  // const username = useTweetIdStore();
 
-  const router = useRouter();
+  // const router = useRouter();
 
   const images = [
     require('../../../assets/images/1.jpeg'),
@@ -186,27 +186,29 @@
 
   };
 
-  const fetchTweet = async (id) => {
+  // const fetchTweet = async (id) => {
 
-    try {
+  //   try {
 
-      const response = await axiosInstance.get('/tweet/' + id);
+  //     const response = await axiosInstance.get('/tweet/' + id);
 
-      username.setUsername(response.data.tweet.user.username);
+  //     username.setUsername(response.data.tweet.user.username);
 
-      tweetIdStore.setTweetId(id);
+  //     console.log(response)
 
-      const user = username.username;
+  //     tweetIdStore.setTweetId(id);
 
-      router.push(`/${user}/status/${id}`);
+  //     const user = username.username;
 
-    } catch (error) {
+  //     router.push(`/${user}/status/${id}`);
 
-      console.error('Error fetching tweet:', error);
+  //   } catch (error) {
 
-    }
+  //     console.error('Error fetching tweet:', error);
 
-  };
+  //   }
+
+  // };
 
   const getRandomImage = () => {
 

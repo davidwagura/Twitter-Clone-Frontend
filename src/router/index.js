@@ -18,12 +18,17 @@ import ProfilePage from '@/components/Pages/profile/ProfilePage.vue'
 
 import ConversationsPage from '@/components/messages/ConversationsPage.vue'
 
+import { useTweetIdStore } from '@/stores/tweetId'
+
 
 const routes = [
 
     { 
         path: '/', 
-        redirect: '/home'
+        
+        redirect: '/home',
+
+        meta: { requiresAuth: true }
     },
 
     { 
@@ -107,7 +112,9 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
 
-    const isAuthenticated = !!localStorage.getItem('token');
+    const tokenStore = useTweetIdStore();
+
+    const isAuthenticated = !!tokenStore.token;
 
     if(to.meta.requiresAuth && !isAuthenticated) {
 

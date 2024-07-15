@@ -1,4 +1,5 @@
 <template>
+    
     <div class="flex h-screen">
 
         <div class="justify-end">
@@ -8,7 +9,7 @@
         </div>
         
         <!-- Sidebar -->
-        <div class="w-6/12 ml-48 border justify-center h-full">
+        <div class="w-6/12 ml-48 border justify-center h-fit min-h-full">
 
             <div class="p-4">
 
@@ -16,7 +17,7 @@
 
                 <div class="space-y-4">
 
-                    <div v-for="(messages, key) in conversations" :key="key" @click="selectMessage(key)">
+                    <div v-for="(conversation, index) in conversations" :key="index" @click="selectMessage(index)">
 
                         <div class="cursor-pointer p-2 hover:bg-gray-100 rounded">
 
@@ -36,7 +37,7 @@
 
                                     <h3 class="font-semibold">
 
-                                        <span>User ID: {{ key }}</span>
+                                        <span>{{  conversation.user.first_name }}</span>
 
                                     </h3>
 
@@ -149,6 +150,10 @@
 
     const conversations = ref({});
 
+    const users = ref({});
+
+    // console.log(user);
+
     const selectedMessages = ref(null);
 
     const newMessage = ref('');
@@ -185,6 +190,14 @@
 
             conversations.value = data;
 
+            for( const key in data) {
+               
+                users.value = response.data.data[key].user;
+
+                conversations.value = response.data.data;
+
+            }
+
         } catch (error) {
 
             console.error('Error fetching messages:', error);
@@ -201,12 +214,10 @@
 
     };
 
-    const selectMessage = (key) => {
+    const selectMessage = (index) => {
 
-        selectedMessages.value = conversations.value[key];
+        selectedMessages.value = conversations.value.at(index).conversation;
 
-        receiverIdStore.setReceiverId(key);
-        
     };
 
     const formatDate = (dateString) => {
@@ -258,5 +269,5 @@
         fetchMessages();
 
     });
-    
+
 </script>

@@ -16,6 +16,8 @@ export const useTweetIdStore  = defineStore('tweetId', {
 
         username: null,
 
+        receiverId: null,
+
     }),
 
     getters: {
@@ -30,7 +32,9 @@ export const useTweetIdStore  = defineStore('tweetId', {
 
         getUserId: (state) => state.userId,
 
-        getUsername: (state) => state.username
+        getUsername: (state) => state.username,
+
+        getReceiverId: (state) => state.receiverId,
 
     },
 
@@ -76,8 +80,13 @@ export const useTweetIdStore  = defineStore('tweetId', {
 
             this.username = username;
       
-        }
+        },
       
+        setReceiverId(receiverId) {
+
+            this.receiverId = receiverId;
+            
+        }
       
     },
 

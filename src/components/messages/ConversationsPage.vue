@@ -6,7 +6,7 @@
             <nav-page />
 
         </div>
-    
+        
         <!-- Sidebar -->
         <div class="w-6/12 ml-48 border justify-center h-full">
 
@@ -16,45 +16,33 @@
 
                 <div class="space-y-4">
 
-                    <div
+                    <div v-for="(messages, key) in conversations" :key="key" @click="selectMessage(key)">
 
-                        v-for="message in messages"
+                        <div class="cursor-pointer p-2 hover:bg-gray-100 rounded">
 
-                        :key="message.id"
+                            <div class="flex items-center">
 
-                        @click="selectMessage(message[0])"
+                                <img
 
-                        class="cursor-pointer p-2 hover:bg-gray-100 rounded"
+                                    :src="getRandomImage()"
 
-                    >
+                                    alt="User Avatar"
 
-                        <div class="flex items-center">
+                                    class="w-10 h-10 rounded-full mr-3"
+                                    
+                                />
 
-                            <img
+                                <div>
 
-                                :src="getRandomImage()"
+                                    <h3 class="font-semibold">
 
-                                alt="User Avatar"
+                                        <span>User ID: {{ key }}</span>
 
-                                class="w-10 h-10 rounded-full mr-3"
+                                    </h3>
 
-                            />
+                                    <p class="text-sm text-gray-500">Click to view messages</p>
 
-                            <!-- {{ message[0].body }} -->
-
-                            <div>
-
-                                <h3 class="font-semibold">
-
-                                    <span>{{ user[0].first_name }}</span>
-
-                                    <span class="text-gray-500 font-medium"> @{{ user[0].username }}</span>
-
-                                    <span>{{ formatDate(message[0].created_at) }}</span>
-
-                                </h3>
-
-                                <p class="text-sm text-gray-500">{{ message[0].body }}</p>
+                                </div>
 
                             </div>
 
@@ -67,39 +55,24 @@
             </div>
 
         </div>
-    
+        
         <!-- Main Content -->
         <div class="w-3/4 h-full flex flex-col">
 
-            <div v-if="selectedMessage" class="flex-1 p-4 overflow-y-auto">
-
-                <div class="flex items-center mb-4">
-
-                    <img
-
-                        :src="getRandomImage()"
-
-                        alt="User Avatar"
-
-                        class="w-12 h-12 rounded-full mr-4"
-
-                    />
-
-                    <h2 class="text-xl font-semibold">{{ selectedMessage.username }}</h2>
-                
-                </div>
+            <div v-if="selectedMessages" class="flex-1 p-4 overflow-y-auto">
 
                 <div class="space-y-4">
 
                     <div
 
-                        v-for="message in selectedMessage.message"
-
+                        v-for="message in selectedMessages"
+                        
                         :key="message.id"
 
                         class="flex items-start"
 
                     >
+
                         <img
 
                             :src="getRandomImage()"
@@ -117,25 +90,19 @@
                             <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
 
                         </div>
-
+                    
                     </div>
 
                 </div>
 
             </div>
-    
-            <div
-
-                v-else
-
-                class="flex-1 p-4 flex items-center justify-center text-gray-500"
-
-            >
+            
+            <div v-else class="flex-1 p-4 flex items-center justify-center text-gray-500">
 
                 Select a message to view details
 
             </div>
-    
+            
             <div class="border-t p-4">
 
                 <input
@@ -168,9 +135,8 @@
 
     </div>
 
-
 </template>
-  
+    
 <script setup>
 
     import axios from 'axios';
@@ -181,34 +147,31 @@
 
     import { ref, onMounted } from 'vue';
 
-    const messages = ref([]);
+    const conversations = ref({});
 
-    const user = ref({});
+    const selectedMessages = ref(null);
 
-    // console.log(user)
-
-    let selectedMessage = ref(null);
-
-    // console.log(messages)
-
-    let newMessage = ref('');
+    const newMessage = ref('');
 
     const userIdStore = useTweetIdStore();
 
+    const receiverIdStore = useTweetIdStore();
+
 
     const images = [
-        require('../../assets/images/1.jpeg'),
-        require('../../assets/images/2.jpeg'),
-        require('../../assets/images/3.jpeg'),
-        require('../../assets/images/4.jpeg'),
-        require('../../assets/images/5.jpeg'),
-        require('../../assets/images/6.jpeg'),
-        require('../../assets/images/7.jpeg'),
-        require('../../assets/images/8.jpeg'),
-        require('../../assets/images/9.jpeg'),
-        require('../../assets/images/10.jpeg'),
-    ];
 
+    require('../../assets/images/1.jpeg'),
+    require('../../assets/images/2.jpeg'),
+    require('../../assets/images/3.jpeg'),
+    require('../../assets/images/4.jpeg'),
+    require('../../assets/images/5.jpeg'),
+    require('../../assets/images/6.jpeg'),
+    require('../../assets/images/7.jpeg'),
+    require('../../assets/images/8.jpeg'),
+    require('../../assets/images/9.jpeg'),
+    require('../../assets/images/10.jpeg'),
+
+    ];
 
     const fetchMessages = async () => {
 
@@ -216,14 +179,11 @@
 
             const userId = userIdStore.userId;
 
-            const receiverId = 2
+            const response = await axios.get(`http://127.0.0.1:8000/api/conversation/${userId}`);
 
-            const response = await axios.get(`http://127.0.0.1:8000/api/messages/${userId}/${receiverId}`);
+            const { data } = response.data;
 
-            messages.value = response.data;
-
-            console.log(response.data);
-
+            conversations.value = data;
 
         } catch (error) {
 
@@ -233,39 +193,20 @@
 
     };
 
-    const getUser = async() => {
-
-        try {
-
-            const receiverId = 2;
-
-            const response = await axios.get(`http://127.0.0.1:8000/api/user/${receiverId}`)
-
-            user.value = response.data.user;
-
-        } catch (error) {
-
-            console.error('Error fetching messages:', error);
-
-        }
-        
-    }
-
-    function getRandomImage() {
+    const getRandomImage = () => {
 
         const randomIndex = Math.floor(Math.random() * images.length);
 
         return images[randomIndex];
 
-    }
+    };
 
+    const selectMessage = (key) => {
 
-    const selectMessage = (message) => {
+        selectedMessages.value = conversations.value[key];
 
-        selectedMessage.value = message;
-
-        // console.log(message.message[0].receivers_id)
-
+        receiverIdStore.setReceiverId(key);
+        
     };
 
     const formatDate = (dateString) => {
@@ -276,18 +217,15 @@
 
     };
 
-
     const sendMessage = async () => {
 
-        if (!newMessage.value) return;
+    if (!newMessage.value) return;
 
         try {
 
             const userId = userIdStore.userId;
 
-            // const receiverId = selectedMessage.value.user.id;
-
-            const receiverId = 2
+            const receiverId = receiverIdStore.receiverId;
 
             const response = await axios.post(
 
@@ -295,35 +233,30 @@
 
                 {
 
-                body: newMessage.value,
+                    body: newMessage.value,
 
-                // user_id: userId,
-
-                receivers_id: receiverId,
+                    receivers_id: receiverId,
 
                 }
 
             );
 
-            selectedMessage.value.conversation.push(response.data);
+            selectedMessages.value.push(response.data);
 
-
-            newMessage.value = '';  
+            newMessage.value = '';
 
         } catch (error) {
 
             console.error('Error sending message:', error);
 
         }
-
+        
     };
 
     onMounted(() => {
 
         fetchMessages();
 
-        getUser();
-
     });
-
+    
 </script>

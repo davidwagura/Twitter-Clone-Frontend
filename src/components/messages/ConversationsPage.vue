@@ -1,5 +1,5 @@
 <template>
-    
+
     <div class="flex h-screen">
 
         <div class="justify-end">
@@ -9,7 +9,7 @@
         </div>
         
         <!-- Sidebar -->
-        <div class="w-6/12 ml-48 border justify-center h-fit min-h-full">
+        <div class="min-w-6/12 ml-48 border w-fit justify-center h-fit min-h-full">
 
             <div class="p-4">
 
@@ -35,11 +35,9 @@
 
                                 <div>
 
-                                    <h3 class="font-semibold">
+                                    <span class="font-semibold">{{  conversation.user.first_name }}</span>
 
-                                        <span>{{  conversation.user.first_name }}</span>
-
-                                    </h3>
+                                    <span class="text-sm text-gray-500"> @{{ conversation.user.username }}</span> . <span>{{ formatDate1(conversation.conversation[0].created_at) }}</span>
 
                                     <p class="text-sm text-gray-500">Click to view messages</p>
 
@@ -58,7 +56,7 @@
         </div>
         
         <!-- Main Content -->
-        <div class="w-3/4 h-full flex flex-col">
+        <div class="min-w-3/4 h-fit w-auto min-h-full flex flex-col">
 
             <div v-if="selectedMessages" class="flex-1 p-4 overflow-y-auto">
 
@@ -217,6 +215,14 @@
     const selectMessage = (index) => {
 
         selectedMessages.value = conversations.value.at(index).conversation;
+
+    };
+
+    const formatDate1 = (dateString) => {
+
+        const options = { month: 'short', day: 'numeric' };
+
+        return new Date(dateString).toLocaleDateString(undefined, options);
 
     };
 

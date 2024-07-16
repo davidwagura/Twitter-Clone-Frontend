@@ -9,7 +9,7 @@
         </div>
         
         <!-- Sidebar -->
-        <div class="min-w-6/12 ml-48 border w-fit justify-center h-fit min-h-full">
+        <div class="min-w-1/4 ml-48 border w-fit overflow-auto justify-center h-screen min-h-full">
 
             <div class="p-4">
 
@@ -24,20 +24,22 @@
                             <div class="flex items-center">
 
                                 <img
-
+                                
                                     :src="getRandomImage()"
-
+                                    
                                     alt="User Avatar"
 
                                     class="w-10 h-10 rounded-full mr-3"
-                                    
+
                                 />
 
                                 <div>
 
-                                    <span class="font-semibold">{{  conversation.user.first_name }}</span>
+                                    <span class="font-semibold">{{ conversation.user.first_name }}</span>
 
-                                    <span class="text-sm text-gray-500"> @{{ conversation.user.username }}</span> . <span class="text-sm text-gray-500">{{ formatDate1(conversation.conversation[0].created_at) }}</span>
+                                    <span class="text-sm text-gray-500"> @{{ conversation.user.username }}</span>
+
+                                    <span class="text-sm text-gray-500">{{ formatDate1(conversation.conversation[0].created_at) }}</span>
 
                                     <p class="text-sm text-gray-500">Click to view messages</p>
 
@@ -56,7 +58,23 @@
         </div>
         
         <!-- Main Content -->
-        <div class="min-w-3/4 h-fit w-auto min-h-full flex flex-col">
+        <div class="w-2/4 h-fit min-h-full flex flex-col mr-28 border-r overflow-hidden">
+
+            <div v-for="u in user" :key="u.id" class="m-4 flex">
+
+                <img
+
+                    :src="getRandomImage()"
+
+                    alt="User Avatar"
+
+                    class="w-10 h-10 rounded-full mr-3"
+
+                />
+
+                <span class="font-semibold mt-2">{{ u.first_name }}</span>
+
+            </div>
 
             <div v-if="selectedMessages" class="flex-1 p-4 overflow-y-auto">
 
@@ -65,22 +83,20 @@
                     <div
 
                         v-for="message in selectedMessages"
-                        
+
                         :key="message.id"
 
-                        class="flex items-start"
+                        :class="{
+
+                            'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-4 ml-auto': message.sender_id === userIdStore.userId,
+
+                            'flex-row bg-gray-200 w-fit rounded-2xl p-4 mr-auto': message.sender_id !== userIdStore.userId
+
+                        }"
+
+                        class="flex items-start mb-4"
 
                     >
-
-                        <img
-
-                            :src="getRandomImage()"
-
-                            alt="User Avatar"
-
-                            class="w-8 h-8 rounded-full mr-3"
-
-                        />
 
                         <div>
 
@@ -135,7 +151,7 @@
     </div>
 
 </template>
-    
+
 <script setup>
 
     import axios from 'axios';
@@ -150,6 +166,8 @@
 
     const users = ref({});
 
+    const user = ref({});
+
     const selectedMessages = ref(null);
 
     const newMessage = ref('');
@@ -158,19 +176,18 @@
 
     const receiverIdStore = useTweetIdStore();
 
-
     const images = [
 
-    require('../../assets/images/1.jpeg'),
-    require('../../assets/images/2.jpeg'),
-    require('../../assets/images/3.jpeg'),
-    require('../../assets/images/4.jpeg'),
-    require('../../assets/images/5.jpeg'),
-    require('../../assets/images/6.jpeg'),
-    require('../../assets/images/7.jpeg'),
-    require('../../assets/images/8.jpeg'),
-    require('../../assets/images/9.jpeg'),
-    require('../../assets/images/10.jpeg'),
+        require('../../assets/images/1.jpeg'),
+        require('../../assets/images/2.jpeg'),
+        require('../../assets/images/3.jpeg'),
+        require('../../assets/images/4.jpeg'),
+        require('../../assets/images/5.jpeg'),
+        require('../../assets/images/6.jpeg'),
+        require('../../assets/images/7.jpeg'),
+        require('../../assets/images/8.jpeg'),
+        require('../../assets/images/9.jpeg'),
+        require('../../assets/images/10.jpeg'),
 
     ];
 
@@ -186,8 +203,8 @@
 
             conversations.value = data;
 
-            for( const key in data) {
-               
+            for (const key in data) {
+
                 users.value = response.data.data[key].user;
 
                 conversations.value = response.data.data;
@@ -216,6 +233,26 @@
 
         receiverIdStore.setReceiverId(conversations.value.at(index).user.id);
 
+        getUser();
+
+    };
+
+    const getUser = async () => {
+
+        try {
+
+            const userId = receiverIdStore.receiverId;
+
+            const response = await axios.get(`http://127.0.0.1:8000/api/user/${userId}`);
+            
+            user.value = response.data.user;
+
+        } catch(error) {
+
+            console.log(error);
+
+        }
+
     };
 
     const formatDate1 = (dateString) => {
@@ -236,9 +273,7 @@
 
     const sendMessage = async () => {
 
-        console.log(newMessage.value)
-
-    if (!newMessage.value) return;
+        if (!newMessage.value) return;
 
         try {
 
@@ -246,31 +281,26 @@
 
             const receiverId = receiverIdStore.receiverId;
 
-            console.log(receiverId)
-
             const response = await axios.post(
 
                 `http://127.0.0.1:8000/api/messages/${userId}/${receiverId}`,
 
-                {
-
-                    'body': newMessage.value,
-
-                }
+                { 'body': newMessage.value }
 
             );
-                console.log(response.data.data)
 
             selectedMessages.value.push(response.data.data);
 
             newMessage.value = '';
+
+            fetchMessages();
 
         } catch (error) {
 
             console.error('Error sending message:', error);
 
         }
-        
+
     };
 
     onMounted(() => {

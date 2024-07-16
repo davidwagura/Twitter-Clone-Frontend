@@ -37,7 +37,7 @@
 
                                     <span class="font-semibold">{{  conversation.user.first_name }}</span>
 
-                                    <span class="text-sm text-gray-500"> @{{ conversation.user.username }}</span> . <span>{{ formatDate1(conversation.conversation[0].created_at) }}</span>
+                                    <span class="text-sm text-gray-500"> @{{ conversation.user.username }}</span> . <span class="text-sm text-gray-500">{{ formatDate1(conversation.conversation[0].created_at) }}</span>
 
                                     <p class="text-sm text-gray-500">Click to view messages</p>
 
@@ -150,8 +150,6 @@
 
     const users = ref({});
 
-    // console.log(user);
-
     const selectedMessages = ref(null);
 
     const newMessage = ref('');
@@ -216,6 +214,8 @@
 
         selectedMessages.value = conversations.value.at(index).conversation;
 
+        receiverIdStore.setReceiverId(conversations.value.at(index).user.id);
+
     };
 
     const formatDate1 = (dateString) => {
@@ -236,6 +236,8 @@
 
     const sendMessage = async () => {
 
+        console.log(newMessage.value)
+
     if (!newMessage.value) return;
 
         try {
@@ -244,21 +246,22 @@
 
             const receiverId = receiverIdStore.receiverId;
 
+            console.log(receiverId)
+
             const response = await axios.post(
 
                 `http://127.0.0.1:8000/api/messages/${userId}/${receiverId}`,
 
                 {
 
-                    body: newMessage.value,
-
-                    receivers_id: receiverId,
+                    'body': newMessage.value,
 
                 }
 
             );
+                console.log(response.data.data)
 
-            selectedMessages.value.push(response.data);
+            selectedMessages.value.push(response.data.data);
 
             newMessage.value = '';
 

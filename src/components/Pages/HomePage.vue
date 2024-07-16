@@ -229,7 +229,6 @@
 
             formData.append('user_id', data.value.user_id);
 
-console.log(selectedFile.value)
             if (selectedFile.value) {
 
                 formData.append('image_path', selectedFile.value);

@@ -84,9 +84,28 @@
 
                             <p class="text-sm text-gray-800">{{ message.body }}</p>
 
+                            <!-- <div v-if="message.image_path" class=" mt-2">
+
+                                <img :src="`http://127.0.0.1:8000/storage/${message.image_path}`" alt="Message Image" class="rounded-lg w- h-auto" />
+                                
+                            </div>
+ -->
+
                             </div>
                             
-                            <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
+
+                            <!-- <div :class="{
+
+                                'flex-row-reverse w-fit ': message.sender_id === userIdStore.userId,
+
+                                'flex-row w-fit ': message.sender_id !== userIdStore.userId
+
+                            }"> -->
+
+                                <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
+
+                            <!-- </div> -->
+
 
                         </div>
                         
@@ -165,6 +184,12 @@
 
                     </div>
 
+                    <div v-if="selectedFileUrl" class="flex justify-center mt-2">
+
+                        <img :src="selectedFileUrl" alt="Image Preview" class="w-24 h-24 object-cover rounded" />
+
+                    </div>
+
                     <textarea
 
                         v-model="newMessage"
@@ -212,6 +237,10 @@
     const users = ref({});
 
     const user = ref({});
+
+    const selectedFile = ref(null);
+
+    const selectedFileUrl = ref(null);
 
     const selectedMessages = ref(null);
 
@@ -316,29 +345,57 @@
 
     };
 
+    const onFileChanged = (event) => {
+
+        selectedFile.value = event.target.files[0];
+
+        selectedFileUrl.value = URL.createObjectURL(selectedFile.value);
+
+    };
+
     const sendMessage = async () => {
 
-        if (!newMessage.value) return;
+        const userId = userIdStore.userId;
+
+        const receiverId = receiverIdStore.receiverId;
 
         try {
 
-            const userId = userIdStore.userId;
+            const formData = new FormData();
 
-            const receiverId = receiverIdStore.receiverId;
+            formData.append('body', newMessage.value);
+
+            console.log(newMessage.value)
+
+            if(selectedFile.value) {
+
+                formData.append('image_path', selectedFile.value);
+
+            }
 
             const response = await axios.post(
 
-                `http://127.0.0.1:8000/api/messages/${userId}/${receiverId}`,
+                `http://127.0.0.1:8000/api/messages/${userId}/${receiverId}`,formData,{
 
-                { 'body': newMessage.value }
+                    headers: { 
+
+                        'Content-Type': 'multipart/form-data',
+                    
+                    }
+
+                }
 
             );
+
+            console.log(response)
 
             selectedMessages.value.push(response.data.data);
 
             newMessage.value = '';
 
-            fetchMessages();
+            selectedFile.value = null;
+
+            selectedFileUrl.value = null;
 
         } catch (error) {
 

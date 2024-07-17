@@ -223,7 +223,13 @@
 
         try {
 
-            const formData = new FormData();
+            const formData = new FormData();successMessage.value = response ? 'Tweet created successfully!' : 'Error creating tweet';
+
+            data.value.body = '';
+
+            selectedFile.value = null;
+
+            selectedFileUrl.value = null;
 
             formData.append('body', data.value.body);
 

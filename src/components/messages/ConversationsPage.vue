@@ -1,6 +1,6 @@
 <template>
 
-    <div class="flex h-screen">
+    <div class="flex h-screen overflow-hidden">
 
         <div class="justify-end">
 
@@ -9,39 +9,45 @@
         </div>
         
         <!-- Sidebar -->
-        <div class="min-w-1/4 ml-48 border w-fit overflow-auto justify-center h-screen min-h-full">
+        <div class="w-2/5">
 
-            <div class="p-4">
+            <div class=" ml-48 border overflow-auto h-full">
 
-                <h2 class="text-lg font-semibold mb-4">Messages</h2>
+                <div class="p-4">
 
-                <div class="space-y-4">
+                    <h2 class="text-lg font-semibold mb-4">Messages</h2>
 
-                    <div v-for="(conversation, index) in conversations" :key="index" @click="selectMessage(index)">
+                    <input type="text" placeholder="Search Direct Message" class="border p-2 border-gray-500 w-full rounded-3xl">
 
-                        <div class="cursor-pointer p-2 hover:bg-gray-100 rounded">
+                    <div class="space-y-4 mt-6">
 
-                            <div class="flex items-center">
+                        <div v-for="(conversation, index) in conversations" :key="index" @click="selectMessage(index)">
 
-                                <img
-                                
-                                    :src="getRandomImage()"
+                            <div class="cursor-pointer p-2 hover:bg-gray-100 rounded">
+
+                                <div class="flex items-center">
+
+                                    <img
                                     
-                                    alt="User Avatar"
+                                        :src="getRandomImage()"
+                                        
+                                        alt="User Avatar"
 
-                                    class="w-10 h-10 rounded-full mr-3"
+                                        class="w-10 h-10 rounded-full mr-3"
 
-                                />
+                                    />
 
-                                <div>
+                                    <div>
 
-                                    <span class="font-semibold">{{ conversation.user.first_name }}</span>
+                                        <span class="font-semibold">{{ conversation.user.first_name }}</span>
 
-                                    <span class="text-sm text-gray-500"> @{{ conversation.user.username }}</span>
+                                        <span class="text-sm text-gray-500"> @{{ conversation.user.username }}</span>
 
-                                    <span class="text-sm text-gray-500">{{ formatDate1(conversation.conversation[0].created_at) }}</span>
+                                        <span class="text-sm text-gray-500">{{ formatDate1(conversation.conversation[0].created_at) }}</span>
 
-                                    <p class="text-sm text-gray-500">Click to view messages</p>
+                                        <p class="text-sm text-gray-500">Click to view messages</p>
+
+                                    </div>
 
                                 </div>
 
@@ -58,91 +64,94 @@
         </div>
         
         <!-- Main Content -->
-        <div class="w-2/4 h-fit min-h-full flex flex-col mr-28 border-r overflow-hidden">
+        <div class="w-2/4">
+            <div class="h-full flex flex-col border-r overflow-hidden">
 
-            <div v-for="u in user" :key="u.id" class="m-4 flex">
+                <div v-for="u in user" :key="u.id" class="m-4 flex">
 
-                <img
+                    <img
 
-                    :src="getRandomImage()"
+                        :src="getRandomImage()"
 
-                    alt="User Avatar"
+                        alt="User Avatar"
 
-                    class="w-10 h-10 rounded-full mr-3"
+                        class="w-10 h-10 rounded-full mr-3"
 
-                />
+                    />
 
-                <span class="font-semibold mt-2">{{ u.first_name }}</span>
-
-            </div>
-
-            <div v-if="selectedMessages" class="flex-1 p-4 overflow-y-auto">
-
-                <div class="space-y-4">
-
-                    <div
-
-                        v-for="message in selectedMessages"
-
-                        :key="message.id"
-
-                        :class="{
-
-                            'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-4 ml-auto': message.sender_id === userIdStore.userId,
-
-                            'flex-row bg-gray-200 w-fit rounded-2xl p-4 mr-auto': message.sender_id !== userIdStore.userId
-
-                        }"
-
-                        class="flex items-start mb-4"
-
-                    >
-
-                        <div>
-
-                            <p class="text-sm text-gray-800">{{ message.body }}</p>
-
-                            <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
-
-                        </div>
-                    
-                    </div>
+                    <span class="font-semibold mt-2">{{ u.first_name }}</span>
 
                 </div>
 
-            </div>
-            
-            <div v-else class="flex-1 p-4 flex items-center justify-center text-gray-500">
+                <div v-if="selectedMessages" class="flex-1 p-4 overflow-y-auto">
 
-                Select a message to view details
+                    <div class="space-y-4">
 
-            </div>
-            
-            <div class="border-t p-4">
+                        <div
 
-                <input
+                            v-for="message in selectedMessages"
 
-                    type="text"
+                            :key="message.id"
 
-                    v-model="newMessage"
+                            :class="{
 
-                    placeholder="Start a new message"
+                                'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-4 ml-auto': message.sender_id === userIdStore.userId,
 
-                    class="w-full p-2 border rounded"
+                                'flex-row bg-gray-200 w-fit rounded-2xl p-4 mr-auto': message.sender_id !== userIdStore.userId
 
-                />
+                            }"
 
-                <button
+                            class="flex items-start mb-4"
 
-                    @click="sendMessage"
+                        >
 
-                    class="bg-blue-500 text-white px-4 py-2 mt-2 rounded"
+                            <div>
 
-                >
+                                <p class="text-sm text-gray-800">{{ message.body }}</p>
 
-                    Send
+                                <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
 
-                </button>
+                            </div>
+                        
+                        </div>
+
+                    </div>
+
+                </div>
+                
+                <div v-else class="flex-1 p-4 flex items-center justify-center text-gray-500">
+
+                    Select a message to view details
+
+                </div>
+                
+                <div class="border-t p-4">
+
+                    <input
+
+                        type="text"
+
+                        v-model="newMessage"
+
+                        placeholder="Start a new message"
+
+                        class="w-full p-2 border rounded"
+
+                    />
+
+                    <button
+
+                        @click="sendMessage"
+
+                        class="bg-blue-500 text-white px-4 py-2 mt-2 rounded"
+
+                    >
+
+                        Send
+
+                    </button>
+
+                </div>
 
             </div>
 

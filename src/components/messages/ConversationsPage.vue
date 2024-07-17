@@ -1,23 +1,23 @@
 <template>
 
     <div class="flex h-screen overflow-hidden">
-
+        
         <div class="justify-end">
 
             <nav-page />
-
+            
         </div>
-        
+    
         <!-- Sidebar -->
         <div class="w-2/5">
 
-            <div class=" ml-48 border overflow-auto h-full">
+            <div class="ml-48 border overflow-auto h-full">
 
                 <div class="p-4">
 
                     <h2 class="text-lg font-semibold mb-4">Messages</h2>
 
-                    <input type="text" placeholder="Search Direct Message" class="border p-2 border-gray-500 w-full rounded-3xl">
+                    <input type="text" placeholder="Search Direct Message" class="border p-2 border-gray-500 w-full rounded-3xl" />
 
                     <div class="space-y-4 mt-6">
 
@@ -27,15 +27,7 @@
 
                                 <div class="flex items-center">
 
-                                    <img
-                                    
-                                        :src="getRandomImage()"
-                                        
-                                        alt="User Avatar"
-
-                                        class="w-10 h-10 rounded-full mr-3"
-
-                                    />
+                                    <img :src="getRandomImage()" alt="User Avatar" class="w-10 h-10 rounded-full mr-3" />
 
                                     <div>
 
@@ -62,22 +54,15 @@
             </div>
 
         </div>
-        
-        <!-- Main Content -->
+  
+      <!-- Main Content -->
         <div class="w-2/4">
+
             <div class="h-full flex flex-col border-r overflow-hidden">
 
                 <div v-for="u in user" :key="u.id" class="m-4 flex">
 
-                    <img
-
-                        :src="getRandomImage()"
-
-                        alt="User Avatar"
-
-                        class="w-10 h-10 rounded-full mr-3"
-
-                    />
+                    <img :src="getRandomImage()" alt="User Avatar" class="w-10 h-10 rounded-full mr-3" />
 
                     <span class="font-semibold mt-2">{{ u.first_name }}</span>
 
@@ -87,69 +72,120 @@
 
                     <div class="space-y-4">
 
-                        <div
+                        <div v-for="message in selectedMessages" :key="message.id" class="flex items-start mb-4">
 
-                            v-for="message in selectedMessages"
+                            <div :class="{
 
-                            :key="message.id"
+                            'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-4 ml-auto': message.sender_id === userIdStore.userId,
 
-                            :class="{
+                            'flex-row bg-gray-200 w-fit rounded-2xl p-4 mr-auto': message.sender_id !== userIdStore.userId
 
-                                'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-4 ml-auto': message.sender_id === userIdStore.userId,
+                            }">
 
-                                'flex-row bg-gray-200 w-fit rounded-2xl p-4 mr-auto': message.sender_id !== userIdStore.userId
-
-                            }"
-
-                            class="flex items-start mb-4"
-
-                        >
-
-                            <div>
-
-                                <p class="text-sm text-gray-800">{{ message.body }}</p>
-
-                                <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
+                            <p class="text-sm text-gray-800">{{ message.body }}</p>
 
                             </div>
-                        
-                        </div>
+                            
+                            <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
 
+                        </div>
+                        
                     </div>
 
                 </div>
-                
+
                 <div v-else class="flex-1 p-4 flex items-center justify-center text-gray-500">
 
                     Select a message to view details
 
                 </div>
-                
-                <div class="border-t p-4">
 
-                    <input
+                <div class="flex items-center bg-gray-200 rounded-3xl border-t m-2 p-1">
 
-                        type="text"
+                    <div class="flex items-center space-x-2 ml-4">
+
+                        <!-- image icon -->
+                        <label for="image" class="cursor-pointer">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="blue" class="w-5 h-5">
+
+                                <path
+
+                                    fill-rule="evenodd"
+
+                                    d="M1 5.25A2.25 2.25 0 0 1 3.25 3h13.5A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17H3.25A2.25 2.25 0 0 1 1 14.75v-9.5Zm1.5 5.81v3.69c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75v-2.69l-2.22-2.219a.75.75 0 0 0-1.06 0l-1.91 1.909.47.47a.75.75 0 1 1-1.06 1.06L6.53 8.091a.75.75 0 0 0-1.06 0l-2.97 2.97ZM12 7a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"
+                                    
+                                    clip-rule="evenodd"
+
+                                />
+
+                            </svg>
+
+                            <input name="image" type="file" id="image" style="display: none;" @change="onFileChanged($event)" />
+
+                        </label>
+
+                        <!-- gif icon -->
+                        <label>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="blue" class="w-5 h-5">
+
+                                <path
+
+                                    fill-rule="evenodd"
+
+                                    d="M1 5.25A2.25 2.25 0 0 1 3.25 3h13.5A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17H3.25A2.25 2.25 0 0 1 1 14.75v-9.5Zm4.026 2.879C5.356 7.65 5.72 7.5 6 7.5s.643.15.974.629a.75.75 0 0 0 1.234-.854C7.66 6.484 6.873 6 6 6c-.873 0-1.66.484-2.208 1.275C3.25 8.059 3 9.048 3 10c0 .952.25 1.941.792 2.725C4.34 13.516 5.127 14 6 14c.873 0 1.66-.484 2.208-1.275a.75.75 0 0 0 .133-.427V10a.75.75 0 0 0-.75-.75H6.25a.75.75 0 0 0 0 1.5h.591v1.295c-.293.342-.6.455-.841.455-.279 0-.643-.15-.974-.629C4.69 11.386 4.5 10.711 4.5 10c0-.711.19-1.386.526-1.871ZM10.75 6a.75.75 0 0 1 .75.75v6.5a.75.75 0 0 1-1.5 0v-6.5a.75.75 0 0 1 .75-.75Zm3 0h2.5a.75.75 0 0 1 0 1.5H14.5v1.75h.75a.75.75 0 0 1 0 1.5h-.75v2.5a.75.75 0 0 1-1.5 0v-6.5a.75.75 0 0 1 .75-.75Z"
+                                    
+                                    clip-rule="evenodd"
+
+                                />
+
+                            </svg>
+
+                        </label>
+
+                        <!-- emoji icon -->
+                        <label>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="blue" class="w-5 h-5">
+
+                                <path
+
+                                    fill-rule="evenodd"
+                                
+                                    d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.536-4.464a.75.75 0 1 0-1.061-1.061 3.5 3.5 0 0 1-4.95 0 .75.75 0 0 0-1.06 1.06 5 5 0 0 0 7.07 0ZM9 8.5c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S7.448 7 8 7s1 .672 1 1.5Zm3 1.5c.552 0 1-.672 1-1.5S12.552 7 12 7s-1 .672-1 1.5.448 1.5 1 1.5Z"
+                                    
+                                    clip-rule="evenodd"
+
+                                />
+                                
+                            </svg>
+
+                        </label>
+
+                    </div>
+
+                    <textarea
 
                         v-model="newMessage"
-
+                        
                         placeholder="Start a new message"
+                        
+                        class="w-full p-2 border bg-gray-200 rounded"
+                    
+                    ></textarea>
 
-                        class="w-full p-2 border rounded"
-
-                    />
-
-                    <button
-
-                        @click="sendMessage"
-
-                        class="bg-blue-500 text-white px-4 py-2 mt-2 rounded"
-
-                    >
-
-                        Send
-
+                    <button @click="sendMessage" class="bg-blue-500 text-white p-2 rounded mr-2">
+                    
+                        <!-- send icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                        
+                        </svg>
+            
                     </button>
+
 
                 </div>
 
@@ -160,7 +196,7 @@
     </div>
 
 </template>
-
+  
 <script setup>
 
     import axios from 'axios';

@@ -15,7 +15,21 @@
 
                 <div class="p-4">
 
-                    <h2 class="text-lg font-semibold mb-4">Messages</h2>
+                    <h2 class="text-lg font-semibold">Messages</h2>
+
+                    <div class="flex justify-end top-0 pb-6 -mt-6">
+                        
+                        <button @click="showModal = true" class="focus:outline-none">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                                
+                            </svg>
+
+                        </button>
+
+                    </div>
 
                     <input type="text" placeholder="Search Direct Message" class="border p-2 border-gray-500 w-full rounded-3xl" />
 
@@ -219,12 +233,13 @@
             
                     </button>
 
-
                 </div>
 
             </div>
 
         </div>
+
+        <new-message-modal v-if="showModal" @close="closeModal" />
 
     </div>
 
@@ -239,6 +254,8 @@
     import { useTweetIdStore } from '@/stores/tweetId';
 
     import { ref, onMounted } from 'vue';
+
+    import newMessageModal from '@/components/messages/NewMessageModal.vue'
 
     const conversations = ref({});
 
@@ -258,6 +275,13 @@
 
     const receiverIdStore = useTweetIdStore();
 
+    const showModal = ref(false);
+
+    const closeModal = () => {
+
+        showModal.value = false;
+
+    };
 
     // const lastObject =
     // console.log(lastObject)
@@ -304,6 +328,7 @@
         }
 
     };
+
 
     // const lastMessage = computed(() => {
 

@@ -37,8 +37,12 @@
 
                                         <span class="text-sm text-gray-500">{{ formatDate1(conversation.conversation[0].created_at) }}</span>
 
-                                        <p class="text-sm text-gray-500">Click to view messages</p>
+                                        <!-- <div v-if="lastMessage">
 
+                                            <p class="text-sm text-gray-500">{{ lastMessage.body }}</p>
+                                       
+                                        </div> -->
+                                    
                                     </div>
 
                                 </div>
@@ -60,7 +64,7 @@
 
             <div class="h-full flex flex-col border-r overflow-hidden">
 
-                <div v-for="u in user" :key="u.id" class="m-4 flex">
+                <div v-for="u in user" :key="u.id" class="m-4 bg-opacity-20 flex">
 
                     <img :src="getRandomImage()" alt="User Avatar" class="w-10 h-10 rounded-full mr-3" />
 
@@ -76,46 +80,47 @@
 
                             <div :class="{
 
-                            'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-4 ml-auto': message.sender_id === userIdStore.userId,
+                            'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-2 ml-auto': message.sender_id === userIdStore.userId,
 
-                            'flex-row bg-gray-200 w-fit rounded-2xl p-4 mr-auto': message.sender_id !== userIdStore.userId
+                            'flex-row bg-gray-200 w-fit rounded-2xl p-2 mr-auto': message.sender_id !== userIdStore.userId
 
                             }">
 
-                            <p class="text-sm text-gray-800">{{ message.body }}</p>
+                                <div v-if="message.image_path" class="w-40">
 
-                            <!-- <div v-if="message.image_path" class=" mt-2">
+                                    <img :src="`http://127.0.0.1:8000/storage/${message.image_path}`" alt="Message Image" class="rounded-lg h-auto" />
 
-                                <img :src="`http://127.0.0.1:8000/storage/${message.image_path}`" alt="Message Image" class="rounded-lg w- h-auto" />
-                                
-                            </div>
- -->
+                                </div>
 
-                            </div>
-                            
-
-                            <!-- <div :class="{
-
-                                'flex-row-reverse w-fit ': message.sender_id === userIdStore.userId,
-
-                                'flex-row w-fit ': message.sender_id !== userIdStore.userId
-
-                            }"> -->
+                                <p class="text-sm pt-2 text-gray-800">{{ message.body }}</p>
 
                                 <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
 
-                            <!-- </div> -->
-
-
+                            </div>
+                            
                         </div>
                         
                     </div>
 
                 </div>
 
-                <div v-else class="flex-1 p-4 flex items-center justify-center text-gray-500">
+                <div v-else class="flex-1 p-4 flex flex-col items-center mt-8 justify-center">
 
-                    Select a message to view details
+                    <h1 class="m-1 font-black text-3xl text-black">Select a message</h1>
+
+                    <div class="mt-4">
+
+                        <span class="text-gray-500 block">Choose from your existing conversations, start a new one,</span>
+
+                        <span class="text-gray-500 block">or just keep swimming.</span>
+
+                    </div>
+
+                    <div class="mt-8">
+
+                        <button class="bg-blue-400 rounded-3xl p-4 w-48 text-white">New message</button>
+
+                    </div>
 
                 </div>
 
@@ -292,6 +297,12 @@
         }
 
     };
+
+    // const lastMessage = computed(() => {
+
+    //     return selectedMessages[selectedMessages.length - 1];
+        
+    // });
 
     const getRandomImage = () => {
 

@@ -78,13 +78,16 @@
 
                         <div v-for="message in selectedMessages" :key="message.id" class="flex items-start mb-4">
 
-                            <div :class="{
+                            <div 
+                            
+                                :class="{
 
-                            'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-2 ml-auto': message.sender_id === userIdStore.userId,
+                                    'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-2 ml-auto': message.sender_id !== userIdStore.userId,
 
-                            'flex-row bg-gray-200 w-fit rounded-2xl p-2 mr-auto': message.sender_id !== userIdStore.userId
+                                    'flex-row bg-gray-200 w-fit rounded-2xl p-2 mr-auto': message.sender_id === userIdStore.userId
 
-                            }">
+                                }"
+                            >
 
                                 <div v-if="message.image_path" class="w-40">
 
@@ -255,6 +258,10 @@
 
     const receiverIdStore = useTweetIdStore();
 
+
+    // const lastObject =
+    // console.log(lastObject)
+
     const images = [
 
         require('../../assets/images/1.jpeg'),
@@ -300,7 +307,7 @@
 
     // const lastMessage = computed(() => {
 
-    //     return selectedMessages[selectedMessages.length - 1];
+    //     return  selectedMessages.value[selectedMessages.value.length - 1];
         
     // });
 
@@ -407,6 +414,8 @@
             selectedFile.value = null;
 
             selectedFileUrl.value = null;
+
+            selectMessage();
 
         } catch (error) {
 

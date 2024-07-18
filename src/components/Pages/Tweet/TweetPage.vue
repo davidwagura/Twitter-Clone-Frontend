@@ -19,7 +19,7 @@
 
         </div>
   
-        <div v-if="tweet && tweet.user" class="p-4 border-t">
+        <div v-if="tweet && tweet.comments" class="p-4 border-t">
 
             <div class="flex items-center justify-between">
 

@@ -8,7 +8,9 @@
 
         <li v-for="tweet in tweetsStore.tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
 
-          <router-link v-if="tweet.user" :to="`/${tweet.user.username}/status/${tweet.id}`" class="m-1 cursor-pointer">
+          <!-- <router-link v-if="tweet.user" :to="`/${tweet.user.username}/status/${tweet.id}`" class="m-1 cursor-pointer"> -->
+
+          <button @click="change('tweet')" v-if="tweet.user" class="m-1 hover:cursor-pointer">
 
             <div class="flex items-center justify-between">
 
@@ -48,7 +50,8 @@
 
             </div>
 
-          </router-link>
+          <!-- </router-link> -->
+          </button>
 
           <div>
 
@@ -98,6 +101,12 @@
 
             </div>
 
+            <div v-if="selected === 'tweet'">
+
+              <tweet-page/>
+
+            </div>
+
           </div>
 
         </li>
@@ -125,6 +134,8 @@
   import { useTweetsStore } from '@/stores/tweets';
 
   import ReplyModal from '../modal/ReplyModal.vue';
+
+  import TweetPage from '../Tweet/TweetPage.vue';
 
 
   const userIdStore = useTweetIdStore();
@@ -154,6 +165,8 @@
   let isModalVisible = ref(false);
 
   let tweetToComment = ref(null);
+
+  const selected = ref('');
 
 
   onMounted(async () => {
@@ -185,6 +198,12 @@
     return new Date(dateString).toLocaleDateString(undefined, options);
 
   };
+
+  const change = (status) => {
+
+    selected.value = status;
+
+  }
 
   // const fetchTweet = async (id) => {
 

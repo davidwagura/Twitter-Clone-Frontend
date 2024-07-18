@@ -88,7 +88,7 @@
     </ul>
 
     <div v-else class="text-gray-500">No comments to display</div>
-{{ comments }}
+<!-- {{ comments }} -->
   </div>
   
 </template>

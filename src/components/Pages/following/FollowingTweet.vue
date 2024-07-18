@@ -309,7 +309,7 @@
 
     const goBack = () => {
 
-        router.go('/home');
+        router.go('');
 
     };
 

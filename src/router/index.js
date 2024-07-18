@@ -24,44 +24,21 @@ import { useTweetIdStore } from '@/stores/tweetId'
 const routes = [
 
     { 
-        path: '/', 
-        
-        redirect: '/home',
-
-        meta: { requiresAuth: true }
-    },
-
-    { 
         path:'/home',   
         
         component:HomePage, 
         
-        meta: { requiresAuth: true } 
-    },
+        meta: { requiresAuth: true },
 
-    { 
-        path: '/register',
-    
-        component: RegisterPage, 
+        name: 'home', 
+
+        children: [
+
         
-        meta: { requiresAuth: false } 
+
+        ]
     },
 
-    { 
-        path: '/login',
-    
-        component: LoginPage,
-    
-        meta: { requiresAuth: false } 
-
-    },
-
-    // { 
-    //     path: '/tweet/:id/comments', 
-        
-    //     component: CommentsPage 
-    
-    // },
 
     { 
         path: '/:username/status/:id', 
@@ -69,14 +46,6 @@ const routes = [
         component: TweetPage 
     
     },
-
-    // { 
-        // path: '/:username/status/:id', 
-        
-    //     component: FollowingTweet 
-    
-    // },
-
     {
 
         path: '/notifications',
@@ -96,9 +65,44 @@ const routes = [
     { 
         path:'/messages',   
         
-        component:ConversationsPage, 
+        component: ConversationsPage, 
+
+        name: 'messages'
         
     },
+
+    { 
+        path: '/register',
+    
+        component: RegisterPage, 
+        
+        meta: { requiresAuth: false } 
+    },
+
+    { 
+        path: '/login',
+    
+        component: LoginPage,
+    
+        meta: { requiresAuth: false } 
+
+    },
+
+
+
+    // { 
+    //     path: '/tweet/:id/comments', 
+        
+    //     component: CommentsPage 
+    
+    // },
+
+        // { 
+        // path: '/:username/status/:id', 
+        
+    //     component: FollowingTweet 
+    
+    // },
     
 ];
 
@@ -112,9 +116,12 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
 
+    
     const tokenStore = useTweetIdStore();
 
     const isAuthenticated = !!tokenStore.token;
+
+
 
     if(to.meta.requiresAuth && !isAuthenticated) {
 

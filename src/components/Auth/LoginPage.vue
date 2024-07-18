@@ -99,7 +99,7 @@
 
                 successMessage = '';
 
-                router.push('/home');
+                router.push('');
 
             }, 3000);
         })

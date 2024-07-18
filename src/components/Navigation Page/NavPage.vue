@@ -15,6 +15,8 @@
 
                 <router-link to="/home" class="flex items-center">
 
+                    <!-- @click="changeRoute('home')"  -->
+
                     <span data-tooltip="Home">
 
 
@@ -34,7 +36,7 @@
 
             <div class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <router-link to="/explore" class="flex items-center">
+                <router-link to="" class="flex items-center">
 
                     <span data-tooltip="Explore">
 
@@ -71,7 +73,9 @@
 
             <div class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <router-link to="/messages"  class="flex items-center">
+                <router-link to="/messages"   class="flex items-center">
+
+                    <!-- @click="changeRoute('messages')" -->
 
                     <span data-tooltip="Messages">
 
@@ -89,7 +93,7 @@
 
             <div class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <router-link to="Grok" class="flex items-center">
+                <router-link to="" class="flex items-center">
 
                     <span data-tooltip="Grok">
 
@@ -107,7 +111,7 @@
 
             <div class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <router-link to="/communities" class="flex items-center">
+                <router-link to="" class="flex items-center">
 
                     <span data-tooltip="Communities">
 
@@ -143,7 +147,7 @@
 
             <div class="hover:bg-gray-300 hover:font-medium mb-2 mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <router-link to="/more" class="flex items-center">
+                <router-link to="" class="flex items-center">
 
                     <span data-tooltip="More">
 
@@ -168,6 +172,37 @@
     </div>
 
 </template>
+
+
+
+  
+<script setup>
+
+
+
+
+// import { useRouter } from 'vue-router';
+
+
+
+
+// const router  = useRouter();
+
+
+
+//     const changeRoute = (route_name, params = null) => {
+
+
+//         router.go({ name: route_name, params: params })
+
+//     };
+
+
+
+</script>
+
+
+
 
 
 <style>

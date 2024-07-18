@@ -8,9 +8,7 @@
 
         <li v-for="tweet in tweetsStore.tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
 
-          <!-- <router-link v-if="tweet.user" :to="`/${tweet.user.username}/status/${tweet.id}`" class="m-1 cursor-pointer"> -->
-
-          <button @click="change('tweet')" v-if="tweet.user" class="m-1 hover:cursor-pointer">
+          <router-link v-if="tweet.user" :to="`/${tweet.user.username}/status/${tweet.id}`" class="m-1 cursor-pointer">
 
             <div class="flex items-center justify-between">
 
@@ -50,9 +48,7 @@
 
             </div>
 
-          <!-- </router-link> -->
-          </button>
-
+          </router-link>
           <div>
 
             <div class="flex justify-between -mb-4">
@@ -127,8 +123,6 @@
 
   import { onMounted, ref } from 'vue';
 
-  // import { useRouter } from 'vue-router';
-
   import { useTweetIdStore } from '@/stores/tweetId.js';
 
   import { useTweetsStore } from '@/stores/tweets';
@@ -140,13 +134,7 @@
 
   const userIdStore = useTweetIdStore();
 
-  // const tweetIdStore = useTweetIdStore();
-
   const tweetsStore = useTweetsStore();
-
-  // const username = useTweetIdStore();
-
-  // const router = useRouter();
 
   const images = [
     require('../../../assets/images/1.jpeg'),
@@ -198,36 +186,6 @@
     return new Date(dateString).toLocaleDateString(undefined, options);
 
   };
-
-  const change = (status) => {
-
-    selected.value = status;
-
-  }
-
-  // const fetchTweet = async (id) => {
-
-  //   try {
-
-  //     const response = await axiosInstance.get('/tweet/' + id);
-
-  //     username.setUsername(response.data.tweet.user.username);
-
-  //     console.log(response)
-
-  //     tweetIdStore.setTweetId(id);
-
-  //     const user = username.username;
-
-  //     router.push(`/${user}/status/${id}`);
-
-  //   } catch (error) {
-
-  //     console.error('Error fetching tweet:', error);
-
-  //   }
-
-  // };
 
   const getRandomImage = () => {
 

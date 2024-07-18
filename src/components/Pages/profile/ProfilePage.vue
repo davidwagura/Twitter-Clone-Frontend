@@ -149,6 +149,8 @@
 
     onMounted( async() => {
 
+        console.log('get dvddddd')
+
         await getUser();
 
     });

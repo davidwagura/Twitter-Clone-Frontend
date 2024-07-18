@@ -283,9 +283,6 @@
 
     };
 
-    // const lastObject =
-    // console.log(lastObject)
-
     const images = [
 
         require('../../assets/images/1.jpeg'),
@@ -330,11 +327,6 @@
     };
 
 
-    // const lastMessage = computed(() => {
-
-    //     return  selectedMessages.value[selectedMessages.value.length - 1];
-        
-    // });
 
     const getRandomImage = () => {
 

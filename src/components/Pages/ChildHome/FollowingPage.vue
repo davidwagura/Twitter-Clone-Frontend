@@ -1,6 +1,6 @@
 <template>
 
-  <div v-if="activeSection === 'following'" class="w-full">
+  <div class="w-full">
 
     <div v-if="tweets && tweets.length">
 
@@ -8,7 +8,9 @@
 
         <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
           
-          <div @click="fetchTweet(tweet.id), setActiveSection('followingTweet')" class="cursor-pointer">
+          <!-- <router-link @click="fetchTweet(tweet.id), setActiveSection('followingTweet')" class="cursor-pointer"> -->
+
+          <router-link :to="`/${tweet.user.username}/status/${tweet.id}`" class="m-1 cursor-pointer">
 
             <div class="flex items-center justify-between">
 
@@ -45,7 +47,7 @@
 
             </div>
 
-          </div>
+          </router-link>
 
           <div class="flex justify-between pt-4">
 
@@ -99,11 +101,11 @@
 
   </div>
 
-  <div v-else-if="activeSection === 'followingTweet'">
+  <!-- <div v-else-if="activeSection === 'followingTweet'">
 
     <followingTweet @back="setActiveSection('following')"></followingTweet>
   
-  </div>
+  </div> -->
 
 </template>
 
@@ -117,13 +119,13 @@
 
   import FollowingTweetModalVue from '../modal/FollowingTweetModal.vue';
 
-  import FollowingTweet from '../following/FollowingTweet.vue';
+  // import FollowingTweet from '../following/FollowingTweet.vue';
 
   const userIdStore =  useTweetIdStore();
 
-  const tweetIdStore = useTweetIdStore();
+  // const tweetIdStore = useTweetIdStore();
 
-  let activeSection = ref('following');
+  // let activeSection = ref('following');
 
 
   const images = [
@@ -181,11 +183,11 @@
 
   };
 
-  const setActiveSection = (section) => {
+  // const setActiveSection = (section) => {
 
-    activeSection.value = section;
+  //   activeSection.value = section;
 
-  };
+  // };
 
 
   const toggleLike = async (tweet) => {
@@ -262,19 +264,19 @@
 
   };
 
-  const fetchTweet = async (id) => {
+  // const fetchTweet = async (id) => {
 
-    tweetIdStore.setFollowingTweetId(id);
+  //   tweetIdStore.setFollowingTweetId(id);
 
-    const response = await axiosInstance.get('/tweet/' + id);
+  //   const response = await axiosInstance.get('/tweet/' + id);
 
-    tweetIdStore.setFollowingUsername(response.data.tweet.user.username)
+  //   tweetIdStore.setFollowingUsername(response.data.tweet.user.username)
 
-    // const username = tweetIdStore.followingUsername;
+  //   // const username = tweetIdStore.followingUsername;
 
-    // router.push(`/${username}/status/${id}`);
+  //   // router.push(`/${username}/status/${id}`);
     
-  };
+  // };
 
   onMounted(fetchTweets);
 

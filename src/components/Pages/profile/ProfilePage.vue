@@ -28,7 +28,7 @@
         
                 <div class="ml-6 mt-16 text-lg">
 
-                    <span class="font-semibold">{{ user.first_name }} {{ user.last_name }}</span><br>
+                    <span class="font-semibold">{{ user["first_name"] }} {{ user.last_name }}</span><br>
 
                     <span class="text-gray-500 text-base">@{{ user.username }}</span><br>
 
@@ -114,7 +114,7 @@
 
     const activeSection = ref('posts');
 
-    let user = ref({});
+    const user = ref({});
 
     const currentSectionComponent = computed(() => {
 

@@ -1,32 +1,61 @@
 <template>
 
-  <div class="fixed inset-0 bg-gray-600 bg-opacity-70 flex items-center justify-center">
+    <div class="fixed inset-0 bg-gray-600 bg-opacity-70 flex items-center justify-center">
 
-      <div class="bg-white p-6 rounded-lg shadow-lg h-4/6 max-w-md w-full relative">
+        <div class="bg-white p-6 rounded-lg shadow-lg h-5/6 max-h-fit max-w-md w-full relative">
 
-          <button @click="$emit('close')" class="absolute top-2 right-2 text-gray-500 text-2xl">
+            <button @click="$emit('close')" class="absolute top-2 right-2 text-gray-500 text-2xl">
 
-              &times;
+                &times;
 
-          </button>
+            </button>
 
-          <h1 class="text-xl font-bold mb-4 flex">New Message</h1>
+            <h1 class="text-xl font-bold mb-4 flex">New Message</h1>
 
-          <div class="mt-4 border-b">
+            <div class="mt-4 border-b">
 
-              <input type="number" placeholder="Search people" name="wallet" class="mt-1 p-2 w-full border-none  rounded-md" />
+                <input type="number" placeholder="Search people" name="wallet" class="mt-1 p-2 w-full border-none  rounded-md" />
 
-          </div>
+            </div>
 
-          <div class="flex justify-center mt-20">
+            <div @click="showModal = true" class="mt-2 hover:bg-gray-100 border-b p-4 text-blue-500 flex">
 
-              <button class="bg-blue-700 text-white w-full px-4 py-2 rounded-xl font-thin">Search people</button>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mr-4 border rounded-full">
 
-          </div>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
 
-      </div>
+                </svg>
 
-  </div>
+                <h2>Create a group</h2>
+
+            </div>
+
+            <div class="flex justify-center mt-20">
+
+                <button class="bg-blue-700 text-white w-full px-4 py-2 rounded-xl font-thin">Search people</button>
+
+            </div>
+
+            <create-group-page v-if="showModal" @close="closeModal" />
+
+        </div>
+
+    </div>
 
 </template>
 
+<script setup>
+
+    import { ref } from 'vue';
+
+    import  CreateGroupPage from '@/components/messages/CreateGroupPage.vue';
+
+    const showModal = ref(false);
+
+    const closeModal = () => {
+
+        showModal.value = false;
+
+    };
+
+</script>

@@ -51,11 +51,11 @@
 
                                         <span class="text-sm text-gray-500">{{ formatDate1(conversation.conversation[0].created_at) }}</span>
 
-                                        <!-- <div v-if="lastMessage">
+                                        <div v-for="message in selectedMessagesStore.selectedMessages" :key="message.id">
 
-                                            <p class="text-sm text-gray-500">{{ lastMessage.body }}</p>
+                                            <p class="text-sm text-gray-500">{{ message.length ? message [message.length - 2] : null }}</p>
                                        
-                                        </div> -->
+                                        </div>
                                     
                                     </div>
 
@@ -277,11 +277,15 @@
 
     const showModal = ref(false);
 
+    const selectedMessagesStore = useTweetIdStore();
+
     const closeModal = () => {
 
         showModal.value = false;
 
     };
+
+    console.log(selectedMessagesStore.selectedMessages)
 
     const images = [
 
@@ -339,6 +343,8 @@
     const selectMessage = (index) => {
 
         selectedMessages.value = conversations.value.at(index).conversation;
+
+        selectedMessagesStore.setSelectedMessages(conversations.value.at(index).conversation);
 
         receiverIdStore.setReceiverId(conversations.value.at(index).user.id);
 

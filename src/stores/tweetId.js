@@ -18,6 +18,8 @@ export const useTweetIdStore  = defineStore('tweetId', {
 
         receiverId: null,
 
+        selectedMessages: null,
+
     }),
 
     getters: {
@@ -35,6 +37,8 @@ export const useTweetIdStore  = defineStore('tweetId', {
         getUsername: (state) => state.username,
 
         getReceiverId: (state) => state.receiverId,
+
+        getSelectedMessages: (state) => state.selectedMessages,
 
     },
 
@@ -86,7 +90,13 @@ export const useTweetIdStore  = defineStore('tweetId', {
 
             this.receiverId = receiverId;
             
-        }
+        },
+
+        setSelectedMessages(selectedMessages) {
+
+            this.selectedMessages = selectedMessages;
+
+        },
       
     },
 

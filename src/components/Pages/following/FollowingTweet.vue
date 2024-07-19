@@ -2,6 +2,13 @@
     
     <div>
 
+        <!-- <div>
+
+            <nav-page/>
+
+        </div>
+ -->
+
         <div class="flex items-center h-fit p-4 border-b">
 
             <button @click="goBack" class="mr-4">
@@ -12,7 +19,7 @@
 
                 </svg>
 
-            </button>
+            </button> 
 
             <h1 class="font-bold text-xl">Post</h1>
 
@@ -135,6 +142,13 @@
         <following-tweet-comments :tweet="tweet"></following-tweet-comments>
 
     </div>
+<!-- 
+    <div class="w-4/12 min-h-screen p-8 ml-auto mr-16 mt-1 mb-8 rounded-xl">
+
+        <trends-page/>
+
+    </div> -->
+
 
 </template>
 

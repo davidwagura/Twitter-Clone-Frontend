@@ -208,6 +208,10 @@
 
         tweetIdStore.setTweetId(route.params.id)
 
+        console.log(route.params.id)
+
+        console.log(tweetIdStore.tweetId)
+
         ///here
 
 
@@ -343,8 +347,6 @@
     const goBack = () => {
 
         router.push('/home');
-
-        getTweet();
 
     };
     

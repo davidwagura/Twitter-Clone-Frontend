@@ -6,7 +6,7 @@ import RegisterPage from '../components/Auth/RegisterPage.vue'
 
 import LoginPage from '../components/Auth/LoginPage.vue'
 
-// import CommentsPage from '../components/Pages/Tweet/CommentsPage.vue'
+import CommentsPage from '../components/Pages/Tweet/CommentsPage.vue'
 
 import TweetPage from '../components/Pages/Tweet/TweetPage.vue'
 
@@ -19,6 +19,7 @@ import ProfilePage from '@/components/Pages/profile/ProfilePage.vue'
 import ConversationsPage from '@/components/messages/ConversationsPage.vue'
 
 import { useTweetIdStore } from '@/stores/tweetId'
+// import FollowingTweet from '@/components/Pages/following/FollowingTweet.vue'
 
 
 const routes = [
@@ -43,9 +44,11 @@ const routes = [
     { 
         path: '/:username/status/:id', 
         
-        component: TweetPage 
+        component: TweetPage ,
+
     
     },
+
     {
 
         path: '/notifications',
@@ -89,13 +92,12 @@ const routes = [
     },
 
 
-
-    // { 
-    //     path: '/tweet/:id/comments', 
+    { 
+        path: '/tweet/:id/comments', 
         
-    //     component: CommentsPage 
+        component: CommentsPage 
     
-    // },
+    },
 
     // { 
     //     path: '/:username/status/:id', 

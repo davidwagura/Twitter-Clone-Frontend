@@ -135,6 +135,8 @@
 
     let tweetId = tweetIdStore.tweetId;
 
+    console.log(tweetId)
+
     try {
 
       const response = await axiosInstance.get('/comments/' + tweetId);

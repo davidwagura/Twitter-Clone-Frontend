@@ -223,9 +223,7 @@
 
         try {
 
-            const formData = new FormData();successMessage.value = response ? 'Tweet created successfully!' : 'Error creating tweet';
-
-            data.value.body = '';
+            const formData = new FormData();
 
             selectedFile.value = null;
 
@@ -273,6 +271,8 @@
             selectedFile.value = null;
 
             selectedFileUrl.value = null;
+
+            successMessage.value = response ? 'Tweet created successfully!' : 'Error creating tweet';
 
             setTimeout(() => {
                 

@@ -10,7 +10,7 @@ import LoginPage from '../components/Auth/LoginPage.vue'
 
 import TweetPage from '../components/Pages/Tweet/TweetPage.vue'
 
-import FollowingTweet from '@/components/Pages/following/FollowingTweet.vue'
+// import FollowingTweet from '@/components/Pages/following/FollowingTweet.vue'
 
 import NotificationsPage from '@/components/Pages/notifications/NotificationsPage'
 
@@ -97,12 +97,12 @@ const routes = [
     
     // },
 
-    { 
-        path: '/:username/status/:id', 
+    // { 
+    //     path: '/:username/status/:id', 
         
-        component: FollowingTweet 
+    //     component: FollowingTweet 
     
-    },
+    // },
     
 ];
 

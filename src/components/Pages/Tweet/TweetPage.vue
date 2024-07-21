@@ -206,6 +206,14 @@
 
         let id = route.params.id;
 
+        tweetIdStore.setTweetId(route.params.id)
+
+        ///here
+
+
+
+
+
         try {
 
             const tweetResponse = await axiosInstance.get('/tweet/' + id);
@@ -245,10 +253,6 @@
             let id = parseInt(userIdStore.userId);
 
             const tweetId = route.params.id;
-
-            tweetIdStore.setTweetId(tweetId)
-
-            console.log(tweetId)
 
             const res = await axiosInstance.post('/tweet/comment/', { body, user_id: parseInt(id), tweet_id: parseInt(tweetId) });
 
@@ -339,6 +343,8 @@
     const goBack = () => {
 
         router.push('/home');
+
+        getTweet();
 
     };
     

@@ -103,15 +103,11 @@
 
   import { useTweetIdStore } from '@/stores/tweetId.js';
 
-  import { useRouter } from 'vue-router';
-
   const tweetIdStore = useTweetIdStore();
 
   console.log(tweetIdStore.tweetId)
 
   const userIdStore =  useTweetIdStore();
-
-  const route = useRouter()
 
   const images = [
 
@@ -128,7 +124,6 @@
 
   ];
 
-  console.log(route.params)
 
   const comments = ref([]);
 

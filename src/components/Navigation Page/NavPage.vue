@@ -73,8 +73,8 @@
 
             <div class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <router-link to="/messages"   class="flex items-center">
-
+                <router-link :to="`/messages/${users.id}`"   class="flex items-center">
+                    
                     <!-- @click="changeRoute('messages')" -->
 
                     <span data-tooltip="Messages">
@@ -178,26 +178,55 @@
   
 <script setup>
 
+    import { ref, onMounted } from 'vue';
 
+    import axios from 'axios';
 
+    import { useTweetIdStore } from '@/stores/tweetId';
 
-// import { useRouter } from 'vue-router';
+    const userIdStore = useTweetIdStore();
+     
+    const conversations = ref([]);
 
+    const users = ref({});
 
+    
 
+    const fetchMessages = async () => {
 
-// const router  = useRouter();
+        try {
 
+            const userId = userIdStore.userId;
 
+            const response = await axios.get(`http://127.0.0.1:8000/api/conversation/${userId}`);
 
-//     const changeRoute = (route_name, params = null) => {
+            const { data } = response.data;
 
+            conversations.value = data;
 
-//         router.go({ name: route_name, params: params })
+            for (const key in data) {
 
-//     };
+                users.value = response.data.data[key].user;
 
+                conversations.value = response.data.data[key].user.id
+                
+                // console.log( alert(users.value[0]))
+            
+            }
 
+        } catch (error) {
+
+            console.error('Error fetching messages:', error);
+
+        }
+
+    };
+
+    onMounted( async() => {
+
+        await fetchMessages();
+
+    })
 
 </script>
 

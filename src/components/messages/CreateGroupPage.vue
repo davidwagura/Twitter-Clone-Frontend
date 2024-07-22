@@ -16,7 +16,7 @@
                     
                 </button>
 
-                <h1 class="text-xl ml-4 font-bold">New message</h1>
+                <h1 class="text-xl ml-4 font-bold">Create group</h1>
 
                 <button @click="createGroup" class="bg-gray-700 text-white absolute right-2 border rounded-3xl p-1 w-16 font-semibold">Next</button>
 

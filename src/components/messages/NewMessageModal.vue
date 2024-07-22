@@ -3,11 +3,18 @@
     <div class="fixed inset-0 bg-gray-600 bg-opacity-70 flex items-center justify-center">
 
         <div class="bg-white p-6 rounded-lg shadow-lg h-5/6 max-h-fit w-full max-w-xl relative">
+           
+            <div class="flex mb-4">
 
-            <button @click="$emit('close')" class="absolute top-2 right-2 text-gray-500 text-2xl">&times;</button>
+                <button @click="$emit('close')" class="mr-4 solute text-gray-500 text-2xl">&times;</button>
 
-            <h1 class="text-xl font-bold mb-4 flex">New Message</h1>
+                <h1 class="text-xl font-bold flex">New Message</h1>
 
+                <button @click="newMessage" class="bg-gray-700 text-white absolute right-2 border rounded-3xl p-1 w-16 font-semibold">Next</button>
+
+            </div>
+
+            
             <div class="mt-4 border-b">
 
                 <input type="text" placeholder="Search people" name="wallet" class="mt-1 p-2 w-full border-none rounded-md" />
@@ -155,6 +162,11 @@
         }
 
     };
+
+    const newMessage = async() => {
+
+        console.log(selectedUsers.value)
+    }
     
     const removeUser = (user) => {
 

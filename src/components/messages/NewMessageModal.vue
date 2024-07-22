@@ -2,7 +2,7 @@
 
     <div class="fixed inset-0 bg-gray-600 bg-opacity-70 flex items-center justify-center">
 
-        <div class="bg-white p-6 rounded-lg shadow-lg h-5/6 max-h-fit max-w-md w-full relative">
+        <div class="bg-white p-6 rounded-lg shadow-lg h-5/6 max-h-fit w-full max-w-xl relative">
 
             <button @click="$emit('close')" class="absolute top-2 right-2 text-gray-500 text-2xl">&times;</button>
 
@@ -13,6 +13,31 @@
                 <input type="text" placeholder="Search people" name="wallet" class="mt-1 p-2 w-full border-none rounded-md" />
 
             </div>
+
+
+                <div v-if="selectedUsers.length" class="mb-4">
+
+                    <div class="flex flex-wrap mt-2">
+
+                        <div v-for="user in selectedUsers" :key="user.id" class="flex items-center p-2 border-gray-200 border bg-white rounded-full mr-2 mb-2">
+
+                            <img :src="getRandomImage()" alt="User avatar" class="w-6 h-6 rounded-full mr-2" />
+
+                            <span>{{ user.first_name }} {{ user.last_name }}</span>
+
+                            <button @click="removeUser(user)" class="ml-2 font-semibold text-blue-500 hover:text-gray-700">
+
+                                &times;
+
+                            </button>
+
+                        </div>
+                    
+                    </div>
+
+                </div>
+
+
 
             <div @click="showModal = true" class="mt-2 hover:bg-gray-100 border-b p-4 text-blue-500 flex">
 
@@ -26,7 +51,7 @@
 
             </div>
 
-            <div v-for="conversation in conversations" :key="conversation.user.id" class="mt-2 p-4">
+            <div v-for="conversation in conversations" :key="conversation.user.id" class="mt-2 hover:bg-gray-100 p-4 cursor-pointer" @click="toggleUserSelection(conversation.user)">
 
                 <div class="flex items-center">
 
@@ -72,6 +97,10 @@
 
     const conversations = ref([]);
 
+    const selectedUsers = ref([]);
+
+
+
     const closeModal = () => {
 
         showModal.value = false;
@@ -110,6 +139,29 @@
         }
 
     };
+
+    const toggleUserSelection = (user) => {
+
+        const index = selectedUsers.value.findIndex(u => u.id === user.id);
+
+        if (index > -1) {
+
+            selectedUsers.value.splice(index, 1);
+
+        } else {
+
+            selectedUsers.value.push(user);
+
+        }
+
+    };
+    
+    const removeUser = (user) => {
+
+        selectedUsers.value = selectedUsers.value.filter(u => u.id !== user.id);
+
+    };
+
 
     const getRandomImage = () => {
 

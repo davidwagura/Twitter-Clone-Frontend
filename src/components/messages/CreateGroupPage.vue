@@ -2,7 +2,7 @@
 
     <div class="fixed inset-0 bg-gray-600 bg-opacity-70 flex items-center justify-center">
 
-        <div class="bg-white p-6 rounded-lg shadow-lg h-5/6 max-h-fit max-w-md w-full relative">
+        <div class="bg-white p-6 rounded-lg shadow-lg h-5/6 max-h-fit w-full max-w-xl relative">
 
             <div class="flex items-center pb-2 mb-4">
 
@@ -32,23 +32,17 @@
 
                 <input type="text" v-model="searchQuery" @input="getUsers" placeholder="Search people" class="mt-1 p-2 w-full border-none font-thin rounded-md" />
             
-            </div>
-
-            <div class="mt-4">
-
                 <div v-if="selectedUsers.length" class="mb-4">
-
-                    <h3 class="text-sm font-semibold">Selected Users</h3>
 
                     <div class="flex flex-wrap mt-2">
 
-                        <div v-for="user in selectedUsers" :key="user.id" class="flex items-center p-2 bg-gray-100 rounded-full mr-2 mb-2">
+                        <div v-for="user in selectedUsers" :key="user.id" class="flex items-center p-2 border-gray-200 border bg-white rounded-full mr-2 mb-2">
 
                             <img :src="getRandomImage()" alt="User avatar" class="w-6 h-6 rounded-full mr-2" />
 
                             <span>{{ user.first_name }} {{ user.last_name }}</span>
 
-                            <button @click="removeUser(user)" class="ml-2 text-gray-500 hover:text-gray-700">
+                            <button @click="removeUser(user)" class="ml-2 font-semibold text-blue-500 hover:text-gray-700">
 
                                 &times;
 
@@ -59,6 +53,11 @@
                     </div>
 
                 </div>
+
+
+            </div>
+
+            <div class="mt-4">
 
                 <div v-for="conversation in conversations" :key="conversation.user.id" class="mt-2 hover:bg-gray-100 p-4 cursor-pointer" @click="toggleUserSelection(conversation.user)">
 

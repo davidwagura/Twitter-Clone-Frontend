@@ -10,7 +10,7 @@
 
             <div class="mt-4 border-b">
 
-                <input type="number" placeholder="Search people" name="wallet" class="mt-1 p-2 w-full border-none rounded-md" />
+                <input type="text" placeholder="Search people" name="wallet" class="mt-1 p-2 w-full border-none rounded-md" />
 
             </div>
 

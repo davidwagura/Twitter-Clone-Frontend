@@ -34,15 +34,92 @@
 
             </div>
 
-            <!-- <div class="flex justify-center">
+            <div v-for="conversation in conversations" :key="conversation.user.id" class="mt-2 hover:bg-gray-100 p-4">
 
-                <button class="bg-blue-500 text-white w-full px-4 py-2 rounded-md">Search</button>
+                <div class="flex items-center">
 
-            </div> -->
+                    <div class="mr-4">
+
+                        <img :src="getRandomImage() || 'default-avatar.png'" alt="User avatar" class="w-10 h-10 rounded-full" />
+
+                    </div>
+
+                    <div>
+
+                        <h3 class="text-lg font-normal">{{ conversation.user.first_name }} {{ conversation.user.last_name }}</h3>
+
+                        <p class="text-gray-500">@{{ conversation.user.username }}</p>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 
-  </template>
-  
+</template>
+
+<script setup>
+
+    import { ref,onMounted } from 'vue';
+
+    import axios from 'axios';
+
+    import { useTweetIdStore } from '@/stores/tweetId';
+
+    const tweetIdStore = useTweetIdStore();
+
+    const conversations = ref([]);
+
+
+    const images = [
+
+        require('../../assets/images/1.jpeg'),
+        require('../../assets/images/2.jpeg'),
+        require('../../assets/images/3.jpeg'),
+        require('../../assets/images/4.jpeg'),
+        require('../../assets/images/5.jpeg'),
+        require('../../assets/images/6.jpeg'),
+        require('../../assets/images/7.jpeg'),
+        require('../../assets/images/8.jpeg'),
+        require('../../assets/images/9.jpeg'),
+        require('../../assets/images/10.jpeg'),
+
+    ];
+
+    const getConversations = async () => {
+
+        try {
+
+            const userId = tweetIdStore.userId;
+
+            const response = await axios.get(`http://127.0.0.1:8000/api/conversation/${userId}`);
+
+            conversations.value = response.data.data;
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
+    };
+
+    const getRandomImage = () => {
+
+        const randomIndex = Math.floor(Math.random() * images.length);
+
+        return images[randomIndex];
+
+    };
+
+    onMounted(async () => {
+
+        await getConversations();
+
+    });
+
+</script>

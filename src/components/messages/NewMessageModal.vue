@@ -38,7 +38,7 @@
 
                     <div>
 
-                        <h3 class="text-lg font-semibold">{{ conversation.user.first_name }} {{ conversation.user.last_name }}</h3>
+                        <h3 class="text-lg font-normal">{{ conversation.user.first_name }} {{ conversation.user.last_name }}</h3>
 
                         <p class="text-gray-500">@{{ conversation.user.username }}</p>
 

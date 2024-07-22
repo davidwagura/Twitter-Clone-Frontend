@@ -4,17 +4,13 @@
 
         <div class="bg-white p-6 rounded-lg shadow-lg h-5/6 max-h-fit max-w-md w-full relative">
 
-            <button @click="$emit('close')" class="absolute top-2 right-2 text-gray-500 text-2xl">
-
-                &times;
-
-            </button>
+            <button @click="$emit('close')" class="absolute top-2 right-2 text-gray-500 text-2xl">&times;</button>
 
             <h1 class="text-xl font-bold mb-4 flex">New Message</h1>
 
             <div class="mt-4 border-b">
 
-                <input type="number" placeholder="Search people" name="wallet" class="mt-1 p-2 w-full border-none  rounded-md" />
+                <input type="number" placeholder="Search people" name="wallet" class="mt-1 p-2 w-full border-none rounded-md" />
 
             </div>
 
@@ -30,9 +26,25 @@
 
             </div>
 
-            <div class="flex justify-center mt-20">
+            <div v-for="conversation in conversations" :key="conversation.user.id" class="mt-2 p-4">
 
-                <button class="bg-blue-700 text-white w-full px-4 py-2 rounded-xl font-thin">Search people</button>
+                <div class="flex items-center">
+
+                    <div class="mr-4">
+
+                        <img :src="getRandomImage() || 'default-avatar.png'" alt="User avatar" class="w-10 h-10 rounded-full" />
+
+                    </div>
+
+                    <div>
+
+                        <h3 class="text-lg font-semibold">{{ conversation.user.first_name }} {{ conversation.user.last_name }}</h3>
+
+                        <p class="text-gray-500">@{{ conversation.user.username }}</p>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -46,16 +58,71 @@
 
 <script setup>
 
-    import { ref } from 'vue';
+    import { ref, onMounted } from 'vue';
 
-    import  CreateGroupPage from '@/components/messages/CreateGroupPage.vue';
+    import CreateGroupPage from '@/components/messages/CreateGroupPage.vue';
+
+    import axios from 'axios';
+
+    import { useTweetIdStore } from '@/stores/tweetId';
 
     const showModal = ref(false);
+
+    const tweetIdStore = useTweetIdStore();
+
+    const conversations = ref([]);
 
     const closeModal = () => {
 
         showModal.value = false;
 
     };
+
+    const images = [
+
+        require('../../assets/images/1.jpeg'),
+        require('../../assets/images/2.jpeg'),
+        require('../../assets/images/3.jpeg'),
+        require('../../assets/images/4.jpeg'),
+        require('../../assets/images/5.jpeg'),
+        require('../../assets/images/6.jpeg'),
+        require('../../assets/images/7.jpeg'),
+        require('../../assets/images/8.jpeg'),
+        require('../../assets/images/9.jpeg'),
+        require('../../assets/images/10.jpeg'),
+
+    ];
+
+    const getConversations = async () => {
+
+        try {
+
+            const userId = tweetIdStore.userId;
+
+            const response = await axios.get(`http://127.0.0.1:8000/api/conversation/${userId}`);
+
+            conversations.value = response.data.data;
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
+    };
+
+    const getRandomImage = () => {
+
+        const randomIndex = Math.floor(Math.random() * images.length);
+
+        return images[randomIndex];
+
+    };
+
+    onMounted(async () => {
+
+        await getConversations();
+
+    });
 
 </script>

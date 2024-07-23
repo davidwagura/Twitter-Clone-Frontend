@@ -51,12 +51,10 @@
 
                                         <span class="text-sm text-gray-500">{{ formatDate1(conversation.conversation[0].created_at) }}</span>
 
-                                        <div v-for="message in selectedMessagesStore.selectedMessages" :key="message.id">
+                                        <!-- last-message in conversation-->
 
-                                            <p class="text-sm text-gray-500">{{ message.length ? message [message.length - 2] : null }}</p>
-                                       
-                                        </div>
-                                    
+                                        <p class="text-sm text-gray-500">{{ getLastMessage(conversation.conversation) }}</p>
+
                                     </div>
 
                                 </div>
@@ -331,6 +329,13 @@
         }
 
     };
+
+    const getLastMessage = (conversation) =>  {
+
+        return conversation.length > 0 ? conversation[conversation.length - 1].body : '';
+
+    }
+
 
     const getRandomImage = () => {
 

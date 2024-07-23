@@ -6,7 +6,7 @@
 
         <div class="flex">
 
-            <div class="w-5/12 border min-h-screen h-fit overflow-y-hidden ml-64">
+            <div class="w-5/12 border min-h-screen h-fit ml-64">
 
                 <div class="relative">
                     
@@ -26,15 +26,15 @@
 
                 </div>
         
-                <div class="ml-6 mt-16 text-lg">
+                <div v-for="u in user" :key="u.id" class="ml-6 mt-16 text-lg">
 
-                    <span class="font-semibold">{{ user["first_name"] }} {{ user.last_name }}</span><br>
+                    <span class="font-semibold">{{ u.first_name }} {{ u.last_name }}</span><br>
 
-                    <span class="text-gray-500 text-base">@{{ user.username }}</span><br>
+                    <span class="text-gray-500 text-base">@{{ u.username }}</span><br>
 
-                    <span class="text-gray-500 text-base">Joined {{ formatDate(user.created_at) }}</span><br>
+                    <span class="text-gray-500 text-base">Joined {{ formatDate(u.created_at) }}</span><br>
 
-                    <span>{{ user.following }} <span class="text-base text-gray-500 mr-4">Following</span> {{ user.followers }}<span class="text-gray-500 text-base"> Followers</span></span>
+                    <span>{{ u.following }} <span class="text-base text-gray-500 mr-4">Following</span> {{ u.followers }}<span class="text-gray-500 text-base"> Followers</span></span>
 
                 </div>
         
@@ -72,7 +72,7 @@
 
                 </div>
         
-                <div class="component mt-4">
+                <div class="mt-4">
 
                     <component :is="currentSectionComponent"></component>
 
@@ -93,6 +93,7 @@
 </template>
   
 <script setup>
+
     import { ref, computed,onMounted } from 'vue';
 
     import NavPage from '@/components/Navigation Page/NavPage.vue';

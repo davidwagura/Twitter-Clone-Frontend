@@ -20,7 +20,7 @@
 
                     :to="`/messages/${user.id}`"
 
-                    class="bg-gray-700 text-white absolute right-2 border rounded-3xl p-1 ml-2 w-16 font-semibold"
+                    class="bg-gray-700 text-white absolute right-2 border rounded-3xl w-16 p-1 pl-3 font-semibold"
 
                 >
 
@@ -135,7 +135,7 @@
     import axios from 'axios';
 
     import { useTweetIdStore } from '@/stores/tweetId';
-    
+
 
     const showModal = ref(false);
 

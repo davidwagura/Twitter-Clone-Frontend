@@ -70,7 +70,6 @@ const routes = [
         
         component: ConversationsPage, 
 
-        name: 'messages'
         
     },
 

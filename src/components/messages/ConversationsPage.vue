@@ -135,7 +135,7 @@
 
                     <div class="mt-8">
 
-                        <button class="bg-blue-400 rounded-3xl p-4 w-48 text-white">New message</button>
+                        <button @click="showModal = true" class="bg-blue-400 rounded-3xl p-4 w-48 text-white">New message</button>
 
                     </div>
 
@@ -257,6 +257,7 @@
 
     import newMessageModal from '@/components/messages/NewMessageModal.vue'
 
+
     const conversations = ref({});
 
     const users = ref({});
@@ -278,6 +279,7 @@
     const showModal = ref(false);
 
     const selectedMessagesStore = useTweetIdStore();
+
 
     const closeModal = () => {
 
@@ -301,7 +303,7 @@
         require('../../assets/images/10.jpeg'),
 
     ];
-
+    
     const fetchMessages = async () => {
 
         try {
@@ -329,8 +331,6 @@
         }
 
     };
-
-
 
     const getRandomImage = () => {
 

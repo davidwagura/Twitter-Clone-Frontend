@@ -10,7 +10,7 @@
 
                 <h1 class="text-xl font-bold flex">New Message</h1>
 
-                <button @click="newMessage" class="bg-gray-700 text-white absolute right-2 border rounded-3xl p-1 w-16 font-semibold">Next</button>
+                <router-link @click="newMessage" v-for="user in selectedUsers" :key="user.id" :to="`/messages/${user.id}`" class="bg-gray-700 text-white absolute right-2 border rounded-3xl p-1 ml-2 w-16 font-semibold">Next</router-link>
 
             </div>
 
@@ -43,8 +43,6 @@
                     </div>
 
                 </div>
-
-
 
             <div @click="showModal = true" class="mt-2 hover:bg-gray-100 border-b p-4 text-blue-500 flex">
 
@@ -165,7 +163,10 @@
 
     const newMessage = async() => {
 
-        console.log(selectedUsers.value)
+        showModal.value = true;
+
+        // closeModal();
+
     }
     
     const removeUser = (user) => {

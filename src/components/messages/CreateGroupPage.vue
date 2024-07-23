@@ -54,7 +54,6 @@
 
                 </div>
 
-
             </div>
 
             <div class="mt-4">
@@ -140,7 +139,7 @@
 
         try {
 
-        const response = await axios.get(`http://127.0.0.1:8000/api/users?letter=${searchQuery.value}`);
+            const response = await axios.get(`http://127.0.0.1:8000/api/users?letter=${searchQuery.value}`);
 
             suggestions.value = response.data.users;
 

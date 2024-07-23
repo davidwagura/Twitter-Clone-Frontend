@@ -94,11 +94,12 @@
                             
                                 :class="{
 
-                                    'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-2 ml-auto': message.sender_id !== userIdStore.userId,
+                                    'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-2 ml-auto': message.sender_id === userIdStore.userId,
 
-                                    'flex-row bg-gray-200 w-fit rounded-2xl p-2 mr-auto': message.sender_id === userIdStore.userId
+                                    'flex-row bg-gray-200 w-fit rounded-2xl p-2 mr-auto': message.sender_id !== userIdStore.userId
 
                                 }"
+                                
                             >
 
                                 <div v-if="message.image_path" class="w-40">

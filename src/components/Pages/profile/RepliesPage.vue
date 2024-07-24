@@ -7,6 +7,8 @@
             <ul>
         
                 <li v-for="reply in replies" :key="reply.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
+
+                <!-- <router-link v-if="reply.user" :to="`/${reply.user.username}/status/${reply.id}`" class="m-1 cursor-pointer"> -->
                     
                     <div class="cursor-pointer">
                 
@@ -88,6 +90,7 @@
                 
                     </div>
 
+                <!-- </router-link> -->
             
                 </li>
 

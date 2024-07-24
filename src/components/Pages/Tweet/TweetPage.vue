@@ -29,7 +29,7 @@
 
                 </div>
         
-                <div v-if="tweet && tweet.comments" class="p-4">
+                <div v-if="tweet && tweet.user" class="p-4">
 
                     <div class="flex items-center justify-between">
 
@@ -136,6 +136,8 @@
                 <div v-else class="flex items-center justify-center h-screen">
 
                     <span>Loading...</span>
+
+                    {{ tweet }}
 
                 </div>
 

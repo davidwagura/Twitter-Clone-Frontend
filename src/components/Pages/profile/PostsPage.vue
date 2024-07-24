@@ -7,6 +7,8 @@
         <ul>
     
           <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
+
+            <router-link v-if="tweet.user" :to="`/${tweet.user.username}/status/${tweet.id}`" class="m-1 cursor-pointer">
             
             <div class="cursor-pointer" @click="fetchTweet()">
      
@@ -85,7 +87,9 @@
               </button>
   
             </div>
-  
+            
+          </router-link>
+
           </li>
   
         </ul>

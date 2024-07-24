@@ -22,7 +22,9 @@
 
                     </div>
 
-                    <button class="absolute right-4 bottom-4 border rounded-3xl -mb-20 m-4 p-2 font-semibold">Edit Profile</button>
+                    <button @click="openModal" class="absolute right-4 bottom-4 border rounded-3xl -mb-20 m-4 p-2 font-semibold">Edit Profile</button>
+
+                    <EditProfile :showModal="showModal" @close="closeModal" @update="handleProfileUpdate" />
 
                 </div>
         
@@ -104,6 +106,8 @@
 
     import RepliesPage from './RepliesPage.vue';
 
+    import EditProfile from '@/components/Pages/modal/EditProfile.vue'
+
     import TrendsPageVue from '@/components/Pages/trends/TrendsPage.vue';
 
     import axiosInstance from '@/axiosInstance';
@@ -115,6 +119,8 @@
 
     const activeSection = ref('posts');
 
+    const showModal = ref(false);
+
     const user = ref({});
 
     const currentSectionComponent = computed(() => {
@@ -122,6 +128,19 @@
         return activeSection.value === 'posts' ? PostsPage : (activeSection.value === 'replies' ? RepliesPage : (activeSection.value === 'likes' ? LikesPage : 'defaultPage'));
 
     });
+
+
+    const openModal = () => {
+
+        showModal.value = true;
+
+    };
+
+    const closeModal = () => {
+
+        showModal.value = false;
+
+    };
 
     function setActiveSection(section) {
 

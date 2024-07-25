@@ -63,7 +63,7 @@
 
             <div class="flex justify-between pt-4">
 
-              <button @click="addComment(tweet.id)" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
+              <button @click="addComment(tweet)" class="flex hover:bg-blue-100 rounded-full p-2 items-center">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray" class="w-6 h-6">
 
@@ -74,6 +74,9 @@
                 <!-- <span v-if="tweet.comments.length > 0">{{ comments.length }}</span> -->
 
               </button>
+
+              <ReplyModal :Tweet="tweetToComment" v-if="isModalVisible" @close="closeModal"></ReplyModal>
+
 
               <button @click="toggleRetweet(tweet)" class="flex hover:bg-green-100 rounded-full p-2 items-center">
 
@@ -121,6 +124,10 @@ import SearchBar from '@/components/Pages/trends/SearchBar.vue'
 
   import axiosInstance from '@/axiosInstance';
 
+  import ReplyModal from '../modal/ReplyModal.vue';
+
+  import { ref } from 'vue';
+
   import { onMounted } from 'vue';
 
   import { useTweetIdStore } from '@/stores/tweetId';
@@ -132,6 +139,11 @@ import SearchBar from '@/components/Pages/trends/SearchBar.vue'
   const tweetsStore = useTweetsStore();
 
   const newTweets  = tweetsStore.trends;
+
+  let isModalVisible = ref(false);
+
+  let tweetToComment = ref(null);
+
 
   const images = [
 
@@ -186,7 +198,21 @@ import SearchBar from '@/components/Pages/trends/SearchBar.vue'
     }
 
   };
+
+  const addComment = (tweet) => {
+
+    tweetToComment.value = tweet;
+
+    isModalVisible.value = true;
+
+  };
   
+  const closeModal = () => {
+
+    isModalVisible.value = false;
+
+  };
+
   const toggleLike = async (tweet) => {
 
     try {

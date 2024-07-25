@@ -175,7 +175,7 @@
 
             body.value = '';
 
-            closeModal();
+            emit('close');
 
             getTweet();
 

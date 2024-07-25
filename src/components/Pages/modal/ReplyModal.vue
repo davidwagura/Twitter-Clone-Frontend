@@ -168,6 +168,8 @@
 
         body.value = '';
 
+        emit('close');
+
         console.log(response);
 
         } catch (error) {

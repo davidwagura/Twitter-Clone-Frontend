@@ -205,8 +205,8 @@
 
   });
 
-  console.log(props)
-
+  console.log(props);
+  
   const images = [
 
     require('../../../assets/images/1.jpeg'),

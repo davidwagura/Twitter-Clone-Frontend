@@ -1,6 +1,6 @@
 <template>
 
-    <div class="flow-root ">
+    <div class="flow-root">
 
         <div>
 
@@ -10,7 +10,7 @@
 
         <div class="flex">
 
-            <div class="w-6/12 border ml-48">
+            <div class="w-6/12 border ml-48 overflow-auto">
 
                 <!-- Header with back arrow and Post title -->
                 <div class="flex items-center p-4 ">
@@ -130,6 +130,8 @@
                         </div>
 
                     </div>
+                    
+                    <comments-page :tweet="tweet"></comments-page>
 
                 </div>
         
@@ -137,11 +139,8 @@
 
                     <span>Loading...</span>
 
-                    {{ tweet }}
-
                 </div>
 
-                <comments-page :tweet="tweet"></comments-page>
 
             </div>
 
@@ -203,7 +202,7 @@
     let tweet = ref({});
 
     let body = '';
-    
+
     const getTweet = async () => {
 
         let id = route.params.id;
@@ -215,10 +214,6 @@
         console.log(tweetIdStore.tweetId)
 
         ///here
-
-
-
-
 
         try {
 

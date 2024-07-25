@@ -2,7 +2,7 @@
 
   <div class="border-t mt-2 h-screen">
 
-    <ul v-if="comments && comments.user">
+    <ul v-if="comments">
 
       <li v-for="comment in comments" :key="comment.id" class="p-4 border-t hover:bg-gray-100">
 
@@ -12,6 +12,7 @@
         <div class="flex items-center justify-between">
 
           <div class="flex items-center space-x-4">
+
 
             <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
@@ -147,6 +148,7 @@
               </button>
 
             </div>
+
           </router-link>
 
 
@@ -181,32 +183,23 @@
 
   import axiosInstance from '@/axiosInstance';
 
-  import { ref, onMounted,defineProps } from 'vue';
+  import { ref, onMounted,defineProps} from 'vue';
 
   import CommentReplyModal from '../modal/CommentReplyModal.vue';
 
   import { useTweetIdStore } from '@/stores/tweetId.js';
 
-  const tweetIdStore = useTweetIdStore();
-
-  console.log(tweetIdStore.tweetId)
-
   const userIdStore =  useTweetIdStore();
 
   const props = defineProps({
 
-    tweet: {
-      
-      type: Object,
-
-      required: true
-      
-    }
+    tweet:  Object    
 
   });
 
-  console.log(props);
-  
+  // const tweetId = reactive(props.tweet.id);
+
+  console.log(props.tweet.id)
   const images = [
 
     require('../../../assets/images/1.jpeg'),
@@ -231,15 +224,13 @@
 
   const getComments = async () => {
 
-    let tweetId = tweetIdStore.tweetId;
-
-    console.log(tweetId)
-
     try {
 
-      const response = await axiosInstance.get('/comments/' + tweetId);
+      {{  props.tweet.id }}
 
-      console.log(response)
+      const response = await axiosInstance.get('/comments/' + props.tweet.id);
+
+      console.log(response.data.comment)
 
       comments.value = response.data.comment;
 
@@ -349,4 +340,5 @@
     await getComments();
 
   });
+
 </script>

@@ -2,7 +2,7 @@
 
   <div class="border-t mt-2 h-screen">
 
-    <ul v-if="comments.length">
+    <ul v-if="comments && comments.user">
 
       <li v-for="comment in comments" :key="comment.id" class="p-4 border-t hover:bg-gray-100">
 
@@ -181,7 +181,7 @@
 
   import axiosInstance from '@/axiosInstance';
 
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted,defineProps } from 'vue';
 
   import CommentReplyModal from '../modal/CommentReplyModal.vue';
 
@@ -192,6 +192,20 @@
   console.log(tweetIdStore.tweetId)
 
   const userIdStore =  useTweetIdStore();
+
+  const props = defineProps({
+
+    tweet: {
+      
+      type: Object,
+
+      required: true
+      
+    }
+
+  });
+
+  console.log(props)
 
   const images = [
 

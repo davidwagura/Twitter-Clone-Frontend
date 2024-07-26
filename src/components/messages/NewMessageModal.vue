@@ -251,8 +251,6 @@
 
     });
 
-    // console.log(selected )
-
     const newConversation = async(id) => {
 
         const senderId = userIdStore.userId;

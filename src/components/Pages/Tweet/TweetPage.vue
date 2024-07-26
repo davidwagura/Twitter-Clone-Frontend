@@ -173,6 +173,8 @@
     import { useTweetIdStore } from '@/stores/tweetId.js';
 
     import { useTweetsStore } from '@/stores/tweets';
+
+    import { watch } from 'vue';
     
     const router = useRouter();
 
@@ -352,6 +354,13 @@
         await getTweet();
         
     });
+
+    watch(
+    () => route.params.id,
+    async () => {
+        await getTweet();
+    }
+);
 
 </script>
   

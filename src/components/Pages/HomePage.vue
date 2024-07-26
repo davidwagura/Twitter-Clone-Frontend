@@ -219,82 +219,80 @@
 
     };
 
+
     const createTweet = async () => {
 
-        try {
+        if(data.value.body || selectedFile.value) {
 
-            const formData = new FormData();
+            try {
 
-            selectedFile.value = null;
+                const formData = new FormData();
 
-            selectedFileUrl.value = null;
+                formData.append('body', data.value.body);
 
-            formData.append('body', data.value.body);
+                formData.append('user_id', data.value.user_id);
 
-            formData.append('user_id', data.value.user_id);
+                if (selectedFile.value) {
 
-            if (selectedFile.value) {
+                    formData.append('image_path', selectedFile.value);
 
-                formData.append('image_path', selectedFile.value);
+                }
+
+                // Log form data
+                for (let [key, value] of formData.entries()) {
+                    
+                    console.log(`${key}: ${value}`);
+
+                }
+
+                const response = await axios.post('http://127.0.0.1:8000/api/tweet', formData, {
+
+                    headers: {
+
+                        'Content-Type': 'multipart/form-data',
+
+                    },
+
+                    onUploadProgress: (progressEvent) => {
+
+                        const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+
+                        console.log(`Upload Progress: ${progress}%`);
+
+                    },
+
+                });
+
+                successMessage.value = response ? 'Tweet created successfully!' : 'Error creating tweet';
+
+                data.value.body = '';
+
+                selectedFile.value = null;
+
+                selectedFileUrl.value = null;
+
+                setTimeout(() => {
+                    
+                    successMessage.value = '';
+
+                }, 2000);
+
+            } catch (error) {
+
+                console.error('Error creating tweet:', error);
+
+                if (error.response) {
+
+                    console.error('Error response data:', error.response.data);
+
+                }
+
+                successMessage.value = 'Failed to create tweet. Try again';
 
             }
-
-            // Log form data
-            for (let [key, value] of formData.entries()) {
-                
-                console.log(`${key}: ${value}`);
-
-            }
-
-            console.log(formData)
-            const response = await axios.post('http://127.0.0.1:8000/api/tweet', formData, {
-
-                headers: {
-
-                    'Content-Type': 'multipart/form-data',
-
-                },
-
-                onUploadProgress: (progressEvent) => {
-
-                    const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-
-                    console.log(`Upload Progress: ${progress}%`);
-
-                },
-
-            });
-
-            successMessage.value = response ? 'Tweet created successfully!' : 'Error creating tweet';
-
-            data.value.body = '';
-
-            selectedFile.value = null;
-
-            selectedFileUrl.value = null;
-
-            successMessage.value = response ? 'Tweet created successfully!' : 'Error creating tweet';
-
-            setTimeout(() => {
-                
-                successMessage.value = '';
-
-            }, 2000);
-
-        } catch (error) {
-
-            console.error('Error creating tweet:', error);
-
-            if (error.response) {
-
-                console.error('Error response data:', error.response.data);
-
-            }
-
-            successMessage.value = 'Failed to create tweet. Try again';
 
         }
 
-    };
+    }
 
 </script>

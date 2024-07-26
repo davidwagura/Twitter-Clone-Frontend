@@ -24,7 +24,7 @@
 
                     <button @click="openModal" class="absolute right-4 bottom-4 border rounded-3xl -mb-20 m-4 p-2 font-semibold">Edit Profile</button>
 
-                    <EditProfile :showModal="showModal" @close="closeModal" @update="handleProfileUpdate" />
+                    <EditProfile :showModal="showModal" @close="closeModal" />
 
                 </div>
         
@@ -168,8 +168,6 @@
 
 
     onMounted( async() => {
-
-        console.log('get dvddddd')
 
         await getUser();
 

@@ -21,7 +21,6 @@
         <li v-for="tweet in newTweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
 
           <router-link v-if="tweet.user" :to="`/${tweet.user.username}/status/${tweet.id}`" class="m-1 cursor-pointer">
-
             
             <div class="cursor-pointer">
     
@@ -71,7 +70,7 @@
 
                 </svg>
 
-                <!-- <span v-if="tweet.comments.length > 0">{{ comments.length }}</span> -->
+                <span class="ml-1" v-if="tweet.likes > 0">{{ tweet.likes }}</span>
 
               </button>
 

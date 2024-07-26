@@ -20,7 +20,7 @@
      
       </div>
 
-      <form @submit.prevent="updateProfile">
+      <form @submit.prevent="updateProfile()">
         
         <div class="space-y-2">
           <!-- Background Image -->
@@ -45,7 +45,7 @@
                 
                 </label>
                
-                <input id="backgroundImageUpload" type="file" class="hidden" @change="handleBackgroundImageChange">
+                <input id="backgroundImageUpload" type="file" class="hidden" @change="handleBackgroundImageChange($event)">
               
               </div>
            
@@ -163,10 +163,11 @@
     bio: '',
 
     location: '',
-
-    website: ''
+    
+    website: '',
 
   });
+
 
   const backgroundImage = ref(null);
 
@@ -181,6 +182,37 @@
     emit('close');
     
   };
+
+  const handleBackgroundImageChange = (event) => {
+
+    const file = event.target.files[0];
+
+    if (file) {
+
+      backgroundImage.value = file;
+
+      backgroundImagePreview.value = URL.createObjectURL(file);
+
+    }
+
+  };
+
+  const handleProfileImageChange = (event) => {
+
+    const file = event.target.files[0];
+
+    if (file) {
+
+      profileImage.value = file;
+
+      profileImagePreview.value = URL.createObjectURL(file);
+
+      console.log( profileImage.value);
+
+    }
+
+  };
+
 
   const updateProfile = async () => {
 
@@ -209,7 +241,12 @@
       }
 
 
-      console.log(formData)
+      for (let [key, value] of formData.entries()) {
+                
+        console.log(`${key}: ${value}`);
+
+      }
+
 
       const userId = userIdStore.userId;
 
@@ -219,9 +256,25 @@
 
           'Content-Type': 'multipart/form-data'
 
-        }
+        },
+        
+        onUploadProgress: (progressEvent) => {
+
+          const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+
+          console.log(`Upload Progress: ${progress}%`);
+
+        },
+
 
       });
+
+      backgroundImage.value = null;
+
+      profileImage.value = null;
+
+      // profile.value = '';
+
 
       console.log(response)
 
@@ -237,33 +290,6 @@
 
   };
 
-  const handleBackgroundImageChange = (event) => {
-
-    const file = event.target.files[0];
-
-    if (file) {
-
-      backgroundImage.value = file;
-
-      backgroundImagePreview.value = URL.createObjectURL(file);
-
-    }
-
-  };
-
-  const handleProfileImageChange = (event) => {
-
-    const file = event.target.files[0];
-
-    if (file) {
-
-      profileImage.value = file;
-
-      profileImagePreview.value = URL.createObjectURL(file);
-
-    }
-
-  };
 
   onMounted(async () => {
 
@@ -271,14 +297,24 @@
 
     try {
 
-      const response = await axios.get(`http://127.0.0.1:8000/api/user/${userId}`);
+      const response = await axios.get(`http://127.0.0.1:8000/api/getProfile/${userId}`);
 
-      profile.value = response.data;
+      const profileData = response.data.data[0]; 
 
-      backgroundImagePreview.value = response.data.background_image_url || '';
+      backgroundImagePreview.value = profileData.background_image_url || '';
 
-      profileImagePreview.value = response.data.profile_image_url || '';
+      profileImagePreview.value = profileData.profile_image_url || '';
 
+      profile.value.name = profileData.name;
+
+      profile.value.location = profileData.location;
+
+      profile.value.website = profileData.website;
+
+      profile.value.bio = profileData.bio;   
+
+      console.log(profileData.name)
+  
     } catch (error) {
 
       console.error('There was an error fetching the profile data!', error);
@@ -286,5 +322,5 @@
     }
 
   });
-
+  
 </script>

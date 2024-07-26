@@ -12,11 +12,11 @@
 
                 <router-link
 
-                    @click="newMessage"
-
                     v-for="user in selectedUsers"
 
                     :key="user.id"
+
+                    @click="newConversation(user.id)"
 
                     :to="`/messages/${user.id}`"
 
@@ -139,7 +139,7 @@
 
     const showModal = ref(false);
 
-    const tweetIdStore = useTweetIdStore();
+    const userIdStore = useTweetIdStore();
 
     const conversations = ref([]);
 
@@ -191,7 +191,7 @@
 
         try {
 
-            const userId = tweetIdStore.userId;
+            const userId = userIdStore.userId;
 
             const response = await axios.get(`http://127.0.0.1:8000/api/conversation/${userId}`);
 
@@ -218,12 +218,6 @@
             selectedUsers.value.push(user);
 
         }
-
-    };
-
-    const newMessage = async () => {
-
-        showModal.value = true;
 
     };
 
@@ -256,6 +250,22 @@
         );
 
     });
+
+    // console.log(selected )
+
+    const newConversation = async(id) => {
+
+        const senderId = userIdStore.userId;
+
+        const receiverId = id;
+
+        const response = await axios.post(`http://127.0.0.1:8000/api/messages/${senderId}/${receiverId}`)
+
+        console.log(response.data);
+
+        showModal.value = true;
+
+    }
 
     onMounted(async () => {
 

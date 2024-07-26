@@ -312,8 +312,6 @@
       profile.value.website = profileData.website;
 
       profile.value.bio = profileData.bio;   
-
-      console.log(profileData.name)
   
     } catch (error) {
 

@@ -49,6 +49,8 @@
 
                                         <span class="text-sm text-gray-500"> @{{ conversation.user.username }}</span>
 
+                                        <span class="p-1 text-gray-500">.</span>
+
                                         <span class="text-sm text-gray-500">{{ formatDate1(conversation.conversation[0].created_at) }}</span>
 
                                         <!-- last-message in conversation-->

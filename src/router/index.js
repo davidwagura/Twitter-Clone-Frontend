@@ -66,6 +66,7 @@ const routes = [
     },
 
     { 
+
         path:'/messages/:id',   
         
         component: ConversationsPage, 

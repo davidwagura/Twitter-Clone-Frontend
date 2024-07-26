@@ -97,6 +97,8 @@
     import axios from 'axios';
 
     import { useTweetIdStore } from '@/stores/tweetId';
+
+    import { useRouter } from 'vue-router';
     
     const tweetIdStore = useTweetIdStore();
 
@@ -108,6 +110,7 @@
 
     const allUsers = ref([]);
 
+    const router = useRouter();
 
     const images = [
 
@@ -128,15 +131,15 @@
 
         try {
 
-        const userId = tweetIdStore.userId;
+            const userId = tweetIdStore.userId;
 
-        const response = await axios.get(`http://127.0.0.1:8000/api/conversation/${userId}`);
+            const response = await axios.get(`http://127.0.0.1:8000/api/conversation/${userId}`);
 
-        conversations.value = response.data.data;
+            conversations.value = response.data.data;
 
         } catch (error) {
 
-        console.log(error);
+            console.log(error);
 
         }
 
@@ -146,13 +149,13 @@
 
         try {
 
-        const response = await axios.get('http://127.0.0.1:8000/api/users');
+            const response = await axios.get('http://127.0.0.1:8000/api/users');
 
-        allUsers.value = response.data.users;
+            allUsers.value = response.data.users;
 
         } catch (error) {
 
-        console.log(error);
+            console.log(error);
 
         }
 
@@ -164,11 +167,11 @@
 
         if (index > -1) {
 
-        selectedUsers.value.splice(index, 1);
+            selectedUsers.value.splice(index, 1);
 
         } else {
 
-        selectedUsers.value.push(user);
+            selectedUsers.value.push(user);
 
         }
 
@@ -184,37 +187,37 @@
 
         try {
 
-        const response = await axios.post('http://127.0.0.1:8000/api/groups', {
-            
-            //new group
+            const response = await axios.post('http://127.0.0.1:8000/api/groups', {
+                
+                name: 'New Group',
 
-            name: 'New Group',
+                creator_id: tweetIdStore.userId,
 
-            creator_id: tweetIdStore.userId,
+            });
 
-        });
+            const groupId = response.data.group.id;
 
-        const groupId = response.data.group.id;
+            await Promise.all(
 
-        await Promise.all(
+                selectedUsers.value.map((user) =>
 
-            selectedUsers.value.map((user) =>
+                    axios.post(`http://127.0.0.1:8000/api/groups/${groupId}/members`, {
 
-            axios.post(`http://127.0.0.1:8000/api/groups/${groupId}/members`, {
+                        user_id: user.id,
 
-                user_id: user.id,
+                    })
 
-            })
+                )
 
-            )
+            );
 
-        );
+            alert('Group created successfully!');
 
-        alert('Group created successfully!');
+            router.push(`/message/${groupId}`);
 
         } catch (error) {
 
-        console.log(error);
+            console.log(error);
 
         }
 
@@ -234,13 +237,13 @@
 
         return allUsers.value.filter(
 
-        (user) =>
+            (user) =>
 
-            user.first_name.toLowerCase().includes(query) ||
+                user.first_name.toLowerCase().includes(query) ||
 
-            user.last_name.toLowerCase().includes(query) ||
+                user.last_name.toLowerCase().includes(query) ||
 
-            user.username.toLowerCase().includes(query)
+                user.username.toLowerCase().includes(query)
 
         );
 

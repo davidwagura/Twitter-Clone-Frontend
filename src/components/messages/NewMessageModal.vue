@@ -10,23 +10,11 @@
 
                 <h1 class="text-xl font-bold flex">New Message</h1>
 
-                <router-link
-
-                    v-for="user in selectedUsers"
-
-                    :key="user.id"
-
-                    @click="newConversation(user.id)"
-
-                    :to="`/messages/${user.id}`"
-
-                    class="bg-gray-700 text-white absolute right-2 border rounded-3xl w-16 p-1 pl-3 font-semibold"
-
-                >
+                <button @click="nextStep()" class="bg-gray-700 text-white absolute right-2 border rounded-3xl w-16 p-1 pl-3 font-semibold">
 
                     Next
 
-                </router-link>
+                </button>
 
             </div>
 
@@ -75,18 +63,6 @@
 
             </div>
 
-            <div @click="showModal = true" class="mt-2 hover:bg-gray-100 border-b p-4 text-blue-500 flex">
-
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mr-4 border rounded-full">
-
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>
-                
-                </svg>
-
-                <h2>Create a group</h2>
-
-            </div>
-
             <div
 
                 v-for="user in filteredUsers"
@@ -98,11 +74,12 @@
                 @click="toggleUserSelection(user)"
 
             >
+
                 <div class="flex items-center">
 
                     <div class="mr-4">
 
-                        <img :src="getRandomImage() || 'default-avatar.png'" alt="User avatar" class="w-10 h-10 rounded-full"/>
+                        <img :src="getRandomImage()" alt="User avatar" class="w-10 h-10 rounded-full" />
 
                     </div>
 
@@ -118,8 +95,6 @@
 
             </div>
 
-            <create-group-page v-if="showModal" @close="closeModal" />
-
         </div>
 
     </div>
@@ -128,16 +103,14 @@
 
 <script setup>
 
-    import { ref, onMounted, computed } from 'vue';
-
-    import CreateGroupPage from '@/components/messages/CreateGroupPage.vue';
+    import { ref, onMounted, computed, defineEmits } from 'vue';
 
     import axios from 'axios';
 
     import { useTweetIdStore } from '@/stores/tweetId';
 
+    import { useRouter } from 'vue-router';
 
-    const showModal = ref(false);
 
     const userIdStore = useTweetIdStore();
 
@@ -149,12 +122,10 @@
 
     const searchQuery = ref('');
 
+    const router = useRouter();
 
-    const closeModal = () => {
+    const emit = defineEmits(['close']);
 
-        showModal.value = false;
-
-    };
 
     const images = [
 
@@ -243,27 +214,97 @@
 
             (user) =>
 
-                user.first_name.toLowerCase().startsWith(query) ||
+                user.first_name.toLowerCase().includes(query) ||
 
-                user.last_name.toLowerCase().startsWith(query)
+                user.last_name.toLowerCase().includes(query) ||
+
+                user.username.toLowerCase().includes(query)
 
         );
 
     });
 
-    const newConversation = async(id) => {
+    const nextStep = async () => {
 
-        const senderId = userIdStore.userId;
+        if (selectedUsers.value.length > 1) {
 
-        const receiverId = id;
+            await createGroup();
 
-        const response = await axios.post(`http://127.0.0.1:8000/api/messages/${senderId}/${receiverId}`)
+        } else if (selectedUsers.value.length === 1) {
 
-        console.log(response.data);
+            await newConversation(selectedUsers.value[0].id);
 
-        showModal.value = true;
+        }
 
-    }
+        const receiverId = selectedUsers.value[0].id;
+
+        router.push(`/messages/${receiverId}`);
+
+        emit('close');
+
+    };
+
+    const createGroup = async () => {
+
+        try {
+
+            const response = await axios.post('http://127.0.0.1:8000/api/groups', {
+
+                name: 'New Group',
+
+                creator_id: userIdStore.userId,
+
+            });
+
+            const groupId = response.data.group.id;
+
+            await Promise.all(
+
+                selectedUsers.value.map((user) =>
+
+                    axios.post(`http://127.0.0.1:8000/api/groups/${groupId}/members`, {
+
+                        user_id: user.id,
+
+                    })
+
+                )
+
+            );
+
+            alert('Group created successfully!');
+
+            router.push(`/message/${groupId}`);
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
+    };
+
+    const newConversation = async (id) => {
+
+        try {
+
+            const senderId = userIdStore.userId;
+
+            const receiverId = id;
+
+            const response = await axios.post(`http://127.0.0.1:8000/api/messages/${senderId}/${receiverId}`);
+
+            console.log(response.data);
+
+            router.push(`/messages/${receiverId}`);
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
+    };
 
     onMounted(async () => {
 

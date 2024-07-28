@@ -10,8 +10,6 @@ import CommentsPage from '../components/Pages/Tweet/CommentsPage.vue'
 
 import TweetPage from '../components/Pages/Tweet/TweetPage.vue'
 
-// import FollowingTweet from '@/components/Pages/following/FollowingTweet.vue'
-
 import NotificationsPage from '@/components/Pages/notifications/NotificationsPage'
 
 import ProfilePage from '@/components/Pages/profile/ProfilePage.vue'
@@ -19,7 +17,6 @@ import ProfilePage from '@/components/Pages/profile/ProfilePage.vue'
 import ConversationsPage from '@/components/messages/ConversationsPage.vue'
 
 import { useTweetIdStore } from '@/stores/tweetId'
-// import FollowingTweet from '@/components/Pages/following/FollowingTweet.vue'
 
 
 const routes = [
@@ -99,12 +96,6 @@ const routes = [
     
     },
 
-    // { 
-    //     path: '/:username/status/:id', 
-        
-    //     component: FollowingTweet 
-    
-    // },
     
 ];
 
@@ -126,8 +117,6 @@ router.beforeEach((to, from, next) => {
 
 
     if(to.meta.requiresAuth && !isAuthenticated) {
-
-        // console.log(isAuthenticated)
 
         next('/login');
         

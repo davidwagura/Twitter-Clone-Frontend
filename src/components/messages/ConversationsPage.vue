@@ -34,6 +34,35 @@
                     <input type="text" placeholder="Search Direct Message" class="border p-2 border-gray-500 w-full rounded-3xl" />
 
                     <div class="space-y-4 mt-6">
+                        
+                        <div v-for="group in groups" :key="group" @click="getMessages()">
+
+                            <div class="cursor-pointer p-2 hover:bg-gray-100 rounded">
+
+                                <div class="flex items-center">
+
+                                    <img :src="getRandomImage()" alt="User Avatar" class="w-10 h-10 rounded-full mr-3" />
+
+                                    <div>
+
+                                        <span class="font-semibold">{{ group.name }}</span>
+<!-- 
+                                        <span class="text-sm text-gray-500"> @{{ conversation.user.username }}</span>
+
+                                        <span class="p-1 text-gray-500">.</span>
+
+                                        <span class="text-sm text-gray-500">{{ formatDate1(conversation.conversation[0].created_at) }}</span>
+
+                                        <p class="text-sm text-gray-500">{{ getLastMessage(conversation.conversation) }}</p> -->
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
 
                         <div v-for="(conversation, index) in conversations" :key="index" @click="selectMessage(index)">
 
@@ -265,6 +294,8 @@
 
     const user = ref({});
 
+    const groups = ref([]);
+
     const selectedFile = ref(null);
 
     const selectedFileUrl = ref(null);
@@ -456,9 +487,50 @@
 
     };
 
+    const getGroup = async() => {
+
+        try {
+
+            const userId = userIdStore.userId;
+
+            const response = await axios.get(`http://127.0.0.1:8000/api/user/groups/${userId}`)
+
+            // console.log(response.data.group);
+
+            groups.value = response.data.group;
+
+            getMessages();
+
+        } catch(error) {
+
+            console.log(error);
+
+        }
+
+    };
+
+    const getMessages = async() => {
+
+        try {
+
+            const response = await axios.get(``);
+
+            console.log(response.data);
+
+        } catch(error) {
+
+            console.log(error);
+
+        }
+
+    };
+
     onMounted(() => {
 
         fetchMessages();
+
+        getGroup();
+
 
     });
 

@@ -20,6 +20,8 @@ export const useTweetIdStore  = defineStore('tweetId', {
 
         selectedMessages: null,
 
+        groupIds: [],
+
     }),
 
     getters: {
@@ -39,6 +41,8 @@ export const useTweetIdStore  = defineStore('tweetId', {
         getReceiverId: (state) => state.receiverId,
 
         getSelectedMessages: (state) => state.selectedMessages,
+
+        getGroupIds: (state) => state.groupIds,
 
     },
 
@@ -95,6 +99,12 @@ export const useTweetIdStore  = defineStore('tweetId', {
         setSelectedMessages(selectedMessages) {
 
             this.selectedMessages = selectedMessages;
+
+        },
+
+        setGroupIds(id1, id2) {
+
+            this.groupIds = [id1, id2];
 
         },
       

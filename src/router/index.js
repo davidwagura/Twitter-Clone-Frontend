@@ -98,12 +98,15 @@ const routes = [
     
     },
 
+<<<<<<< HEAD
     { 
         path: '/comments/:id', 
         
         component: CommentsRedirect 
     
     },
+=======
+>>>>>>> 7a770901b795a524aba71ea82122d06773a838de
     
 ];
 
@@ -125,8 +128,6 @@ router.beforeEach((to, from, next) => {
 
 
     if(to.meta.requiresAuth && !isAuthenticated) {
-
-        // console.log(isAuthenticated)
 
         next('/login');
         

@@ -71,9 +71,9 @@
              
             </div>
 
-            <div class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
+            <div v-for="message in messages" :key="message.id" class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <router-link :to="`/messages/${users.id}`"   class="flex items-center">
+                <router-link :to="`/messages/10`" class="flex items-center">
                     
                     <!-- @click="changeRoute('messages')" -->
 
@@ -164,7 +164,9 @@
             </div>
 
             <button class="bg-blue-500 text-white rounded-3xl w-36 ml-4 h-10">
+
                 Post
+
             </button>
 
         </div>
@@ -172,8 +174,6 @@
     </div>
 
 </template>
-
-
 
   
 <script setup>
@@ -186,11 +186,8 @@
 
     const userIdStore = useTweetIdStore();
      
-    const conversations = ref([]);
+    const messages = ref({});
 
-    const users = ref({});
-
-    
 
     const fetchMessages = async () => {
 
@@ -198,21 +195,11 @@
 
             const userId = userIdStore.userId;
 
-            const response = await axios.get(`http://127.0.0.1:8000/api/conversation/${userId}`);
+            const response = await axios.get(`http://127.0.0.1:8000/api/all/messages/${userId}`);
 
-            const { data } = response.data;
-
-            conversations.value = data;
-
-            for (const key in data) {
-
-                users.value = response.data.data[key].user;
-
-                conversations.value = response.data.data[key].user.id
+            messages.value = response.data.data;
                 
-                // console.log( alert(users.value[0]))
-            
-            }
+            console.log( response.data.data)
 
         } catch (error) {
 

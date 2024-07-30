@@ -28,8 +28,8 @@
                     <h1 class="font-bold text-xl">Post</h1>
 
                 </div>
-        
-                <div v-if="comment && comment.user" class="p-4">
+
+                <div v-if="comment.user && comment" class="p-4">
 
                     <div class="flex items-center justify-between">
 
@@ -53,17 +53,17 @@
 
                         <div class="flex justify-start ml-12 mb-3">{{ comment.body }}</div>
 
-                            <div v-if="comment.image_path" class="flex justify-start ml-12 mt-2">
+                            <!-- <div v-if="comment.image_path" class="flex justify-start ml-12 mt-2">
 
                                 <img :src="`http://127.0.0.1:8000/storage/${comment.image_path}`" alt="comment Image" class="rounded-lg max-w-full h-auto" />
                             
-                            </div>
+                            </div> -->
 
                         <span class="text-gray-500 text-sm ml-12">{{ formatDate(comment.created_at) }}</span>
 
                     </div>
 
-                    <hr>
+                    <hr> 
 
                     <div class="flex justify-between p-6 pt-4 -mb-6">
 
@@ -76,7 +76,9 @@
 
                             </svg>
 
-                            <span class="ml-1" v-if="comment.comments.length > 0">{{ comment.comments.length }}</span>
+                            <!-- <span class="ml-1" v-if="comment.comment_comment.length > 0">{{ comment.comment_comments.length }}</span> -->
+
+                            {{ comment.comment_comment.length }}
 
                         </button>
             
@@ -105,7 +107,7 @@
 
                         </button>
 
-                    </div>
+                    </div> 
 
                     <!-- comment content -->
                     <div class="border-t h-36 mb-20 p-2">
@@ -130,7 +132,7 @@
 
                     </div>
                     
-                    <comments-page :comment="comment"></comments-page>
+                    <!-- <comments-page :comment="comment"></comments-page> -->
 
                 </div>
         
@@ -139,7 +141,6 @@
                     <span>Loading...</span>
 
                 </div>
-
 
             </div>
 
@@ -161,7 +162,7 @@
 
     import axiosInstance from '@/axiosInstance';
 
-    import CommentsPage from './CommentsPage.vue';
+    // import CommentsPage from './CommentsPage.vue';
 
     import NavPage from '@/components/Navigation Page/NavPage.vue';
 
@@ -169,7 +170,7 @@
 
     import { ref, onMounted } from 'vue';
 
-    import { useTweetIdStore } from '@/stores/commentId.js';
+    import { useTweetIdStore } from '@/stores/tweetId.js';
 
     import { watch } from 'vue';
     
@@ -208,9 +209,9 @@
 
             const response = await axiosInstance.get('/comment/' + id);
 
-            comment.value = response.data.comment;
+            comment.value = response.data.Comment;
 
-            console.log(response.data.comment);
+            console.log(response.data.Comment);
 
 
         } catch (error) {
@@ -249,6 +250,8 @@
 
             body = '';
 
+            getComment();
+
             console.log(res);
 
         } catch (error) {
@@ -269,7 +272,7 @@
 
         if (comment.isLiked) {
 
-            const response = await axiosInstance.post(`/unlike/${commentId}/${userId}`);
+            const response = await axiosInstance.post(`/unlikeComment/${commentId}/${userId}`);
 
             console.log(response);
 
@@ -277,7 +280,7 @@
 
         } else {
 
-            const response = await axiosInstance.post(`/like/${commentId}/${userId}`);
+            const response = await axiosInstance.post(`/likeComment/${commentId}/${userId}`);
 
             console.log(response);
 
@@ -305,7 +308,7 @@
 
         if (comment.isRetweeted) {
 
-            const response = await axiosInstance.post(`/unretweet/${commentId}/${userId}`);
+            const response = await axiosInstance.post(`/unretweetComment/${commentId}/${userId}`);
 
             console.log(response);
 
@@ -313,15 +316,15 @@
 
         } else {
 
-            const response = await axiosInstance.post(`/retweet/${commentId}/${userId}`);
+            const response = await axiosInstance.post(`/retweetComment/${commentId}/${userId}`);
 
             console.log(response);
 
-            comment.toggleRetweet++;
+            comment.retweet++;
 
         }
 
-        comment.isRetweet = !comment.isRetweeted;
+        comment.isRetweeted = !comment.isRetweeted;
 
         } catch (error) {
 

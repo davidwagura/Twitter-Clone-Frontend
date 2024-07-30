@@ -6,8 +6,7 @@
 
       <li v-for="comment in comments" :key="comment.id" class="p-4 border-t hover:bg-gray-100">
 
-      <!-- <router-link :to="`/${comment.user.username}/status/${comment.id}`" class="m-1 cursor-pointer"> -->
-
+      <router-link :to="`/comments/${comment.id}`" class="m-1 cursor-pointer">
 
         <div class="flex items-center justify-between">
 
@@ -86,7 +85,9 @@
           </div>
 
         </div>
-      <!-- </router-link> -->
+
+      </router-link>
+
       </li>
 
     </ul>

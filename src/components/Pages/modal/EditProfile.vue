@@ -220,7 +220,7 @@
 
       const formData = new FormData();
 
-      formData.append('name', profile.value.name);
+      formData.set('name', profile.value.name);
       
       formData.append('bio', profile.value.bio);
 
@@ -228,46 +228,39 @@
 
       formData.append('website', profile.value.website);
 
-      if (backgroundImage.value) {
+      // if (backgroundImage.value) {
 
-        formData.append('background_img', backgroundImage.value);
+      //   formData.append('background_img', backgroundImage.value);
 
-      }
+      // }
 
-      if (profileImage.value) {
+      // if (profileImage.value) {
 
-        formData.append('profile_img', profileImage.value);
+      //   formData.append('profile_img', profileImage.value);
 
-      }
+      // }
 
+      formData.append('_method', 'PUT')
 
-      for (let [key, value] of formData.entries()) {
-                
-        console.log(`${key}: ${value}`);
-
-      }
 
 
       const userId = userIdStore.userId;
 
-      const response = await axios.put(`http://127.0.0.1:8000/api/update/${userId}`, formData, {
+      const response = await axios.post(`http://127.0.0.1:8000/api/update/${userId}`, formData, { headers : { 'Content-Type': 'multipart/form-data'}}).then(response => {
+        console.log(response)
+      })
 
-        headers: {
-
-          'Content-Type': 'multipart/form-data'
-
-        },
         
-        onUploadProgress: (progressEvent) => {
+        // onUploadProgress: (progressEvent) => {
 
-          const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+        //   const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
 
-          console.log(`Upload Progress: ${progress}%`);
+        //   console.log(`Upload Progress: ${progress}%`);
 
-        },
+        // },
 
 
-      });
+      // });
 
       backgroundImage.value = null;
 

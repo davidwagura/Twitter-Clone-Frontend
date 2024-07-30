@@ -126,13 +126,14 @@
 
                         <div class="flex justify-end -mt-12">
 
-                            <button @click="commentComment" class="bg-blue-400 mt-1 -mb-4 text-white font-bold py-2 px-4 rounded-3xl">Reply</button>
+                            <button @click="addComment" class="bg-blue-400 mt-1 -mb-4 text-white font-bold py-2 px-4 rounded-3xl">Reply</button>
 
                         </div>
 
                     </div>
                     
-                    <!-- <comments-page :comment="comment"></comments-page> -->
+
+                    <comment-comment :comment = "comment"></comment-comment>
 
                 </div>
         
@@ -162,7 +163,7 @@
 
     import axiosInstance from '@/axiosInstance';
 
-    // import CommentsPage from './CommentsPage.vue';
+    import commentComment from '@/components/Pages/Tweet/commentComments.vue'
 
     import NavPage from '@/components/Navigation Page/NavPage.vue';
 
@@ -238,7 +239,7 @@
 
     };
     
-    const commentComment = async () => {
+    const addComment = async () => {
 
         try {
 

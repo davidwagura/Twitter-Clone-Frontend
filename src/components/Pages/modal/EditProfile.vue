@@ -228,46 +228,35 @@
 
       formData.append('website', profile.value.website);
 
-      // if (backgroundImage.value) {
+      if (backgroundImage.value) {
 
-      //   formData.append('background_img', backgroundImage.value);
+        formData.append('background_img', backgroundImage.value);
 
-      // }
+      }
 
-      // if (profileImage.value) {
+      if (profileImage.value) {
 
-      //   formData.append('profile_img', profileImage.value);
+        formData.append('profile_img', profileImage.value);
 
-      // }
+      }
 
       formData.append('_method', 'PUT')
 
-
-
       const userId = userIdStore.userId;
 
-      const response = await axios.post(`http://127.0.0.1:8000/api/update/${userId}`, formData, { headers : { 'Content-Type': 'multipart/form-data'}}).then(response => {
-        console.log(response)
-      })
-
+      const response = await axios.post(`http://127.0.0.1:8000/api/update/${userId}`, formData, {
         
-        // onUploadProgress: (progressEvent) => {
+        headers : { 'Content-Type': 'multipart/form-data'}})
+        
+        .then(response => {
+          
+          console.log(response);
 
-        //   const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-
-        //   console.log(`Upload Progress: ${progress}%`);
-
-        // },
-
-
-      // });
+        })
 
       backgroundImage.value = null;
 
       profileImage.value = null;
-
-      // profile.value = '';
-
 
       console.log(response)
 

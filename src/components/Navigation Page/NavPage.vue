@@ -71,9 +71,9 @@
              
             </div>
 
-            <div v-for="message in messages" :key="message.id" class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
+            <div class="hover:bg-gray-300 hover:font-medium mr-6 mt-2 rounded-full p-3 ml-28">
 
-                <router-link :to="`/messages/10`" class="flex items-center">
+                <router-link to="/messages" class="flex items-center">
                     
                     <!-- @click="changeRoute('messages')" -->
 
@@ -176,7 +176,7 @@
 </template>
 
   
-<script setup>
+<!-- <script setup>
 
     import { ref, onMounted } from 'vue';
 
@@ -216,7 +216,7 @@
     })
 
 </script>
-
+ -->
 
 
 

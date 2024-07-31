@@ -28,14 +28,14 @@
                             </svg>
 
                         </button>
-
+                        
                     </div>
 
                     <input type="text" placeholder="Search Direct Message" class="border p-2 border-gray-500 w-full rounded-3xl" />
 
                     <div class="space-y-4 mt-6">
                         
-                        <div v-for="group in groups" :key="group" @click="getMessages()">
+                        <div v-for="group in groups" :key="group" @click="getMessages(group.id)">
 
                             <div class="cursor-pointer p-2 hover:bg-gray-100 rounded">
 
@@ -43,7 +43,7 @@
 
                                     <img :src="getRandomImage()" alt="User Avatar" class="w-10 h-10 rounded-full mr-3" />
 
-                                    <div>
+                                    <div v-if="group">
 
                                         <span class="font-semibold">{{ group.name }}</span>
 <!-- 
@@ -57,18 +57,19 @@
 
                                     </div>
 
+                                    <div v-else></div>
+
                                 </div>
 
                             </div>
 
                         </div>
 
-
                         <div v-for="(conversation, index) in conversations" :key="index" @click="selectMessage(index)">
 
                             <div class="cursor-pointer p-2 hover:bg-gray-100 rounded">
 
-                                <div class="flex items-center">
+                                <div v-if="conversation.user" class="flex items-center">
 
                                     <img :src="getRandomImage()" alt="User Avatar" class="w-10 h-10 rounded-full mr-3" />
 
@@ -147,6 +148,56 @@
                             
                         </div>
                         
+                    </div>
+
+                </div>
+
+                <!-- groupMessages -->
+
+                <!-- <div v-for="group in groups" :key="group.id" class="m-4 bg-opacity-20 flex">
+
+                    <img :src="getRandomImage()" alt="User Avatar" class="w-10 h-10 rounded-full mr-3" />
+
+                    <span class="font-semibold mt-2">{{ group.name }}</span>
+
+                </div> -->
+
+                <div v-else-if="groupMessage"> 
+
+                    <div v-if="groupMessage" class="flex-1 p-4 overflow-y-auto">
+
+                        <div class="space-y-4">
+
+                            <div v-for="message in groupMessage" :key="message.id" class="flex items-start mb-4">
+
+                                <div 
+                                
+                                    :class="{
+
+                                        'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-2 ml-auto': message.sender_id === userIdStore.userId,
+
+                                        'flex-row bg-gray-200 w-fit rounded-2xl p-2 mr-auto': message.sender_id !== userIdStore.userId
+
+                                    }"
+                                    
+                                >
+
+                                    <!-- <div v-if="message.image_path" class="w-40">
+
+                                        <img :src="`http://127.0.0.1:8000/storage/${message.image_path}`" alt="Message Image" class="rounded-lg h-auto" />
+
+                                    </div> -->
+
+                                    <p class="text-sm pt-2 text-gray-800">{{ message.body }}</p>
+
+                                    <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
+
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+
                     </div>
 
                 </div>
@@ -311,6 +362,8 @@
     const showModal = ref(false);
 
     const selectedMessagesStore = useTweetIdStore();
+
+    const groupMessage = ref([]);
 
 
     const closeModal = () => {
@@ -499,8 +552,6 @@
 
             groups.value = response.data.group;
 
-            getMessages();
-
         } catch(error) {
 
             console.log(error);
@@ -509,13 +560,15 @@
 
     };
 
-    const getMessages = async() => {
+    const getMessages = async(id) => {
 
         try {
 
-            const response = await axios.get(``);
+            const response = await axios.get(`http://127.0.0.1:8000/api/group/messages/${id}`);
 
             console.log(response.data);
+
+            groupMessage.value = response.data.data;
 
         } catch(error) {
 

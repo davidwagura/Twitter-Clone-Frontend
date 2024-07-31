@@ -23,19 +23,19 @@
       <form @submit.prevent="updateProfile()">
         
         <div class="space-y-2">
+
           <!-- Background Image -->
-          
           <div>
-           
+
             <div class="relative">
          
               <div class="w-full h-36 bg-gray-200 rounded-md border border-gray-300 flex items-center justify-center text-gray-500">
                
-                <img :src="backgroundImagePreview" v-if="backgroundImagePreview" class="w-full h-32 object-cover rounded-md border border-gray-300">
-                
+                <img :src="`http://127.0.0.1:8000/storage/${backgroundImagePreview}`" v-if="backgroundImagePreview" class="w-full h-32 object-cover rounded-md border border-gray-300">
+
                 <label v-if="!backgroundImagePreview" for="backgroundImageUpload" class="cursor-pointer">
                  
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-8 h-8">
                  
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
                   
@@ -56,13 +56,13 @@
           <!-- Profile Image -->
           <div>
         
-            <div class="w-24 h-24 bg-gray-200 ml-6 rounded-full border border-gray-300 flex text-gray-500">
+            <div class="w-24 h-24 bg-gray-200 ml-6  rounded-full border border-gray-300 flex text-gray-500">
          
-              <img :src="profileImagePreview" v-if="profileImagePreview" class="w-24 h-24 object-cover rounded-full border border-gray-300 mx-auto">
-         
-              <label v-if="!profileImagePreview" for="profileImageUpload" class="flex items-center mx-auto justify-center cursor-pointer">
-            
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+              <label v-if="profileImagePreview" for="profileImageUpload" class="flex items-center mx-auto justify-center cursor-pointer">
+
+                <img :src="`http://127.0.0.1:8000/storage/${profileImagePreview}`" v-if="profileImagePreview" class="w-24 h-24 object-cover rounded-full border border-gray-300 mx-auto">
+
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-8 h-8">
             
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
                 
@@ -252,17 +252,24 @@
           
           console.log(response);
 
+          backgroundImage.value = null;
+
+          profileImage.value = null;
+
+          profile.value.name = null;
+
+          profile.value.bio = null;
+
+          profile.value.location = null;
+
+          profile.value.website = null;
+
+          closeModal();
+
         })
-
-      backgroundImage.value = null;
-
-      profileImage.value = null;
-
-      console.log(response)
 
       emit('update', response.data);
 
-      closeModal();
 
     } catch (error) {
 
@@ -283,9 +290,9 @@
 
       const profileData = response.data.data[0]; 
 
-      backgroundImagePreview.value = profileData.background_image_url || '';
+      backgroundImagePreview.value = response.data.data[0].background_img || '';
 
-      profileImagePreview.value = profileData.profile_image_url || '';
+      profileImagePreview.value = response.data.data[0].profile_img  || '';
 
       profile.value.name = profileData.name;
 

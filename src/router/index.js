@@ -18,6 +18,8 @@ import ConversationsPage from '@/components/messages/ConversationsPage.vue'
 
 import CommentsRedirect from '@/components/Pages/Tweet/CommentsRedirect.vue'
 
+// import NewMessageModal from '@/components/messages/NewMessageModal.vue'
+
 import { useTweetIdStore } from '@/stores/tweetId'
 
 
@@ -66,12 +68,18 @@ const routes = [
 
     { 
 
-        path:'/messages/:id',   
+        path:'/messages',   
         
         component: ConversationsPage, 
 
         
     },
+
+    // {
+    //     path: '/messages/:id',
+    //     component: NewMessageModal,
+    //     props: true
+    //   },
 
     { 
         path: '/register',

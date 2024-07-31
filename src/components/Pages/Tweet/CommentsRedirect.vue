@@ -247,7 +247,7 @@
 
             const commentId = route.params.id;
 
-            const res = await axiosInstance.post('/commentComment', { body, user_id: parseInt(id), comment_id: parseInt(commentId) });
+            const res = await axiosInstance.post('/comment', { body, user_id: parseInt(id), comment_id: parseInt(commentId) });
 
             body = '';
 

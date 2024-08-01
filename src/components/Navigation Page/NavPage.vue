@@ -171,6 +171,20 @@
 
             <post-modal v-if="isModalVisible" @close="closeModal"/>
 
+            <div v-for="u in user" :key="u.id" class="flex items-center space-x-3 bottom-0 m-4 rounded-3xl p-2 hover:bg-gray-200 cursor-pointer">
+
+                <img :src="getRandomImage()" alt="Avatar" class="w-10 h-10 rounded-full" />
+
+                <div>
+
+                    <div class="font-bold">{{ u.first_name }}</div>
+
+                    <div class="text-gray-400 text-sm">@{{ u.username }}</div>
+
+                </div>
+
+            </div>
+
         </div>
 
     </div>
@@ -180,20 +194,34 @@
   
 <script setup>
 
-    import { ref } from 'vue';
+    import { ref, onMounted } from 'vue';
 
-    // import axios from 'axios';
+    import axios from 'axios';
 
-    // import { useTweetIdStore } from '@/stores/tweetId';
-
-    // const userIdStore = useTweetIdStore();
-     
-    // const messages = ref({});
+    import { useTweetIdStore } from '@/stores/tweetId';
 
     import PostModal from '@/components/Pages/modal/PostModal.vue'
 
-    let isModalVisible = ref(false);
 
+    const userIdStore = useTweetIdStore();
+     
+    const user = ref({});
+
+    const isModalVisible = ref(false);
+
+
+    const images = [
+        require('../../assets/images/1.jpeg'),
+        require('../../assets/images/2.jpeg'),
+        require('../../assets/images/3.jpeg'),
+        require('../../assets/images/4.jpeg'),
+        require('../../assets/images/5.jpeg'),
+        require('../../assets/images/6.jpeg'),
+        require('../../assets/images/7.jpeg'),
+        require('../../assets/images/8.jpeg'),
+        require('../../assets/images/9.jpeg'),
+        require('../../assets/images/10.jpeg')
+    ];
 
     const addTweet = () => {
 
@@ -207,32 +235,37 @@
 
     };
 
+    const getRandomImage = () => {
 
-    // const fetchMessages = async () => {
+        const randomIndex = Math.floor(Math.random() * images.length);
 
-    //     try {
+        return images[randomIndex];
 
-    //         const userId = userIdStore.userId;
+    };
 
-    //         const response = await axios.get(`http://127.0.0.1:8000/api/all/messages/${userId}`);
+    const getUser = async () => {
 
-    //         messages.value = response.data.data;
+        try {
+
+            const userId = userIdStore.userId;
+
+            const response = await axios.get(`http://127.0.0.1:8000/api/user/${userId}`);
+
+            user.value = response.data.user;
                 
-    //         console.log( response.data.data)
+        } catch (error) {
 
-    //     } catch (error) {
+            console.error('Error fetching messages:', error);
 
-    //         console.error('Error fetching messages:', error);
+        }
 
-    //     }
+    };
 
-    // };
+    onMounted( async() => {
 
-    // onMounted( async() => {
+        await getUser();
 
-    //     await fetchMessages();
-
-    // })
+    })
 
 </script>
 
@@ -241,6 +274,7 @@
 
 
 <style>
+
     [data-tooltip] {
 
         position: relative;

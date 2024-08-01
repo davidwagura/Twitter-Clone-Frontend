@@ -8,8 +8,6 @@
 
         <li v-for="tweet in tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
           
-          <!-- <router-link @click="fetchTweet(tweet.id), setActiveSection('followingTweet')" class="cursor-pointer"> -->
-
           <router-link :to="`/${tweet.user.username}/status/${tweet.id}`" class="m-1 cursor-pointer">
 
             <div class="flex items-center justify-between">
@@ -101,12 +99,6 @@
 
   </div>
 
-  <!-- <div v-else-if="activeSection === 'followingTweet'">
-
-    <followingTweet @back="setActiveSection('following')"></followingTweet>
-  
-  </div> -->
-
 </template>
 
 <script setup>
@@ -122,10 +114,6 @@
   // import FollowingTweet from '../following/FollowingTweet.vue';
 
   const userIdStore =  useTweetIdStore();
-
-  // const tweetIdStore = useTweetIdStore();
-
-  // let activeSection = ref('following');
 
 
   const images = [

@@ -163,11 +163,13 @@
                 
             </div>
 
-            <button class="bg-blue-500 text-white rounded-3xl w-36 ml-4 h-10">
+            <button @click="addTweet" class="bg-blue-500 text-white rounded-3xl w-36 ml-4 h-10">
 
                 Post
 
             </button>
+
+            <post-modal v-if="isModalVisible" @close="closeModal"/>
 
         </div>
 
@@ -176,47 +178,64 @@
 </template>
 
   
-<!-- <script setup>
+<script setup>
 
-    import { ref, onMounted } from 'vue';
+    import { ref } from 'vue';
 
-    import axios from 'axios';
+    // import axios from 'axios';
 
-    import { useTweetIdStore } from '@/stores/tweetId';
+    // import { useTweetIdStore } from '@/stores/tweetId';
 
-    const userIdStore = useTweetIdStore();
+    // const userIdStore = useTweetIdStore();
      
-    const messages = ref({});
+    // const messages = ref({});
+
+    import PostModal from '@/components/Pages/modal/PostModal.vue'
+
+    let isModalVisible = ref(false);
 
 
-    const fetchMessages = async () => {
+    const addTweet = () => {
 
-        try {
-
-            const userId = userIdStore.userId;
-
-            const response = await axios.get(`http://127.0.0.1:8000/api/all/messages/${userId}`);
-
-            messages.value = response.data.data;
-                
-            console.log( response.data.data)
-
-        } catch (error) {
-
-            console.error('Error fetching messages:', error);
-
-        }
+        isModalVisible.value = true;
 
     };
 
-    onMounted( async() => {
+    const closeModal = () => {
 
-        await fetchMessages();
+        isModalVisible.value = false;
 
-    })
+    };
+
+
+    // const fetchMessages = async () => {
+
+    //     try {
+
+    //         const userId = userIdStore.userId;
+
+    //         const response = await axios.get(`http://127.0.0.1:8000/api/all/messages/${userId}`);
+
+    //         messages.value = response.data.data;
+                
+    //         console.log( response.data.data)
+
+    //     } catch (error) {
+
+    //         console.error('Error fetching messages:', error);
+
+    //     }
+
+    // };
+
+    // onMounted( async() => {
+
+    //     await fetchMessages();
+
+    // })
 
 </script>
- -->
+
 
 
 

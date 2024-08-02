@@ -104,7 +104,7 @@
         </div>
   
       <!-- Main Content -->
-        <!-- <div class="w-2/4">
+        <div class="w-2/4">
 
             <div class="h-full flex flex-col border-r overflow-hidden">
 
@@ -150,7 +150,7 @@
                         
                     </div>
 
-                </div> -->
+                </div>
 
                 <!-- groupMessages -->
 
@@ -162,7 +162,7 @@
 
                 </div> -->
 
-                <!-- <div v-else-if="groupMessage && !selectedMessages"> 
+                <div v-else-if="groupMessage && !selectedMessages"> 
 
                     <div v-if="groupMessage" class="flex-1 p-4 overflow-y-auto">
 
@@ -180,7 +180,7 @@
 
                                     }"
                                     
-                                > -->
+                                >
 
                                     <!-- <div v-if="message.image_path" class="w-40">
 
@@ -188,7 +188,7 @@
 
                                     </div> -->
 
-                                    <!-- <p class="text-sm pt-2 text-gray-800">{{ message.body }}</p>
+                                    <p class="text-sm pt-2 text-gray-800">{{ message.body }}</p>
 
                                     <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
 
@@ -201,8 +201,8 @@
                     </div>
 
                 </div>
- -->
-                <div class="flex-1 p-4 flex flex-col items-center mt-8 justify-center">
+
+                <div v-else class="flex-1 p-4 flex flex-col items-center mt-8 justify-center">
 
                     <h1 class="m-1 font-black text-3xl text-black">Select a message</h1>
 
@@ -222,12 +222,12 @@
 
                 </div>
 
-                <!-- <div v-if="!groupMessage && !selectedMessages" class="flex items-center bg-gray-200 rounded-3xl border-t m-2 p-1">
+                <div v-if="!groupMessage && !selectedMessages" class="flex items-center bg-gray-200 rounded-3xl border-t m-2 p-1">
 
                     <div class="flex items-center space-x-2 ml-4">
- -->
+
                         <!-- image icon -->
-                        <!-- <label for="image" class="cursor-pointer">
+                        <label for="image" class="cursor-pointer">
 
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="blue" class="w-5 h-5">
 
@@ -245,10 +245,10 @@
 
                             <input name="image" type="file" id="image" style="display: none;" @change="onFileChanged($event)" />
 
-                        </label> -->
+                        </label>
 
                         <!-- gif icon -->
-                        <!-- <label>
+                        <label>
 
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="blue" class="w-5 h-5">
 
@@ -264,10 +264,10 @@
 
                             </svg>
 
-                        </label> -->
+                        </label>
 
                         <!-- emoji icon -->
-                        <!-- <label>
+                        <label>
 
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="blue" class="w-5 h-5">
 
@@ -283,9 +283,9 @@
                                 
                             </svg>
 
-                        </label> -->
+                        </label>
 
-                    <!-- </div>
+                    </div>
 
                     <div v-if="selectedFileUrl" class="flex justify-center mt-2">
 
@@ -303,10 +303,10 @@
                     
                     ></textarea>
 
-                    <button @click="sendMessage" class="bg-blue-500 text-white p-2 rounded mr-2"> -->
+                    <button @click="sendMessage" class="bg-blue-500 text-white p-2 rounded mr-2">
                     
                         <!-- send icon -->
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
                         
@@ -319,7 +319,7 @@
             </div>
 
         </div>
- -->
+
         <new-message-modal v-if="showModal" @close="closeModal" />
 
     </div>
@@ -347,13 +347,13 @@
 
     const groups = ref([]);
 
-    // const selectedFile = ref(null);
+    const selectedFile = ref(null);
 
-    // const selectedFileUrl = ref(null);
+    const selectedFileUrl = ref(null);
 
     const selectedMessages = ref(null);
 
-    // const newMessage = ref('');
+    const newMessage = ref('');
 
     const userIdStore = useTweetIdStore();
 
@@ -470,75 +470,75 @@
 
     };
 
-    // const formatDate = (dateString) => {
+    const formatDate = (dateString) => {
 
-    //     const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
+        const options = { minute: 'numeric', hour: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
-    //     return new Date(dateString).toLocaleDateString(undefined, options);
+        return new Date(dateString).toLocaleDateString(undefined, options);
 
-    // };
+    };
 
-    // const onFileChanged = (event) => {
+    const onFileChanged = (event) => {
 
-    //     selectedFile.value = event.target.files[0];
+        selectedFile.value = event.target.files[0];
 
-    //     selectedFileUrl.value = URL.createObjectURL(selectedFile.value);
+        selectedFileUrl.value = URL.createObjectURL(selectedFile.value);
 
-    // };
+    };
 
-    // const sendMessage = async () => {
+    const sendMessage = async () => {
 
-    //     const userId = userIdStore.userId;
+        const userId = userIdStore.userId;
 
-    //     const receiverId = receiverIdStore.receiverId;
+        const receiverId = receiverIdStore.receiverId;
 
-    //     try {
+        try {
 
-    //         const formData = new FormData();
+            const formData = new FormData();
 
-    //         formData.append('body', newMessage.value);
+            formData.append('body', newMessage.value);
 
-    //         console.log(newMessage.value)
+            console.log(newMessage.value)
 
-    //         if(selectedFile.value) {
+            if(selectedFile.value) {
 
-    //             formData.append('image_path', selectedFile.value);
+                formData.append('image_path', selectedFile.value);
 
-    //         }
+            }
 
-    //         const response = await axios.post(
+            const response = await axios.post(
 
-    //             `http://127.0.0.1:8000/api/messages/${userId}/${receiverId}`,formData,{
+                `http://127.0.0.1:8000/api/messages/${userId}/${receiverId}`,formData,{
 
-    //                 headers: { 
+                    headers: { 
 
-    //                     'Content-Type': 'multipart/form-data',
+                        'Content-Type': 'multipart/form-data',
                     
-    //                 }
+                    }
 
-    //             }
+                }
 
-    //         );
+            );
 
-    //         console.log(response)
+            console.log(response)
 
-    //         selectedMessages.value.push(response.data.data);
+            selectedMessages.value.push(response.data.data);
 
-    //         newMessage.value = '';
+            newMessage.value = '';
 
-    //         selectedFile.value = null;
+            selectedFile.value = null;
 
-    //         selectedFileUrl.value = null;
+            selectedFileUrl.value = null;
 
-    //         selectMessage();
+            selectMessage();
 
-    //     } catch (error) {
+        } catch (error) {
 
-    //         console.error('Error sending message:', error);
+            console.error('Error sending message:', error);
 
-    //     }
+        }
 
-    // };
+    };
 
     const getGroup = async() => {
 

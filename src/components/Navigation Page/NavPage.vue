@@ -171,7 +171,7 @@
 
             <post-modal v-if="isModalVisible" @close="closeModal"/>
 
-            <div v-for="u in user" :key="u.id" class="flex items-center space-x-3 bottom-0 m-4 rounded-3xl p-2 hover:bg-gray-200 cursor-pointer">
+            <div @click="togglePopUp" v-for="u in user" :key="u.id" class="flex items-center space-x-3 bottom-0 m-4 rounded-3xl p-2 hover:bg-gray-200 cursor-pointer">
 
                 <img :src="getRandomImage()" alt="Avatar" class="w-10 h-10 rounded-full" />
 
@@ -181,6 +181,26 @@
 
                     <div class="text-gray-400 text-sm">@{{ u.username }}</div>
 
+                </div>
+
+            </div>
+
+            <div v-if="showPopUp" class="fixed bottom-28 left-12  w-64 bg-[#fff] rounded-2xl shadow-xl p-4">
+
+                <div class="flex items-center justify-between mb-2">
+
+                    <div class="font-bold">Account Info</div>
+
+                    <button @click="togglePopUp" class="text-gray-400 hover:text-gray-600">×</button>
+
+                </div>
+
+                <div class="border-t border-gray-200 pt-2">
+
+                    <button @click="addAccount" class="w-full text-left p-2 hover:bg-gray-100 rounded-md">Add an existing account</button>
+                    
+                    <button @click="logout" class="w-full text-left p-2 hover:bg-gray-100 rounded-md">Logout @{{ currentUsername }}</button>
+               
                 </div>
 
             </div>
@@ -207,6 +227,8 @@
      
     const user = ref({});
 
+    const showPopUp = ref(false);
+
     const isModalVisible = ref(false);
 
 
@@ -228,6 +250,13 @@
         isModalVisible.value = true;
 
     };
+
+    const togglePopUp = () => {
+        
+        showPopUp.value = !showPopUp.value;
+
+    };
+
 
     const closeModal = () => {
 

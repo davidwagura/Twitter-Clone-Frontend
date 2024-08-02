@@ -336,7 +336,7 @@
 
     import { ref, onMounted } from 'vue';
 
-    import { useRoute } from 'vue-router';
+    // import { useRoute } from 'vue-router';
 
     import newMessageModal from '@/components/messages/NewMessageModal.vue'
 
@@ -367,7 +367,7 @@
 
     const groupMessage = ref([]);
 
-    const route = useRoute();
+    // const route = useRoute();
 
 
     const closeModal = () => {
@@ -436,7 +436,7 @@
 
     };
 
-    console(route.params.id) 
+    // console(route.params.id) 
 
     const selectMessage = (index) => {
 

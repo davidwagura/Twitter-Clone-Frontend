@@ -116,7 +116,7 @@
 
                 </div>
 
-                <div v-if="selectedMessages && !groupMessage" class="flex-1 p-4 overflow-y-auto">
+                <div v-if="selectedMessages" class="flex-1 p-4 overflow-y-auto">
 
                     <div class="space-y-4">
 
@@ -162,7 +162,7 @@
 
                 </div> -->
 
-                <div v-else-if="groupMessage && !selectedMessages"> 
+                <div v-else> 
 
                     <div v-if="groupMessage" class="flex-1 p-4 overflow-y-auto">
 
@@ -202,7 +202,7 @@
 
                 </div>
 
-                <div v-else class="flex-1 p-4 flex flex-col items-center mt-8 justify-center">
+                <!-- <div v-else class="flex-1 p-4 flex flex-col items-center mt-8 justify-center">
 
                     <h1 class="m-1 font-black text-3xl text-black">Select a message</h1>
 
@@ -220,9 +220,9 @@
 
                     </div>
 
-                </div>
+                </div> -->
 
-                <div v-if="!groupMessage && !selectedMessages" class="flex items-center bg-gray-200 rounded-3xl border-t m-2 p-1">
+                <div v-if="selectedMessages" class="flex items-center bg-gray-200 rounded-3xl border-t m-2 p-1">
 
                     <div class="flex items-center space-x-2 ml-4">
 
@@ -336,6 +336,8 @@
 
     import { ref, onMounted } from 'vue';
 
+    import { useRoute } from 'vue-router';
+
     import newMessageModal from '@/components/messages/NewMessageModal.vue'
 
 
@@ -364,6 +366,8 @@
     const selectedMessagesStore = useTweetIdStore();
 
     const groupMessage = ref([]);
+
+    const route = useRoute();
 
 
     const closeModal = () => {
@@ -432,11 +436,13 @@
 
     };
 
+    console(route.params.id) 
+
     const selectMessage = (index) => {
 
         selectedMessages.value = conversations.value.at(index).conversation;
 
-        selectedMessagesStore.setSelectedMessages(conversations.value.at(index).conversation);
+        selectedMessagesStore.setSelectedMessages(conversations.value.at(index ).conversation);
 
         receiverIdStore.setReceiverId(conversations.value.at(index).user.id);
 
@@ -584,6 +590,7 @@
 
         getGroup();
 
+        selectMessage();
 
     });
 

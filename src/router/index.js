@@ -77,7 +77,7 @@ const routes = [
 
     {
 
-        path: '/messages/:id',
+        path: '/messages/:user-:receiver',
 
         component: DisplayConversation,
 
@@ -85,7 +85,7 @@ const routes = [
 
 
     { 
-        path: '/register',
+        path: '/',
     
         component: RegisterPage, 
         

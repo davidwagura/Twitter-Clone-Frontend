@@ -185,7 +185,7 @@
 
             </div>
 
-            <div v-if="showPopUp" class="fixed bottom-28 left-12  w-64 bg-[#fff] rounded-2xl shadow-xl p-4">
+            <div v-if="showPopUp"  class="fixed bottom-28 left-12  w-64 bg-[#fff] rounded-2xl shadow-xl p-4">
 
                 <div class="flex items-center justify-between mb-2">
 
@@ -195,11 +195,11 @@
 
                 </div>
 
-                <div class="border-t border-gray-200 pt-2">
+                <div v-for="u in user" :key="u.id" class="border-t border-gray-200 pt-2">
 
                     <button @click="addAccount" class="w-full text-left p-2 hover:bg-gray-100 rounded-md">Add an existing account</button>
                     
-                    <button @click="logout" class="w-full text-left p-2 hover:bg-gray-100 rounded-md">Logout @{{ currentUsername }}</button>
+                    <button @click="logout" class="w-full text-left p-2 hover:bg-gray-100 rounded-md">Logout @{{ u.username }}</button>
                
                 </div>
 

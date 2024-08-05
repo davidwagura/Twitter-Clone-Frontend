@@ -440,6 +440,8 @@
 
     const selectMessage = (index) => {
 
+        console.log(index);
+
         selectedMessages.value = conversations.value.at(index).conversation;
 
         selectedMessagesStore.setSelectedMessages(conversations.value.at(index ).conversation);
@@ -589,8 +591,6 @@
         fetchMessages();
 
         getGroup();
-
-        selectMessage();
 
     });
 

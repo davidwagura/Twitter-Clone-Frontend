@@ -237,7 +237,9 @@
 
         getUser();
 
-        router.push(`messages/${receiverId}`)
+        const user = userIdStore.userId;
+
+        router.push(`messages/${user}-${receiverId}`)
 
     };
 

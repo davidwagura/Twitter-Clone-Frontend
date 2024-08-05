@@ -26,7 +26,7 @@
 
                     >
         
-                        All Notifications
+                        All
 
                     </button>
 

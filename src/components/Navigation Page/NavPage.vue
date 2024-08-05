@@ -282,7 +282,7 @@
                     </div>
 
                     <!-- setting -->
-                    <div class="flex ml-5">
+                    <div class="flex m-5">
 
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
                         
@@ -335,11 +335,13 @@
 
                 <div v-for="u in user" :key="u.id" class="border-t border-gray-200 pt-2">
 
-                    <button @click="addAccount" class="w-full text-left p-2 hover:bg-gray-100 rounded-md">Add an existing account</button>
+                    <button @click="openModal" class="w-full text-left p-2 hover:bg-gray-100 rounded-md">Add an existing account</button>
                     
                     <button @click="logout" class="w-full text-left p-2 hover:bg-gray-100 rounded-md">Logout @{{ u.username }}</button>
                
                 </div>
+
+                <login-modal v-if="isModalOpen" @close="isModalOpen = false"/>
 
             </div>
 
@@ -360,6 +362,8 @@
 
     import PostModal from '@/components/Pages/modal/PostModal.vue'
 
+    import loginModal from '@/components/Navigation Page/loginModal.vue'
+
 
     const userIdStore = useTweetIdStore();
      
@@ -370,6 +374,8 @@
     const morePopUp = ref(false);
 
     const isModalVisible = ref(false);
+
+    const isModalOpen = ref(false);
 
 
     const images = [
@@ -406,6 +412,12 @@
     const closeModal = () => {
 
         isModalVisible.value = false;
+
+    };
+
+    const openModal = () => {
+
+        isModalOpen.value = true;
 
     };
 

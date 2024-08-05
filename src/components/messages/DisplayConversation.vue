@@ -336,7 +336,7 @@
 
     import { ref, onMounted } from 'vue';
 
-    // import { useRoute } from 'vue-router';
+    import { useRoute, useRouter } from 'vue-router';
 
     import newMessageModal from '@/components/messages/NewMessageModal.vue'
 
@@ -367,7 +367,9 @@
 
     const groupMessage = ref([]);
 
-    // const route = useRoute();
+    const route = useRoute();
+
+    const router = useRouter();
 
 
     const closeModal = () => {
@@ -436,7 +438,8 @@
 
     };
 
-    // console(route.params.id) 
+
+    console.log(route.params) 
 
     const selectMessage = (index) => {
 
@@ -447,6 +450,8 @@
         selectedMessagesStore.setSelectedMessages(conversations.value.at(index ).conversation);
 
         receiverIdStore.setReceiverId(conversations.value.at(index).user.id);
+
+        router.push(`${userIdStore.userId}-${receiverIdStore.receiverId}`)
 
         getUser();
 

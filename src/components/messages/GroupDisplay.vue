@@ -46,14 +46,14 @@
                                     <div v-if="group">
 
                                         <span class="font-semibold">{{ group.name }}</span>
-<!-- 
-                                        <span class="text-sm text-gray-500"> @{{ conversation.user.username }}</span>
+
+                                        <!-- <span class="text-sm text-gray-500"> @{{ group.name }}</span> -->
 
                                         <span class="p-1 text-gray-500">.</span>
 
-                                        <span class="text-sm text-gray-500">{{ formatDate1(conversation.conversation[0].created_at) }}</span>
+                                        <span class="text-sm text-gray-500">{{ formatDate1(group.created_at) }}</span>
 
-                                        <p class="text-sm text-gray-500">{{ getLastMessage(conversation.conversation) }}</p> -->
+                                        <!-- <p class="text-sm text-gray-500">{{ getLastMessage(conversation.conversation) }}</p> -->
 
                                     </div>
 
@@ -65,7 +65,7 @@
 
                         </div>
 
-                        <div v-for="(conversation, index) in conversations" :key="index" @click="defaultConversation(), selectMessage(index)">
+                        <div v-for="(conversation, index) in conversations" :key="index" @click="selectMessage(index)">
 
                             <div class="cursor-pointer p-2 hover:bg-gray-100 rounded">
 
@@ -107,51 +107,6 @@
         <div class="w-2/4">
 
             <div class="h-full flex flex-col border-r overflow-hidden">
-
-                <div v-for="u in user" :key="u.id" class="m-4 bg-opacity-20 flex">
-
-                    <img :src="getRandomImage()" alt="User Avatar" class="w-10 h-10 rounded-full mr-3" />
-
-                    <span class="font-semibold mt-2">{{ u.first_name }}</span>
-
-                </div>
-
-                <div v-if="redirectConversation" class="flex-1 p-4 overflow-y-auto">
-
-                    <div class="space-y-4">
-
-                        <div v-for="message in redirectConversation" :key="message.id" class="flex items-start mb-4">
-
-                            <div 
-                            
-                                :class="{
-
-                                    'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-2 ml-auto': message.sender_id === userIdStore.userId,
-
-                                    'flex-row bg-gray-200 w-fit rounded-2xl p-2 mr-auto': message.sender_id !== userIdStore.userId
-
-                                }"
-                                
-                            >   {{ message.sender_id }}
-
-                                <div v-if="message.image_path" class="w-40">
-
-                                    <img :src="`http://127.0.0.1:8000/storage/${message.image_path}`" alt="Message Image" class="rounded-lg h-auto" />
-
-                                </div>
-
-                                <p class="text-sm pt-2 text-gray-800">{{ message.body }}</p>
-
-                                <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
-
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-
-
-                </div>
 
                 <!-- groupMessages -->
 
@@ -352,7 +307,7 @@
 
     const router = useRouter();
 
-    const redirectConversation = ref(null);
+    // const redirectConversation = ref(null);
 
 
     const closeModal = () => {
@@ -430,11 +385,9 @@
 
         receiverIdStore.setReceiverId(conversations.value.at(index).user.id);
 
-        router.push(`${userIdStore.userId}-${receiverIdStore.receiverId}`)
+        router.push(`/messages/${userIdStore.userId}-${receiverIdStore.receiverId}`)
 
         getUser();
-
-        defaultConversation();
 
     };
 
@@ -524,8 +477,6 @@
 
             selectedFileUrl.value = null;
 
-            defaultConversation();
-
         } catch (error) {
 
             console.error('Error sending message:', error);
@@ -556,29 +507,15 @@
 
     const getMessages = async(id) => {
 
-        router.push(`/messages/${id}`);
-        
-
-    };
-
-    const defaultConversation = async() => {
-
         try {
 
-            console.log(route.params) 
+            const response = await axios.get(`http://127.0.0.1:8000/api/group/messages/${id}`);
 
+            console.log(response.data);
 
-            const senderId = userIdStore.userId;
+            groupMessage.value = response.data.data;
 
-            const receiverId = route.params.receiver
-
-            const response = await axios.get(`http://127.0.0.1:8000/api/singleConversation/${senderId}/${receiverId}`);
-
-            console.log(response.data.data);
-
-            redirectConversation.value = response.data.data
-            
-            getUser();
+            router.push(`${id}`)
 
         } catch(error) {
 
@@ -586,15 +523,13 @@
 
         }
 
-    }
+    };
 
     onMounted(() => {
 
         fetchMessages();
 
         getGroup();
-
-        defaultConversation();
 
     });
 

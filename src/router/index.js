@@ -20,6 +20,8 @@ import CommentsRedirect from '@/components/Pages/Tweet/CommentsRedirect.vue'
 
 import DisplayConversation from '@/components/messages/DisplayConversation'
 
+import DisplayGroup from '@/components/messages/GroupDisplay'
+
 import { useTweetIdStore } from '@/stores/tweetId'
 
 
@@ -80,6 +82,14 @@ const routes = [
         path: '/messages/:user-:receiver',
 
         component: DisplayConversation,
+
+    },
+
+    {
+
+        path: '/messages/:groupId',
+
+        component: DisplayGroup,
 
     },
 

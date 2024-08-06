@@ -273,6 +273,7 @@
             alert('Group created successfully!');
 
             //add id to url
+            
             router.push(`/message/${groupId}`);
 
         } catch (error) {

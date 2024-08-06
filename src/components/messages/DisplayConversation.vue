@@ -65,7 +65,7 @@
 
                         </div>
 
-                        <div v-for="(conversation, index) in conversations" :key="index" @click="selectMessage(index)">
+                        <div v-for="(conversation, index) in conversations" :key="index" @click="defaultConversation(), selectMessage(index)">
 
                             <div class="cursor-pointer p-2 hover:bg-gray-100 rounded">
 
@@ -116,11 +116,11 @@
 
                 </div>
 
-                <div v-if="selectedMessages" class="flex-1 p-4 overflow-y-auto">
+                <div v-if="redirectConversation" class="flex-1 p-4 overflow-y-auto">
 
                     <div class="space-y-4">
 
-                        <div v-for="message in selectedMessages" :key="message.id" class="flex items-start mb-4">
+                        <div v-for="message in redirectConversation" :key="message.id" class="flex items-start mb-4">
 
                             <div 
                             
@@ -150,6 +150,7 @@
                         
                     </div>
 
+
                 </div>
 
                 <!-- groupMessages -->
@@ -162,7 +163,7 @@
 
                 </div> -->
 
-                <div v-else> 
+                <div> 
 
                     <div v-if="groupMessage" class="flex-1 p-4 overflow-y-auto">
 
@@ -202,27 +203,7 @@
 
                 </div>
 
-                <!-- <div v-else class="flex-1 p-4 flex flex-col items-center mt-8 justify-center">
-
-                    <h1 class="m-1 font-black text-3xl text-black">Select a message</h1>
-
-                    <div class="mt-4">
-
-                        <span class="text-gray-500 block">Choose from your existing conversations, start a new one,</span>
-
-                        <span class="text-gray-500 block">or just keep swimming.</span>
-
-                    </div>
-
-                    <div class="mt-8">
-
-                        <button @click="showModal = true" class="bg-blue-400 rounded-3xl p-4 w-48 text-white">New message</button>
-
-                    </div>
-
-                </div> -->
-
-                <div v-if="selectedMessages" class="flex items-center bg-gray-200 rounded-3xl border-t m-2 p-1">
+                <div class="flex items-center bg-gray-200 rounded-3xl border-t m-2 p-1">
 
                     <div class="flex items-center space-x-2 ml-4">
 
@@ -371,6 +352,8 @@
 
     const router = useRouter();
 
+    const redirectConversation = ref(null);
+
 
     const closeModal = () => {
 
@@ -429,6 +412,7 @@
 
     }
 
+    
 
     const getRandomImage = () => {
 
@@ -438,12 +422,7 @@
 
     };
 
-
-    console.log(route.params) 
-
     const selectMessage = (index) => {
-
-        console.log(index);
 
         selectedMessages.value = conversations.value.at(index).conversation;
 
@@ -461,7 +440,7 @@
 
         try {
 
-            const userId = receiverIdStore.receiverId;
+            const userId = route.params.receiver;
 
             const response = await axios.get(`http://127.0.0.1:8000/api/user/${userId}`);
             
@@ -543,7 +522,7 @@
 
             selectedFileUrl.value = null;
 
-            selectMessage();
+            defaultConversation();
 
         } catch (error) {
 
@@ -591,11 +570,40 @@
 
     };
 
+    const defaultConversation = async() => {
+
+        try {
+
+            console.log(route.params) 
+
+
+            const senderId = userIdStore.userId;
+
+            const receiverId = route.params.receiver
+
+            const response = await axios.get(`http://127.0.0.1:8000/api/singleConversation/${senderId}/${receiverId}`);
+
+            console.log(response.data.data);
+
+            redirectConversation.value = response.data.data
+            
+            getUser();
+
+        } catch(error) {
+
+            console.log(error);
+
+        }
+
+    }
+
     onMounted(() => {
 
         fetchMessages();
 
         getGroup();
+
+        defaultConversation();
 
     });
 

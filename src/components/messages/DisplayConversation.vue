@@ -132,7 +132,7 @@
 
                                 }"
                                 
-                            >
+                            >   {{ message.sender_id }}
 
                                 <div v-if="message.image_path" class="w-40">
 
@@ -433,6 +433,8 @@
         router.push(`${userIdStore.userId}-${receiverIdStore.receiverId}`)
 
         getUser();
+
+        defaultConversation();
 
     };
 

@@ -238,7 +238,7 @@
 
         const receiverId = selectedUsers.value[0].id;
 
-        router.push(`/messages/${receiverId}`);
+        router.push(`/messages/${userIdStore.userId}-${receiverId}`);
 
         emit('close');
 

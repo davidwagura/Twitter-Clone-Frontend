@@ -361,8 +361,6 @@
 
     };
 
-    console.log(selectedMessagesStore.selectedMessages)
-
     const images = [
 
         require('../../assets/images/1.jpeg'),
@@ -565,16 +563,12 @@
 
         try {
 
-            console.log(route.params) 
-
 
             const senderId = userIdStore.userId;
 
             const receiverId = route.params.receiver
 
             const response = await axios.get(`http://127.0.0.1:8000/api/singleConversation/${senderId}/${receiverId}`);
-
-            console.log(response.data.data);
 
             redirectConversation.value = response.data.data
             

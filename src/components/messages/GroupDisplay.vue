@@ -281,15 +281,11 @@
 
     const users = ref({});
 
-    const user = ref({});
-
     const groups = ref([]);
 
     const selectedFile = ref(null);
 
     const selectedFileUrl = ref(null);
-
-    const selectedMessages = ref(null);
 
     const newMessage = ref('');
 
@@ -299,15 +295,11 @@
 
     const showModal = ref(false);
 
-    const selectedMessagesStore = useTweetIdStore();
-
     const groupMessage = ref([]);
 
     const route = useRoute();
 
     const router = useRouter();
-
-    // const redirectConversation = ref(null);
 
 
     const closeModal = () => {
@@ -315,8 +307,6 @@
         showModal.value = false;
 
     };
-
-    console.log(selectedMessagesStore.selectedMessages)
 
     const images = [
 
@@ -377,35 +367,9 @@
 
     };
 
-    const selectMessage = (index) => {
-
-        selectedMessages.value = conversations.value.at(index).conversation;
-
-        selectedMessagesStore.setSelectedMessages(conversations.value.at(index ).conversation);
-
-        receiverIdStore.setReceiverId(conversations.value.at(index).user.id);
+    const selectMessage = () => {
 
         router.push(`/messages/${userIdStore.userId}-${receiverIdStore.receiverId}`)
-
-        getUser();
-
-    };
-
-    const getUser = async () => {
-
-        try {
-
-            const userId = route.params.receiver;
-
-            const response = await axios.get(`http://127.0.0.1:8000/api/user/${userId}`);
-            
-            user.value = response.data.user;
-
-        } catch(error) {
-
-            console.log(error);
-
-        }
 
     };
 
@@ -437,8 +401,6 @@
 
         const userId = userIdStore.userId;
 
-        const receiverId = receiverIdStore.receiverId;
-
         try {
 
             const formData = new FormData();
@@ -451,11 +413,16 @@
 
                 formData.append('image_path', selectedFile.value);
 
+                formData.append('sender_id', userId);
+
+
             }
+
+            const groupId = route.params.groupId;
 
             const response = await axios.post(
 
-                `http://127.0.0.1:8000/api/messages/${userId}/${receiverId}`,formData,{
+                `http://127.0.0.1:8000/api/groups/${groupId}/messages`,formData,{
 
                     headers: { 
 
@@ -468,8 +435,6 @@
             );
 
             console.log(response)
-
-            selectedMessages.value.push(response.data.data);
 
             newMessage.value = '';
 

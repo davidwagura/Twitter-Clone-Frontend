@@ -334,9 +334,9 @@
 
                 <div v-for="u in user" :key="u.id" class="border-t border-gray-200 pt-2">
 
-                    <button @click="openModal" class="w-full text-left p-2 hover:bg-gray-100 rounded-md">Add an existing account</button>
+                    <button @click="openModal" class="w-full font-bold text-left p-2 hover:bg-gray-100 rounded-md">Add an existing account</button>
                     
-                    <button @click="logout" class="w-full text-left p-2 hover:bg-gray-100 rounded-md">Logout @{{ u.username }}</button>
+                    <button @click="logout" class="w-full font-bold text-left p-2 hover:bg-gray-100 rounded-md">Logout @{{ u.username }}</button>
                
                 </div>
 

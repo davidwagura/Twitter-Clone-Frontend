@@ -80,25 +80,25 @@
 
           <div>
         
-            <input type="text" id="name" placeholder="Name" v-model="profile.name" class="mt-1 w-full h-16 p-2 border border-gray-300 rounded-md">
+            <input type="text" id="name" placeholder="Name" v-model="profile.name" class="mt-1 focus:outline-none focus:ring-1 focus:ring-blue-400 w-full h-16 p-2 border border-gray-300 rounded-md">
           
           </div>
 
           <div>
           
-            <textarea id="bio" placeholder="Bio" v-model="profile.bio" class="mt-1 h-28 w-full p-2 border border-gray-300 rounded-md"></textarea>
+            <textarea id="bio" placeholder="Bio" v-model="profile.bio" class="mt-1 h-28 w-full focus:outline-none focus:ring-1 focus:ring-blue-400 p-2 border border-gray-300 rounded-md"></textarea>
           
           </div>
 
           <div>
           
-            <input type="text" id="location" placeholder="Location" v-model="profile.location" class="mt-1 w-full h-16 p-2 border border-gray-300 rounded-md">
+            <input type="text" id="location" placeholder="Location" v-model="profile.location" class="mt-1 w-full focus:outline-none focus:ring-1 focus:ring-blue-400 h-16 p-2 border border-gray-300 rounded-md">
          
           </div>
 
           <div>
         
-            <input type="text" id="website" placeholder="Website" v-model="profile.website" class="mt-1 w-full p-2 h-16 border focus:border-[#5782cd] border-gray-300 rounded-md">
+            <input type="text" id="website" placeholder="Website" v-model="profile.website" class="mt-1 w-full p-2 h-16 focus:outline-none focus:ring-1 focus:ring-blue-400 border-gray-300 rounded-md">
          
           </div>
 

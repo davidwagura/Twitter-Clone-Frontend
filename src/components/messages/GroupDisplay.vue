@@ -405,14 +405,13 @@
 
             formData.append('body', newMessage.value);
 
+            formData.append('sender_id', userId);
+
             console.log(newMessage.value)
 
             if(selectedFile.value) {
 
                 formData.append('image_path', selectedFile.value);
-
-                formData.append('sender_id', userId);
-
 
             }
 
@@ -476,7 +475,7 @@
 
             const response = await axios.get(`http://127.0.0.1:8000/api/group/messages/${groupId}`);
 
-            console.log(response.data);
+            // console.log(response.data);
 
             groupMessage.value = response.data.data;
 

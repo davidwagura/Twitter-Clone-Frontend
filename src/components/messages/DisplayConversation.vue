@@ -132,7 +132,7 @@
 
                                 }"
                                 
-                            >   {{ message.sender_id }}
+                            >  
 
                                 <div v-if="message.image_path" class="w-40">
 
@@ -555,7 +555,6 @@
     const getMessages = async(id) => {
 
         router.push(`/messages/${id}`);
-        
 
     };
 

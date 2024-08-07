@@ -1,30 +1,67 @@
 <template>
+
     <div class="max-h-screen">
-        <div v-for="notification in notifications" :key="notification.id" class="border-t border-gray-200 p-4 flex items-start space-x-4 hover:bg-gray-100 cursor-pointer">
-            <div class="flex-1">
+
+        <div
+
+            v-for="notification in notifications" :key="notification.id" 
+
+            :class="{
+
+                'border-t border-gray-200 p-4 flex bg-gray-400 items-start space-x-4 cursor-pointer': notification.seen === 0
+
+            }"
+            
+        >
+
+            <div class="flex-1 hover:bg-gray-100">
+
                 <div class="flex items-center space-x-2">
+
                     <img :src="getIcon(notification.action_type)" alt="icon" class="w-8 h-8" />
+
                     <img :src="getRandomImage()" alt="Avatar" class="w-8 h-8 rounded-full" />
+
                 </div>
+
                 <div class="mt-2 ml-10 text-gray-700">{{ notification.body }}</div>
+
                 <div class="mt-2 ml-10 text-gray-700">
-                    <template v-if="notification.related_item">
+
+                    <div v-if="notification.related_item">
+
                         <div v-if="notification.action_type === 'follower'">
+
                             <span>{{ notification.related_item.first_name }} {{ notification.related_item.last_name }}</span>
+
                             <span class="text-gray-500"> followed you.</span>
+
                         </div>
+
                         <div v-else>
-                            {{ notification.action_type }}: 
+
+                            <span>{{ notification.action_type }}:</span>
+
                             <span>{{ notification.related_item.body }}</span>
+
                         </div>
-                    </template>
-                    <template v-else>
+
+                    </div>
+
+                    <div v-else class="bg-opacity-85 bg-gray-400">
+
                         <span>Loading...</span>
-                    </template>
+
+                    </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </template>
   
 <script setup>

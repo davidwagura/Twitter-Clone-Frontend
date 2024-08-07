@@ -64,6 +64,8 @@
 
     import { useRouter } from 'vue-router';
 
+    import { ref } from 'vue';
+
 
     const userIdStore = useTweetIdStore();
 
@@ -79,7 +81,7 @@
 
     };
 
-    let successMessage = '';
+    const successMessage = ref('');
 
     const loginForm = () => {
         
@@ -93,13 +95,11 @@
 
             tokenStore.setToken(response.data.token);
 
-            successMessage = 'You have been successfully logged in!';
-
             setTimeout(() => {
 
-                successMessage = '';
+                successMessage.value = 'You have been successfully logged in!';
 
-                router.push('');
+                router.push('/home');
 
             }, 3000);
         })
@@ -108,9 +108,15 @@
 
             console.error('Error logging in user:', error);
 
-            successMessage = 'Failed to login. Try again.';
+            successMessage.value = 'Failed to login. Try again.';
 
         });
+
+        data.email = '';
+
+        data.password = '';
+
+        successMessage.value = '';
 
     };
 

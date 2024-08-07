@@ -152,8 +152,6 @@ router.beforeEach((to, from, next) => {
 
     const isAuthenticated = !!tokenStore.token;
 
-
-
     if(to.meta.requiresAuth && !isAuthenticated) {
 
         next('/login');

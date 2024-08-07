@@ -285,7 +285,11 @@
 
     };
 
+    const getMessages = async(id) => {
 
+        router.push(`messages/${id}`);
+        
+    };
 
     onMounted(() => {
 

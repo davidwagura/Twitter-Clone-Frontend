@@ -22,6 +22,8 @@ import DisplayConversation from '@/components/messages/DisplayConversation'
 
 import DisplayGroup from '@/components/messages/GroupDisplay'
 
+import LogoutPage from '@/components/Auth/LogoutPage'
+
 import { useTweetIdStore } from '@/stores/tweetId'
 
 
@@ -124,6 +126,13 @@ const routes = [
         
         component: CommentsRedirect 
     
+    },
+
+    {
+        path: '/logout',
+
+        component: LogoutPage
+
     },
     
 ];

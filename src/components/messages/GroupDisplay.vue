@@ -35,7 +35,7 @@
 
                     <div class="space-y-4 mt-6">
                         
-                        <div v-for="group in groups" :key="group" @click="getMessages(group.id)">
+                        <div v-for="group in groups" :key="group" @click="getMessages()">
 
                             <div class="cursor-pointer p-2 hover:bg-gray-100 rounded">
 
@@ -110,53 +110,51 @@
 
                 <!-- groupMessages -->
 
-                <!-- <div v-for="group in groups" :key="group.id" class="m-4 bg-opacity-20 flex">
+                <div class="m-4 bg-opacity-20 flex">
 
                     <img :src="getRandomImage()" alt="User Avatar" class="w-10 h-10 rounded-full mr-3" />
 
-                    <span class="font-semibold mt-2">{{ group.name }}</span>
+                    <!-- <span class="font-semibold mt-2">{{ group.name }}</span> -->
 
-                </div> -->
+                </div>
 
-                <div> 
 
-                    <div v-if="groupMessage" class="flex-1 p-4 overflow-y-auto">
+                <div v-if="groupMessage" class="flex-1 p-4 overflow-y-auto">
 
-                        <div class="space-y-4">
+                    <div class="space-y-4">
 
-                            <div v-for="message in groupMessage" :key="message.id" class="flex items-start mb-4">
+                        <div v-for="message in groupMessage" :key="message.id" class="flex items-start mb-4">
 
-                                <div 
+                            <div 
                                 
-                                    :class="{
+                                :class="{
 
-                                        'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-2 ml-auto': message.sender_id === userIdStore.userId,
+                                    'flex-row-reverse bg-blue-200 w-fit rounded-2xl p-2 ml-auto': message.sender_id === userIdStore.userId,
 
-                                        'flex-row bg-gray-200 w-fit rounded-2xl p-2 mr-auto': message.sender_id !== userIdStore.userId
+                                    'flex-row bg-gray-200 w-fit rounded-2xl p-2 mr-auto': message.sender_id !== userIdStore.userId
 
-                                    }"
+                                }"
                                     
-                                >
+                            >
 
-                                    <!-- <div v-if="message.image_path" class="w-40">
+                                <!-- <div v-if="message.image_path" class="w-40">
 
-                                        <img :src="`http://127.0.0.1:8000/storage/${message.image_path}`" alt="Message Image" class="rounded-lg h-auto" />
+                                    <img :src="`http://127.0.0.1:8000/storage/${message.image_path}`" alt="Message Image" class="rounded-lg h-auto" />
 
-                                    </div> -->
+                                </div> -->
 
-                                    <p class="text-sm pt-2 text-gray-800">{{ message.body }}</p>
+                                <p class="text-sm pt-2 text-gray-800">{{ message.body }}</p>
 
-                                    <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
+                                <p class="text-xs text-gray-500">{{ formatDate(message.created_at) }}</p>
 
-                                </div>
-                                
-                            </div>
+                            </div> 
                             
                         </div>
-
+                            
                     </div>
 
                 </div>
+
 
                 <div class="flex items-center bg-gray-200 rounded-3xl border-t m-2 p-1">
 
@@ -470,17 +468,19 @@
 
     };
 
-    const getMessages = async(id) => {
+    const getMessages = async() => {
 
         try {
 
-            const response = await axios.get(`http://127.0.0.1:8000/api/group/messages/${id}`);
+            const groupId = route.params.groupId;
+
+            const response = await axios.get(`http://127.0.0.1:8000/api/group/messages/${groupId}`);
 
             console.log(response.data);
 
             groupMessage.value = response.data.data;
 
-            router.push(`${id}`)
+            router.push(`${groupId}`)
 
         } catch(error) {
 
@@ -495,6 +495,8 @@
         fetchMessages();
 
         getGroup();
+
+        getMessages();
 
     });
 

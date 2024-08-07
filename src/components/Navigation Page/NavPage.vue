@@ -359,6 +359,8 @@
 
     import { useTweetIdStore } from '@/stores/tweetId';
 
+    import { useRouter } from 'vue-router';
+
     import PostModal from '@/components/Pages/modal/PostModal.vue'
 
     import loginModal from '@/components/Navigation Page/loginModal.vue'
@@ -375,6 +377,8 @@
     const isModalVisible = ref(false);
 
     const isModalOpen = ref(false);
+
+    const router = useRouter();
 
 
     const images = [
@@ -427,6 +431,12 @@
         return images[randomIndex];
 
     };
+
+    const logout = () => {
+
+        router.push('/logout');
+
+    }
 
     const getUser = async () => {
 

@@ -24,6 +24,8 @@ import DisplayGroup from '@/components/messages/GroupDisplay'
 
 import LogoutPage from '@/components/Auth/LogoutPage'
 
+import ProfileView from '@/components/Pages/profile/ProfileView'
+
 import { useTweetIdStore } from '@/stores/tweetId'
 
 
@@ -62,6 +64,15 @@ const routes = [
         component: ProfilePage
 
     },
+
+    {
+
+        path: '/user',
+
+        component: ProfileView
+
+    },
+
 
     { 
 

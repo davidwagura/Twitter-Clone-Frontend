@@ -1,6 +1,6 @@
 <template>
 
-    <div class="w-full border rounded-lg">
+    <div class="w-full rounded-lg">
   
       <div v-if="tweets.length > 0">
   

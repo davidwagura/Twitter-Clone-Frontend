@@ -164,16 +164,16 @@
 
 
             <!--More popup-->
-            <div v-if="morePopUp"  class="bottom-28 fixed top-0 left-16 h-fit w-72 bg-[#fff] rounded-2xl shadow-xl">
+            <div v-if="morePopUp"  class="bottom-28 fixed top-0 left-12 h-fit w-72 bg-[#fff] border-gray-200 rounded-2xl shadow-xl">
 
                 <div class="flex items-center justify-between mb-2">
 
-                    <button @click="openPopUp" class="text-gray-400 hover:text-gray-600">×</button>
+                    <button @click="openPopUp" class="text-gray-400 pl-4 font-bold pt-4 hover:text-gray-600">×</button>
 
                 </div>
 
 
-                <div v-for="u in user" :key="u.id" class="border-t border-gray-200 ">
+                <div v-for="u in user" :key="u.id" class="border-gray-200 ">
 
                     <!-- lists -->
                     <div class="flex m-5">

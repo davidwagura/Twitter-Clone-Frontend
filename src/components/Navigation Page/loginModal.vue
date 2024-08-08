@@ -45,7 +45,7 @@
         
         </div>
   
-        <div class="flex items-center justify-center mb-4">
+        <div class="flex items-center justify-center mb-4 focus:">
 
           <button class="bg-[#000000] w-full  text-white font-bold py-2 px-4 rounded-3xl" type="submit">
             

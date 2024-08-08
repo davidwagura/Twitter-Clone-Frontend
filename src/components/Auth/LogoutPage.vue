@@ -74,6 +74,8 @@
 
                 );
 
+                console.log(response)
+
                 if (response.status === 200) {
 
                     // Clear the Pinia store

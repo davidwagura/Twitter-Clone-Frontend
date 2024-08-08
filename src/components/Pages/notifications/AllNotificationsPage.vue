@@ -8,13 +8,15 @@
 
             :class="{
 
-                'border-t border-gray-200 p-4 flex bg-gray-400 items-start space-x-4 cursor-pointer': notification.seen === 0
+                'border-t border-gray-300 bg-[#d9e7eb]': notification.seen === 0
 
             }"
+
+            @click="changeStatus(notification.id)"
             
         >
 
-            <div class="flex-1 hover:bg-gray-100">
+            <div class="flex-1 border-t border-gray-200 p-4 hover:bg-gray-100 items-start space-x-4 cursor-pointer">
 
                 <div class="flex items-center space-x-2">
 
@@ -66,7 +68,7 @@
   
 <script setup>
 
-    import axiosInstance from '@/axiosInstance';
+    import axios from 'axios';
 
     import { useTweetIdStore } from '@/stores/tweetId';
 
@@ -99,7 +101,6 @@
 
         await getNotifications();
 
-        // await getRelatedItem();
 
     });
   
@@ -117,11 +118,21 @@
 
         const userId = userIdStore.userId;
 
-        const response = await axiosInstance.get(`/notifications/${userId}`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/notifications/${userId}`);
 
         notificationsStore.setNotifications(response.data.notifications);
 
     };
+
+    const changeStatus = async(notificationId) => {
+
+        const response = await axios.put(`http://127.0.0.1:8000/api/notification/update/${notificationId}`);
+
+        console.log(response.data);
+
+        getNotifications();
+
+    }
   
 
     const getIcon = (action_type) => {

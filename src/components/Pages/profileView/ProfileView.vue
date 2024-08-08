@@ -26,7 +26,7 @@
 
                     </div>
 
-                    <span class="ml-10">{{ u.username}} posts</span>
+                    <span class="ml-10 text-gray-500 text-sm">{{ postCount }} posts</span>
                    
                 </div>
         
@@ -112,7 +112,7 @@
 
             </div>
     
-            <div class="w-5/12 min-h-screen pr-8 pl-8 ml-auto mr-16 mt-10 mb-8 rounded-xl">
+            <div class="w-4/12 min-h-screen pr-8 pl-8 ml-auto mr-16 mt-10 mb-8 rounded-xl">
 
                 <trends-page-vue />
 
@@ -126,13 +126,13 @@
   
 <script setup>
 
-    import { ref, computed,onMounted } from 'vue';
+    import { ref, computed, onMounted } from 'vue';
 
     import NavPage from '@/components/Navigation Page/NavPage.vue';
 
-    import PostsPage from './PostsPage.vue';
+    import PostsPage from '../profileView/PostsPage.vue';
 
-    import RepliesPage from './RepliesPage.vue';
+    import RepliesPage from '../profileView/RepliesPage.vue';
 
     import TrendsPageVue from '@/components/Pages/trends/TrendsPage.vue';
 
@@ -140,40 +140,47 @@
 
     import { useTweetIdStore } from '@/stores/tweetId';
 
+    import { useRouter } from 'vue-router';
+
     
-    const userIdStore = useTweetIdStore();
+    const profileId = useTweetIdStore();
 
     const activeSection = ref('posts');
 
     const user = ref({});
+    
+    const router = useRouter();
+
+    const postCount = ref(null);
+
 
     const currentSectionComponent = computed(() => {
 
-    switch (activeSection.value) {
+        switch (activeSection.value) {
 
-        case 'posts':
+            case 'posts':
 
-            return PostsPage;
+                return PostsPage;
 
-        case 'replies':
+            case 'replies':
 
-            return RepliesPage;
+                return RepliesPage;
 
-        // case 'highlights':
+            // case 'highlights':
 
-        //     return HighlightsPage;
+            //     return HighlightsPage;
 
-        // case 'media':
+            // case 'media':
 
-        //     return MediaPage;
+            //     return MediaPage;
 
-        default:
+            default:
 
-            return PostsPage;
+                return PostsPage;
 
-    }
+        }
 
-});
+    });
 
 
     function setActiveSection(section) {
@@ -183,15 +190,32 @@
     }
 
 
-    // change id use from store
     const getUser = async () => {
 
-        const userId = userIdStore.userId;
+        const userId = profileId.profileId;
 
         const response = await axiosInstance.get(`/user/${userId}`);
 
         user.value = response.data.user;
 
+    };
+
+    const getTweets = async () => {
+  
+        try {
+            
+            const userId = profileId.profileId;
+
+            const response = await axiosInstance.get(`/user/tweets/${userId}`);
+
+            postCount.value = response.data.tweet.length;
+        
+        } catch (error) {
+    
+            console.error('Error fetching tweets:', error);
+    
+        }
+    
     };
 
     const formatDate = (dateString) => {
@@ -202,10 +226,17 @@
 
     };
 
+    const goBack = () => {
+
+        router.push('/home');
+
+    };
 
     onMounted( async() => {
 
         await getUser();
+
+        await getTweets();
 
     });
 

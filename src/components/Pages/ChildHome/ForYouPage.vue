@@ -8,47 +8,47 @@
 
         <li v-for="tweet in tweetsStore.tweets" :key="tweet.id" class="p-4 border-t hover:cursor-pointer hover:bg-gray-100">
 
-          <router-link v-if="tweet.user" :to="`/${tweet.user.username}/status/${tweet.id}`" class="m-1 cursor-pointer">
+          <div class="flex items-center justify-between">
 
-            <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
 
-              <div class="flex items-center space-x-4">
+              <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
-                <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
+              <div >
 
-                <div >
+                <div class="font-bold text-lg" v-if="tweet.user">
 
-                  <div class="font-bold text-lg">
+                  <button @click="viewUser(tweet.user.id, tweet.user.username)" class="m-1 cursor-pointer hover:underline">{{ tweet.user.first_name }} {{ tweet.user.last_name }}</button>
 
-                    {{ tweet.user.first_name }} {{ tweet.user.last_name }}
+                  <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span>
 
-                    <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span>
+                  <span class="mr-2">.</span>
 
-                    <span class="mr-2">.</span>
-
-                    <span class="text-gray-500 text-sm mt-2">{{ formatDate(tweet.created_at) }}</span>
-
-                  </div>
+                  <span class="text-gray-500 text-sm mt-2">{{ formatDate(tweet.created_at) }}</span>
 
                 </div>
 
               </div>
 
             </div>
-            
-            <div class="p-4">
-
-              <div class="flex justify-start ml-12">{{ tweet.body }}</div>
-
-              <div v-if="tweet.image_path" class="flex justify-start ml-12 mt-2">
-
-                <img :src="`http://127.0.0.1:8000/storage/${tweet.image_path}`" alt="Tweet Image" class="rounded-lg max-w-full h-auto" />
-
-              </div>
 
             </div>
+            
+            <div class="p-4">
+              
+              <router-link v-if="tweet.user" :to="`/${tweet.user.username}/status/${tweet.id}`" class="m-1 cursor-pointer">
 
-          </router-link>
+                <div class="flex justify-start ml-12">{{ tweet.body }}</div>
+
+                <div v-if="tweet.image_path" class="flex justify-start ml-12 mt-2">
+
+                  <img :src="`http://127.0.0.1:8000/storage/${tweet.image_path}`" alt="Tweet Image" class="rounded-lg max-w-full h-auto" />
+
+                </div>
+
+              </router-link>
+
+            </div>
           
           <div>
 
@@ -132,10 +132,17 @@
 
   import TweetPage from '../Tweet/TweetPage.vue';
 
+  import { useRouter } from 'vue-router';
+
 
   const userIdStore = useTweetIdStore();
 
   const tweetsStore = useTweetsStore();
+
+  const profileStore = useTweetIdStore();
+
+  const router = useRouter();
+
 
   const images = [
     require('../../../assets/images/1.jpeg'),
@@ -177,6 +184,14 @@
       console.error('Error fetching tweets:', error);
 
     }
+
+  };
+
+  const viewUser = (userId, username) => {
+
+    profileStore.setProfileId(userId);
+
+    router.push(`/${username}`)
 
   };
 

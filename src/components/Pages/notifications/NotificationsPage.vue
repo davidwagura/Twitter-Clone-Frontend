@@ -80,11 +80,12 @@
   
         </div>
         
-        <div class="w-4.5/12 min-h-screen mr-16 mt-10 mb-8 ml-4 rounded-xl float-right">
+        <div class="w-4/12 min-h-screen p-2 ml-auto mr-24 mt-10 mb-8 rounded-xl">
 
-            <!-- <trends-page-vue></trends-page-vue> -->
+            <trends-page-vue />
 
         </div>
+
 
     </div>
 
@@ -101,7 +102,7 @@
 
     import VerifiedPage from './VerifiedPage.vue';
 
-    // import TrendsPageVue from '@/components/Pages/trends/TrendsPage.vue';
+    import TrendsPageVue from '@/components/Pages/trends/TrendsPage.vue';
 
     const activeSection = ref('notifications');
 

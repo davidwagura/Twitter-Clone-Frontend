@@ -1,6 +1,6 @@
 <template>
 
-    <div class="max-h-screen">
+    <div class="max-h-screen flow-root">
 
         <div
 

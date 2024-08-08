@@ -36,13 +36,6 @@ const routes = [
         
         meta: { requiresAuth: true },
 
-        name: 'home', 
-
-        children: [
-
-        
-
-        ]
     },
 
 

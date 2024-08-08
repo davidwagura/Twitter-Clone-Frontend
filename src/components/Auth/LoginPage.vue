@@ -89,15 +89,13 @@
 
         .then(response => {
 
-            console.log(response);
-
             userIdStore.setUserId(response.data.user.id);
 
-            tokenStore.setToken(response.data.token);
+            tokenStore.setToken(response.data.authorization.token);
+
+            successMessage.value = 'You have been successfully logged in!';
 
             setTimeout(() => {
-
-                successMessage.value = 'You have been successfully logged in!';
 
                 router.push('/home');
 

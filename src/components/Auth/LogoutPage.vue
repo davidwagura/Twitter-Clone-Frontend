@@ -36,15 +36,72 @@
 </template>
 
 <script setup>
+    
+    import axios from 'axios';
 
     import {  useRouter } from 'vue-router'
 
+    import { useTweetIdStore } from '@/stores/tweetId';
+
+    const tweetIdStore = useTweetIdStore();
+
     const router = useRouter()
 
-    const logout = () => {
+    const logout = async () => {
 
+        try {
+
+            const token = tweetIdStore.getToken;
+
+
+            if (token) {
+
+                const response = await axios.post(
+
+                    'http://127.0.0.1:8000/api/logout',
+
+                    {},
+
+                    {
+
+                        headers: {
+
+                            'Authorization': `Bearer ${token}`
+
+                        }
+
+                    }
+
+                );
+
+                if (response.status === 200) {
+
+                    // Clear the Pinia store
+                    tweetIdStore.$reset();
+
+
+                    // Redirect to login page
+                    router.push('/login');
+
+                } else {
+
+                    console.error('Failed to log out');
+
+                }
+
+            } else {
+
+                console.error('No token found');
+
+            }
+
+        } catch (error) {
+
+            console.error('An error occurred during logout:', error);
+
+        }
         
-    }
+    };
 
     const cancel = () => {
 

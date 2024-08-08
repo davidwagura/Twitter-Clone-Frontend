@@ -12,7 +12,7 @@
 
             }"
 
-            @click="changeStatus(notification.id)"
+            @click="changeStatus(notification.id, notification.related_item_id, notification.action_type)"
             
         >
 
@@ -76,11 +76,15 @@
 
     import { onMounted } from 'vue';
 
+    import { useRouter } from 'vue-router';
+
     const userIdStore = useTweetIdStore();
 
     const notificationsStore = useTweetsStore();
 
     let notifications = notificationsStore.notifications;
+
+    const router = useRouter();
   
     const images = [
 
@@ -124,13 +128,34 @@
 
     };
 
-    const changeStatus = async(notificationId) => {
+    const changeStatus = async(notificationId, related_item, action_type) => {
 
-        const response = await axios.put(`http://127.0.0.1:8000/api/notification/update/${notificationId}`);
-
-        console.log(response.data);
+        await axios.put(`http://127.0.0.1:8000/api/notification/update/${notificationId}`);
 
         getNotifications();
+
+        const userId = userIdStore.userId;
+
+        const user = await axios.get(`http://127.0.0.1:8000/api/user/${userId}`);
+
+        const username = user.data.user[0].username;
+
+        if (action_type === 'like') {
+
+            router.push(`${username}/status/${related_item}`);
+
+        } 
+        
+        else if(action_type === 'retweet'){
+
+            router.push(`${username}/status/${related_item}`);
+
+        }else {
+
+            ''
+
+        }
+
 
     }
   

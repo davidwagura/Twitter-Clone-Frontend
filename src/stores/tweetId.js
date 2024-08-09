@@ -24,6 +24,10 @@ export const useTweetIdStore  = defineStore('tweetId', {
 
         profileId: null,
 
+        relatedId: null,
+
+        selectUser: null,
+
     }),
 
     getters: {
@@ -47,6 +51,10 @@ export const useTweetIdStore  = defineStore('tweetId', {
         getGroupIds: (state) => state.groupIds,
 
         getProfileId:(state) => state.profileId,
+
+        getRelatedId:(state) => state.relatedId,
+
+        getSelectUser:(state) => state.selectUser,
 
     },
 
@@ -118,6 +126,17 @@ export const useTweetIdStore  = defineStore('tweetId', {
             
         },
 
+        setRelatedId(relatedId) {
+
+            this.relatedId = relatedId;
+
+        },
+
+        setSelectUser(selectUser) {
+
+            this.selectUser = selectUser;
+
+        },
       
     },
 

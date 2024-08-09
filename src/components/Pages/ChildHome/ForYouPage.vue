@@ -22,9 +22,9 @@
                     
                     {{ tweet.user.first_name }} {{ tweet.user.last_name }}
 
-                    <div
+                    <!-- <div
                         v-if="isPopoverVisible"
-                        class="absolute z-10 w-64 p-4 mt-2 bg-white border rounded-lg shadow-lg"
+                        class="w-64 p-4 mt-2 bg-white border rounded-lg shadow-sm "
                         style="top: 100%; left: 0;"
                       >
                         <p class="font-semibold">Popover Title</p>
@@ -32,26 +32,15 @@
                           This popover appears when hovering over the button.
                         </p>
 
-                      </div>
+                      </div> -->
                   
                   </button>
 
-                  <div @mouseenter="showPopover" @mouseleave="hidePopover" class="text-gray-400 text-sm mr-2">
+                  <span @mouseenter="showPopover" @mouseleave="hidePopover" class="text-gray-400 text-sm mr-2">
                     
                     <button>@{{ tweet.user.username }}</button>
 
-                    <div
-                        v-if="isPopoverVisible"
-                        class="absolute z-10 w-64 p-4 mt-2 bg-white border rounded-lg shadow-lg"
-                        style="top: 100%; left: 0;"
-                      >
-                        <p class="font-semibold">Popover Title</p>
-                        <p class="mt-2 text-sm text-gray-500">
-                          This popover appears when hovering over the button.
-                        </p>
-                      </div>
-
-                  </div>
+                  </span>
 
                   <span class="mr-2">.</span>
 
@@ -175,6 +164,7 @@
   const router = useRouter();
 
   const isPopoverVisible = ref(false);
+  
 
   function showPopover() {
 

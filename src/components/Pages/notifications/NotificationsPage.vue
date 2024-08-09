@@ -92,6 +92,7 @@
 </template>  
 
 <script setup>
+
     import { ref, computed } from 'vue';
 
     import NavPage from '@/components/Navigation Page/NavPage.vue';

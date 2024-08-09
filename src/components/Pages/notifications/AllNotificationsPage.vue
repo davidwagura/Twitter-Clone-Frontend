@@ -106,9 +106,7 @@
 
         await getNotifications();
 
-
     });
-  
 
     const getRandomImage = () => {
 
@@ -117,7 +115,6 @@
         return images[randomIndex];
 
     };
-  
 
     const getNotifications = async () => {
 
@@ -157,9 +154,7 @@
 
         }
 
-
-    }
-  
+    };
 
     const getIcon = (action_type) => {
 
@@ -167,27 +162,27 @@
 
             case 'like':
                 
-            return require('@/assets/icons/like.svg');
+                return require('@/assets/icons/like.svg');
 
             case 'notification':
 
-            return require('@/assets/icons/notification.svg');
+                return require('@/assets/icons/notification.svg');
 
             case 'comment':
 
-            return require('@/assets/icons/star.svg');
+                return require('@/assets/icons/star.svg');
 
             case 'follower':
 
-            return require('@/assets/icons/profile.svg');
+                return require('@/assets/icons/profile.svg');
 
             case 'retweet':
 
-            return require('@/assets/icons/retweet.svg');
+                return require('@/assets/icons/retweet.svg');
 
             default:
 
-            return '';
+                return '';
             
         }
 

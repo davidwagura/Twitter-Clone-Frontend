@@ -194,11 +194,15 @@
 
     import { useTweetIdStore } from '@/stores/tweetId';
 
+
     const userIdStore = useTweetIdStore();
 
     const matchingUsers = ref([]);
 
     const isDropdownVisible = ref(false);
+
+    const selectUserStore = useTweetIdStore();
+
 
     const images = [
 
@@ -223,6 +227,7 @@
 
     const selectedFileUrl = ref(null);
 
+
     const data = ref({
 
         body: '',
@@ -232,6 +237,8 @@
     });
 
     const successMessage = ref('');
+
+    const relatedIdStore = useTweetIdStore();
 
     const currentSectionComponent = computed(() => {
 
@@ -263,10 +270,9 @@
 
     };
 
-
     const createTweet = async () => {
 
-        if(data.value.body || selectedFile.value) {
+        if (data.value.body || selectedFile.value) {
 
             try {
 
@@ -282,9 +288,8 @@
 
                 }
 
-                // Log form data
                 for (let [key, value] of formData.entries()) {
-                    
+
                     console.log(`${key}: ${value}`);
 
                 }
@@ -307,6 +312,8 @@
 
                 });
 
+                relatedIdStore.setRelatedId(response.data.data.id);
+
                 successMessage.value = response ? 'Tweet created successfully!' : 'Error creating tweet';
 
                 data.value.body = '';
@@ -315,11 +322,9 @@
 
                 selectedFileUrl.value = null;
 
-                setTimeout(() => {
-                    
-                    successMessage.value = '';
+                successMessage.value = '';
 
-                }, 2000);
+                await sendMentionNotification();
 
             } catch (error) {
 
@@ -337,19 +342,19 @@
 
         }
 
-    }
+    };
 
     const checkForMention = async () => {
 
         const lastWord = data.value.body.split(' ').pop();
-        
+
         if (lastWord.startsWith('@') && lastWord.length > 1) {
 
             const searchTerm = lastWord.slice(1);
 
             try {
 
-            const response = await axios.get(`http://127.0.0.1:8000/api/users/search?query=${searchTerm}`);
+                const response = await axios.get(`http://127.0.0.1:8000/api/users/search?query=${searchTerm}`);
 
                 matchingUsers.value = response.data.users;
 
@@ -371,38 +376,36 @@
 
     };
 
-    const selectUser = (user) => {
+    const selectUser = async (user) => {
 
-        const words = data.value.body.split(' ');
+        await createTweet();
 
-        words.pop();
+        selectUserStore.setSelectUser(user.id);
 
-        data.value.body = [...words, `@${user.username}`].join(' ') + ' ';
-
-        isDropdownVisible.value = false;
-
-        sendMentionNotification(user.id);
+        console.log(user.id);
 
     };
 
-    const sendMentionNotification = async (mentionedUserId) => {
+    const sendMentionNotification = async () => {
 
         try {
 
-            await axios.post(`/mentions/notify`, {
+            const createdBy = userIdStore.userId;
 
-                mentioned_user_id: mentionedUserId,
+            const user_id = selectUserStore.selectUser;
 
-                mentioning_user_id: userIdStore.userId,
+            const response = await axios.post(`http://127.0.0.1:8000/api/mention/${createdBy}/${user_id}`, {
 
-                tweet_body: data.value.body,
+                'related_item_id': relatedIdStore.relatedId
 
             });
+
+            console.log('Mention notification sent:', response);
 
         } catch (error) {
 
             console.error('Error sending mention notification:', error);
-
+            
         }
 
     };

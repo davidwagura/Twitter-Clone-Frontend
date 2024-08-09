@@ -6,7 +6,7 @@
 
         <div class="flex">
 
-            <div class="border w-6/12 min-h-screen h-fit ml-64">
+            <div class="border w-6/12 min-h-screen h-fit ml-48">
 
                 <div v-for="u in user" :key="u.id" class="items-center">
 
@@ -140,8 +140,9 @@
 
     import { useTweetIdStore } from '@/stores/tweetId';
 
-    import { useRouter } from 'vue-router';
+    import { useRouter, useRoute } from 'vue-router';
 
+    import { watch } from 'vue';
     
     const profileId = useTweetIdStore();
 
@@ -152,6 +153,8 @@
     const router = useRouter();
 
     const postCount = ref(null);
+
+    const route = useRoute();
 
 
     const currentSectionComponent = computed(() => {
@@ -234,10 +237,20 @@
 
     onMounted( async() => {
 
-        await getUser();
-
         await getTweets();
 
+        await getUser();
+
     });
+
+    watch( () => route.params,
+    
+    async () => {
+
+        await getUser();
+        
+    }
+);
+
 
 </script>

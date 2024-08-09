@@ -355,12 +355,14 @@
         
     });
 
-    watch(
-    () => route.params.id,
-    async () => {
-        await getTweet();
-    }
-);
+    watch( () => route.params.id,
+    
+        async () => {
+
+            await getTweet();
+            
+        }
+    );
 
 </script>
   

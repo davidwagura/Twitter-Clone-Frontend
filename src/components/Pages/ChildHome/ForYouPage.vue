@@ -18,9 +18,40 @@
 
                 <div class="font-bold text-lg" v-if="tweet.user">
 
-                  <button @click="viewUser(tweet.user.id, tweet.user.username)" class="m-1 cursor-pointer hover:underline">{{ tweet.user.first_name }} {{ tweet.user.last_name }}</button>
+                  <button @mouseenter="showPopover" @mouseleave="hidePopover" @click="viewUser(tweet.user.id, tweet.user.username)" class="m-1 cursor-pointer hover:underline">
+                    
+                    {{ tweet.user.first_name }} {{ tweet.user.last_name }}
 
-                  <span class="text-gray-400 text-sm mr-2">@{{ tweet.user.username }}</span>
+                    <div
+                        v-if="isPopoverVisible"
+                        class="absolute z-10 w-64 p-4 mt-2 bg-white border rounded-lg shadow-lg"
+                        style="top: 100%; left: 0;"
+                      >
+                        <p class="font-semibold">Popover Title</p>
+                        <p class="mt-2 text-sm text-gray-500">
+                          This popover appears when hovering over the button.
+                        </p>
+
+                      </div>
+                  
+                  </button>
+
+                  <div @mouseenter="showPopover" @mouseleave="hidePopover" class="text-gray-400 text-sm mr-2">
+                    
+                    <button>@{{ tweet.user.username }}</button>
+
+                    <div
+                        v-if="isPopoverVisible"
+                        class="absolute z-10 w-64 p-4 mt-2 bg-white border rounded-lg shadow-lg"
+                        style="top: 100%; left: 0;"
+                      >
+                        <p class="font-semibold">Popover Title</p>
+                        <p class="mt-2 text-sm text-gray-500">
+                          This popover appears when hovering over the button.
+                        </p>
+                      </div>
+
+                  </div>
 
                   <span class="mr-2">.</span>
 
@@ -143,8 +174,22 @@
 
   const router = useRouter();
 
+  const isPopoverVisible = ref(false);
+
+  function showPopover() {
+
+    isPopoverVisible.value = true;
+
+  }
+
+  function hidePopover() {
+
+    isPopoverVisible.value = false;
+    
+  }
 
   const images = [
+
     require('../../../assets/images/1.jpeg'),
     require('../../../assets/images/2.jpeg'),
     require('../../../assets/images/3.jpeg'),
@@ -155,6 +200,7 @@
     require('../../../assets/images/8.jpeg'),
     require('../../../assets/images/9.jpeg'),
     require('../../../assets/images/10.jpeg'),
+
   ];
 
 

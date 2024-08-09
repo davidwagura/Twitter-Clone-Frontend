@@ -26,7 +26,6 @@
 
                 </div>
 
-                <div class="mt-2 ml-10 text-gray-700">{{ notification.body }}</div>
 
                 <div class="mt-2 ml-10 text-gray-700">
 
@@ -34,7 +33,7 @@
 
                         <div v-if="notification.action_type === 'follower'">
 
-                            <span>{{ notification.related_item.first_name }} {{ notification.related_item.last_name }}</span>
+                            <span class="ml-10">{{ notification.related_item.first_name }} {{ notification.related_item.last_name }}</span>
 
                             <span class="text-gray-500"> followed you.</span>
 
@@ -42,7 +41,9 @@
 
                         <div v-else>
 
-                            <span>{{ notification.action_type }}:</span>
+                            <div class="mt-2 ml-10 text-gray-700">{{ notification.body }}</div>
+
+                            <span class="ml-10">{{ notification.action_type }}:</span>
 
                             <span>{{ notification.related_item.body }}</span>
 

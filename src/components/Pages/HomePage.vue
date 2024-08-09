@@ -55,7 +55,45 @@
 
                     <div>
 
-                        <input type="text" placeholder="What is happening?!" v-model="data.body" class="w-full border-none mb-2 min-h-20 p-1" >
+                        <!-- <input type="text" placeholder="What is happening?!" v-model="data.body" class="w-full border-none mb-2 min-h-20 p-1" > -->
+
+
+                        <textarea 
+
+                            v-model="data.body"
+
+                            @input="checkForMention"
+
+                            :class="{
+
+                                'text-blue-400': selectUser
+                                
+                            }"
+
+                            placeholder="What's happening?!"
+
+                            class="w-full border-none mb-2 min-h-20 p-1"
+
+                        ></textarea>
+
+                            <ul v-if="isDropdownVisible && matchingUsers.length > 0" class="border rounded mt-2 w-full max-h-40 overflow-y-auto">
+
+                                <li 
+                                    v-for="user in matchingUsers" 
+
+                                    :key="user.id" 
+
+                                    @click="selectUser(user)"
+
+                                    class="p-2 cursor-pointer hover:bg-gray-100"
+
+                                >
+                                    {{ user.first_name }} {{ user.last_name }} ({{ user.username }})
+
+                                </li>
+
+                            </ul>
+
 
                         <div v-if="selectedFileUrl" class="flex justify-center mt-2">
 
@@ -158,7 +196,12 @@
 
     const userIdStore = useTweetIdStore();
 
+    const matchingUsers = ref([]);
+
+    const isDropdownVisible = ref(false);
+
     const images = [
+
         require('../../assets/images/1.jpeg'),
         require('../../assets/images/2.jpeg'),
         require('../../assets/images/3.jpeg'),
@@ -169,6 +212,7 @@
         require('../../assets/images/8.jpeg'),
         require('../../assets/images/9.jpeg'),
         require('../../assets/images/10.jpeg'),
+
     ];
 
     const activeSection = ref('for-you');
@@ -294,5 +338,73 @@
         }
 
     }
+
+    const checkForMention = async () => {
+
+        const lastWord = data.value.body.split(' ').pop();
+        
+        if (lastWord.startsWith('@') && lastWord.length > 1) {
+
+            const searchTerm = lastWord.slice(1);
+
+            try {
+
+            const response = await axios.get(`http://127.0.0.1:8000/api/users/search?query=${searchTerm}`);
+
+                matchingUsers.value = response.data.users;
+
+                isDropdownVisible.value = true;
+
+            } catch (error) {
+
+                console.error('Error fetching users:', error);
+
+                isDropdownVisible.value = false;
+
+            }
+
+        } else {
+
+            isDropdownVisible.value = false;
+
+        }
+
+    };
+
+    const selectUser = (user) => {
+
+        const words = data.value.body.split(' ');
+
+        words.pop();
+
+        data.value.body = [...words, `@${user.username}`].join(' ') + ' ';
+
+        isDropdownVisible.value = false;
+
+        sendMentionNotification(user.id);
+
+    };
+
+    const sendMentionNotification = async (mentionedUserId) => {
+
+        try {
+
+            await axios.post(`/mentions/notify`, {
+
+                mentioned_user_id: mentionedUserId,
+
+                mentioning_user_id: userIdStore.userId,
+
+                tweet_body: data.value.body,
+
+            });
+
+        } catch (error) {
+
+            console.error('Error sending mention notification:', error);
+
+        }
+
+    };
 
 </script>

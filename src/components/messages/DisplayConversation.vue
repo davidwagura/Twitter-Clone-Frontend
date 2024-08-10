@@ -321,6 +321,8 @@
 
     import newMessageModal from '@/components/messages/NewMessageModal.vue'
 
+    import { watch } from 'vue';
+
 
     const conversations = ref({});
 
@@ -512,9 +514,9 @@
 
             );
 
-            console.log(response)
+            console.log(response.data)
 
-            selectedMessages.value.push(response.data.data);
+            selectedMessages.value.push(response.data);
 
             newMessage.value = '';
 
@@ -522,7 +524,7 @@
 
             selectedFileUrl.value = null;
 
-            defaultConversation();
+            await defaultConversation();
 
         } catch (error) {
 
@@ -562,7 +564,6 @@
 
         try {
 
-
             const senderId = userIdStore.userId;
 
             const receiverId = route.params.receiver
@@ -590,5 +591,16 @@
         defaultConversation();
 
     });
+
+    watch( () => conversations,
+        
+        async () => {
+
+            await defaultConversation();
+            
+        }
+
+    );
+
 
 </script>

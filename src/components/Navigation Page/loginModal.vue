@@ -102,21 +102,17 @@
 
         .then(response => {
 
-            console.log(response);
+          console.log(response);
 
-            userIdStore.setUserId(response.data.user.id);
+          userIdStore.setUserId(response.data.user.id);
 
-            tokenStore.setToken(response.data.token);
+          tokenStore.setToken(response.data.token);
 
-            successMessage.value = 'You have been successfully logged in!';
+          successMessage.value = 'You have been successfully logged in!';
 
-            setTimeout(() => {
+          successMessage.value = '';
 
-            successMessage.value = '';
-
-            router.push('');
-
-            }, 3000);
+          router.push('');
 
         })
 

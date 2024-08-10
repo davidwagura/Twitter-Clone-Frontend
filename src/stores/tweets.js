@@ -10,6 +10,8 @@ export const useTweetsStore  = defineStore('tweets', {
 
         trends: [],
 
+        mentions: [],
+
         notifications: [],
 
     }),
@@ -21,6 +23,8 @@ export const useTweetsStore  = defineStore('tweets', {
         getTweet: (state) => state.tweet,
 
         getTrends: (state) => state.trends,
+
+        getMentions: (state) => state.mentions,
 
         getNotifications: (state) => state.notifications,
 
@@ -45,11 +49,17 @@ export const useTweetsStore  = defineStore('tweets', {
             this.trends = trends;
         },
 
+        setMentions(mentions) {
+
+            this.mentions = mentions;
+
+        },
+
         setNotifications(notifications) {
 
             this.notifications = notifications;
-
-        },
+            
+        }
       
     },
 

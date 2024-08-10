@@ -516,7 +516,7 @@
 
             console.log(response.data)
 
-            selectedMessages.value.push(response.data);
+            selectedMessages.value.push(response.data.data);
 
             newMessage.value = '';
 

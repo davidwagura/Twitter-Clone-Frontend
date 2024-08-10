@@ -2,7 +2,7 @@
 
     <div class="max-h-screen">
 
-        <div v-for="notification in notifications" :key="notification.id" class="border-t border-gray-200 p-4 flex items-start space-x-4 hover:bg-gray-100 cursor-pointer">
+        <div v-for="mention in mentions" :key="mention.id" class="border-t border-gray-200 p-4 flex items-start space-x-4 hover:bg-gray-100 cursor-pointer">
 
             <img :src="getRandomImage()" alt="Avatar" class="w-12 h-12 rounded-full" />
 
@@ -10,7 +10,7 @@
 
                 <div class="flex items-center space-x-2 mt-6">
 
-                    <div class="mt-2 text-gray-700">{{ notification.body }}</div>
+                    <div class="mt-2 text-gray-700">{{ mention.body }}</div>
 
                 </div>
 
@@ -25,7 +25,7 @@
   
 <script setup>
 
-    import axiosInstance from '@/axiosInstance';
+    import axios from 'axios';
 
     import { useTweetIdStore } from '@/stores/tweetId'
 
@@ -35,9 +35,9 @@
 
     const userIdStore = useTweetIdStore();
 
-    const notificationsStore = useTweetsStore();
+    const mentionsStore = useTweetsStore();
 
-    let notifications = notificationsStore.notifications;
+    let mentions = mentionsStore.mentions;
 
     const images = [
 
@@ -55,7 +55,7 @@
     
     onMounted(async () => {
 
-        await getNotifications();
+        await getMentions();
 
     });
 
@@ -67,15 +67,17 @@
 
     }
 
-    const getNotifications = async () => {
+    const getMentions = async () => {
 
         const userId = userIdStore.userId;
 
-        const response = await axiosInstance.get(`/notifications/${userId}`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/mentions/${userId}/mention`);
 
-        notificationsStore.setNotifications(response.data.notifications);
+        console.log(response.data)
 
-        console.log(response.data.notifications)
+        mentionsStore.setMentions(response.data.mentions);
+
+        console.log(response.data.mentions)
 
     }
 

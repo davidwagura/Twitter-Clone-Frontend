@@ -1,16 +1,20 @@
 <template>
 
-    <div class="w-3/4 border border-black m-4 h-screen">
+    <div class="flow-root">
 
-        <img src="../../../assets/images/1.jpeg" class="w-full">
+        <div class="w-3/4 border float-start border-black m-4 h-screen">
+
+            <img src="../../../assets/images/1.jpeg" class="w-full">
+
+        </div>
+
+        <div class="w-1/6 h-auto float-right">
+
+            <h1>hae</h1>
+
+        </div>
 
     </div>
 
-    <div class="flex justify-end w-1/4">
-
-        <h1>hae</h1>
-
-    </div>
-    
 </template>
     

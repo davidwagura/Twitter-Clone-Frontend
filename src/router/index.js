@@ -26,6 +26,8 @@ import LogoutPage from '@/components/Auth/LogoutPage'
 
 import ProfileView from '@/components/Pages/profileView/ProfileView'
 
+import ImageViewPage from '@/components/Pages/Tweet/ImageViewPage.vue'
+
 import { useTweetIdStore } from '@/stores/tweetId'
 
 
@@ -82,6 +84,16 @@ const routes = [
 
         
     },
+
+    { 
+
+        path:'/image',   
+        
+        component: ImageViewPage, 
+
+        
+    },
+
 
     {
 

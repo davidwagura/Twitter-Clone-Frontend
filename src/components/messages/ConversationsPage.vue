@@ -262,7 +262,6 @@
     const formatDate1 = (dateString) => {
 
         const options = { month: 'short', day: 'numeric' };
-
         return new Date(dateString).toLocaleDateString(undefined, options);
 
     };

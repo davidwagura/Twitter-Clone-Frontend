@@ -455,8 +455,6 @@
 
             const response = await axios.get(`http://127.0.0.1:8000/api/user/groups/${userId}`)
 
-            // console.log(response.data.group);
-
             groups.value = response.data.group;
 
         } catch(error) {
@@ -474,8 +472,6 @@
             const groupId = route.params.groupId;
 
             const response = await axios.get(`http://127.0.0.1:8000/api/group/messages/${groupId}`);
-
-            // console.log(response.data);
 
             groupMessage.value = response.data.data;
 

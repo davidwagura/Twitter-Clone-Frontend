@@ -182,13 +182,6 @@
 
   };
 
-  // const setActiveSection = (section) => {
-
-  //   activeSection.value = section;
-
-  // };
-
-
   const toggleLike = async (tweet) => {
 
     try {

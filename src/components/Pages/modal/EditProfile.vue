@@ -53,7 +53,6 @@
         
           </div>
 
-          <!-- Profile Image -->
           <div>
         
             <div class="w-24 h-24 bg-gray-200 ml-6  rounded-full border border-gray-300 flex text-gray-500">

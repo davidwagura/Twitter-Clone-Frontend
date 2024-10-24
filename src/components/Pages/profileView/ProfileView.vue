@@ -169,14 +169,6 @@
 
                 return RepliesPage;
 
-            // case 'highlights':
-
-            //     return HighlightsPage;
-
-            // case 'media':
-
-            //     return MediaPage;
-
             default:
 
                 return PostsPage;

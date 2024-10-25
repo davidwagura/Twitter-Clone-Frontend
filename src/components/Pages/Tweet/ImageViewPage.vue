@@ -10,7 +10,7 @@
 
         <div class="w-1/6 h-auto float-right">
 
-            <h1>hae</h1>
+            <!-- <h1>hae</h1> -->
 
         </div>
 

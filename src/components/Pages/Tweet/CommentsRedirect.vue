@@ -76,8 +76,6 @@
 
                             </svg>
 
-                            <!-- <span class="ml-1" v-if="comment.comment_comment.length > 0">{{ comment.comment_comments.length }}</span> -->
-
                             {{ comment.comment_comment.length }}
 
                         </button>
